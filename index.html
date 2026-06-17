@@ -64,10 +64,6 @@ svg.gauge{width:100%;height:auto;display:block;overflow:visible;}
 .gauge-zone{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;padding:5px 14px;border-radius:999px;}
 .zone-good{background:var(--good-bg);color:var(--good);} .zone-warn{background:var(--warn-bg);color:#B9791C;}
 .zone-high{background:var(--high-bg);color:var(--high);} .zone-none{background:#EEF3F1;color:var(--muted);}
-.trend{display:inline-flex;align-items:center;gap:6px;margin-top:9px;font-size:13px;font-weight:700;
-  padding:5px 13px;border-radius:999px;background:#EEF3F1;color:var(--muted);}
-.trend.up{background:var(--high-bg);color:var(--high);} .trend.down{background:var(--good-bg);color:var(--good);}
-.trend.flat{background:var(--warn-bg);color:#B9791C;}
 .gauge-msg{font-size:13px;color:var(--muted);margin-top:9px;min-height:18px;}
 .input-row{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:14px;flex-wrap:wrap;}
 .input-row label{font-size:13px;color:var(--muted);}
@@ -95,14 +91,21 @@ input[type=range].prange:focus{outline:none;}
 .slider-scale .tgt{color:var(--good);font-weight:700;}
 
 /* primary CTA */
-.cta-big{display:flex;align-items:center;gap:15px;width:100%;text-align:left;cursor:pointer;
+.cta-big{display:flex;align-items:center;gap:15px;width:100%;text-align:left;cursor:pointer;position:relative;
   background:linear-gradient(135deg,var(--teal-deep),var(--teal));color:#fff;border:none;border-radius:22px;
-  padding:19px 18px;box-shadow:var(--shadow-lg);margin-bottom:16px;}
-.cta-big:active{transform:scale(.99);}
-.cta-big .cic{font-size:30px;}
-.cta-big b{font-family:"Zen Maru Gothic";font-weight:700;font-size:18px;display:block;}
-.cta-big span{font-size:12.5px;opacity:.92;display:block;margin-top:1px;}
-.cta-big .arr{margin-left:auto;font-size:24px;font-weight:700;}
+  padding:22px 20px;box-shadow:var(--shadow-lg);margin:14px 0 18px;animation:ctaPulse 2.6s ease-in-out infinite;}
+.cta-big:active{transform:scale(.99);animation:none;}
+.cta-big .cic{font-size:34px;}
+.cta-big b{font-family:"Zen Maru Gothic";font-weight:700;font-size:20px;display:block;}
+.cta-big span{font-size:13.5px;opacity:.92;display:block;margin-top:2px;}
+.cta-big .arr{margin-left:auto;font-size:28px;font-weight:700;animation:arrNudge 1.4s ease-in-out infinite;}
+.cta-badge{position:absolute;top:-11px;left:18px;background:var(--honey);color:#fff;font-family:"Zen Maru Gothic";
+  font-weight:700;font-size:12px;padding:3px 12px;border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.15);}
+@keyframes ctaPulse{0%,100%{box-shadow:0 12px 34px rgba(15,110,106,.16),0 0 0 0 rgba(27,154,149,.42);}
+  50%{box-shadow:0 12px 34px rgba(15,110,106,.22),0 0 0 13px rgba(27,154,149,0);}}
+@keyframes arrNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
+.cta-lead{font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;color:var(--ink);text-align:center;margin:2px 6px 0;line-height:1.6;}
+.menu-head{font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--muted);margin:6px 4px 10px;}
 
 /* goal banner */
 .goal-banner{background:var(--good-bg);border:1px solid #BFE3D0;border-radius:16px;padding:13px 15px;margin-bottom:16px;
@@ -172,9 +175,9 @@ input[type=range].prange:focus{outline:none;}
 .season-banner{background:linear-gradient(135deg,#FBEFD8,#FCEDE7);border:1px solid #F0D9B0;border-radius:16px;
   padding:13px 15px;margin-bottom:16px;font-size:13.5px;line-height:1.65;color:var(--ink);}
 .season-banner b{font-weight:700;}
-.chip.season-hot{border-color:var(--honey);background:#FFFBF2;}
-.chip.season-hot::before{content:"🔥";font-size:13px;}
-.chip.season-hot.on{border-color:var(--teal);background:var(--good-bg);}
+.chip.season-hot::before{content:"🔥";font-size:12px;margin-right:1px;opacity:.85;}
+.rtag{margin-left:6px;font-size:10.5px;font-weight:700;color:#fff;border-radius:99px;padding:2px 7px;font-family:"Zen Maru Gothic";flex:none;line-height:1.5;}
+.rtag.rt1{background:var(--blue);} .rtag.rt2{background:var(--honey);} .rtag.rt3{background:var(--high);}
 .acc{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;}
 .acc-head{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;cursor:pointer;
   padding:16px 16px;font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--ink);}
@@ -186,6 +189,37 @@ input[type=range].prange:focus{outline:none;}
 .acc.open .acc-arr{transform:rotate(180deg);}
 .acc-body{display:none;padding:0 14px 15px;}
 .acc.open .acc-body{display:block;}
+.risk{display:inline-flex;gap:2px;margin-left:6px;align-items:center;}
+.rd{width:6px;height:6px;border-radius:99px;background:#D7E4E1;}
+.rd.l1{background:var(--blue);} .rd.l2{background:var(--honey);} .rd.l3{background:var(--high);}
+.foodbars{margin-top:8px;}
+.fb{margin-bottom:12px;}
+.fb-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;margin-bottom:5px;}
+.kt{flex:none;font-size:11px;font-weight:700;color:#fff;background:var(--high);border-radius:99px;padding:2px 9px;}
+.fb-tags{display:flex;align-items:center;gap:6px;flex:none;}
+.fb-lv{flex:none;font-size:11px;font-weight:700;color:#fff;border-radius:99px;padding:2px 9px;font-family:"Zen Maru Gothic";}
+.fb-lv.lvl1{background:var(--blue);} .fb-lv.lvl2{background:var(--honey);} .fb-lv.lvl3{background:var(--high);}
+.fb-note{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.55;}
+.fb-note b{color:var(--teal-deep);font-weight:700;}
+.fb-bar{height:13px;border-radius:99px;background:#EEF3F1;overflow:hidden;}
+.fb-bar > i{display:block;height:100%;border-radius:99px;width:0;transition:width .7s cubic-bezier(.2,.8,.2,1);}
+.fb-bar > i.lvl1{background:var(--blue);} .fb-bar > i.lvl2{background:var(--honey);}
+.fb-bar > i.lvl3{background:linear-gradient(90deg,var(--high),#EE9A82);}
+
+/* 頻度モーダルとグラフスタイル */
+.freq-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:100;display:none;place-items:center;padding:20px;opacity:0;transition:opacity .2s;}
+.freq-modal.active{display:grid;opacity:1;}
+.modal-content{background:#fff;padding:24px;border-radius:20px;width:100%;max-width:400px;text-align:center;transform:translateY(20px);transition:transform .2s;}
+.freq-modal.active .modal-content{transform:none;}
+.modal-opts button{display:block;width:100%;margin-bottom:8px;padding:14px;border-radius:12px;border:2px solid var(--line);background:#fff;font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;color:var(--ink);transition:.1s;cursor:pointer;}
+.modal-opts button:active{transform:scale(.98);background:var(--good-bg);border-color:var(--good);}
+.chart-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0;}
+.bar-wrap{height:20px;border-radius:99px;background:#EEF3F1;display:flex;overflow:hidden;margin:10px 0;}
+.bar-inorg{background:linear-gradient(90deg,var(--high),#EE9A82);transition:width 1s cubic-bezier(.2,.8,.2,1);}
+.bar-org{background:linear-gradient(90deg,var(--good),#9FCBC7);transition:width 1s cubic-bezier(.2,.8,.2,1);}
+.legend{display:flex;gap:12px;font-size:12px;font-weight:700;justify-content:center;color:var(--ink);}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;}
+.leg-inorg::before{background:var(--high);} .leg-org::before{background:var(--good);}
 
 /* med list (toggle rows) */
 .mrow{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:14px;
@@ -202,6 +236,7 @@ input[type=range].prange:focus{outline:none;}
 .next-btn{width:100%;margin-top:6px;background:var(--teal);color:#fff;border:none;border-radius:16px;padding:15px;
   font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;cursor:pointer;box-shadow:var(--shadow);}
 .next-btn:active{transform:scale(.98);}
+.next-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none;pointer-events:none;}
 .ghost-btn{width:100%;margin-top:10px;background:#fff;color:var(--teal-deep);border:1px solid var(--line);
   border-radius:16px;padding:14px;font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;cursor:pointer;}
 
@@ -235,6 +270,7 @@ input[type=range].prange:focus{outline:none;}
 .goal-opt.on{border-color:var(--good);background:var(--good-bg);font-weight:700;}
 .goal-opt.on .gradio{border-color:var(--good);}
 .goal-opt.on .gradio::after{content:"";width:12px;height:12px;border-radius:99px;background:var(--good);}
+.goal-source{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px;display:block;}
 
 /* traffic-light food guide */
 .signal{border-radius:20px;padding:18px;margin-bottom:13px;box-shadow:var(--shadow);border:1px solid var(--line);}
@@ -258,6 +294,24 @@ input[type=range].prange:focus{outline:none;}
 .sig-tip .tipbox .sw{color:var(--good);font-weight:700;}
 .sig-tip .tipbox .sw.blue{color:var(--blue);}
 .label-tip{margin-top:11px;background:#fff;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.55;color:var(--ink);}
+.advice-hero{position:relative;margin:18px 0;padding:20px 18px 20px 22px;border-radius:20px;
+  background:linear-gradient(135deg,#E7F6F0,#F3FBF8);border:2px solid var(--good);
+  box-shadow:0 12px 32px rgba(63,167,118,.22);}
+.advice-hero::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:6px;border-radius:0 99px 99px 0;background:var(--good);}
+.advice-eyebrow{display:flex;align-items:center;gap:10px;font-family:"Zen Maru Gothic";font-weight:700;font-size:18px;color:var(--teal-deep);margin:0 0 10px;}
+.advice-badge{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 3px 9px rgba(0,0,0,.10);font-size:20px;flex:none;}
+.advice-text{color:var(--ink);font-weight:600;font-size:16.5px;line-height:1.75;margin:0;}
+.ref-card{background:linear-gradient(135deg,#EAF6F4,#F4FBF9);border:1.5px solid var(--teal);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(15,110,106,.10);}
+.ref-head{font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--teal-deep);margin:0 0 12px;}
+.ref-stats{display:flex;gap:10px;}
+.ref-stat{flex:1;background:#fff;border-radius:14px;padding:13px 8px;text-align:center;box-shadow:0 2px 7px rgba(0,0,0,.05);}
+.ref-label{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px;line-height:1.4;}
+.ref-val{font-family:"Zen Maru Gothic";color:var(--teal-deep);line-height:1;white-space:nowrap;}
+.ref-val b{font-size:23px;font-weight:700;}
+.ref-val span{font-size:12px;margin-left:3px;color:var(--muted);}
+.ref-note{font-size:11.5px;color:var(--ink);margin-top:7px;line-height:1.45;}
+.ref-foot{font-size:12.5px;color:var(--ink);margin-top:12px;line-height:1.6;background:#fff;border-radius:11px;padding:10px 12px;}
+.ref-foot b{color:var(--high);}
 .sig-legend{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-bottom:14px;
   display:flex;gap:14px;align-items:center;box-shadow:var(--shadow);}
 .sig-legend .tl{display:flex;flex-direction:column;gap:5px;flex:none;background:#37474F;border-radius:9px;padding:6px;}
@@ -311,7 +365,6 @@ input[type=range].prange:focus{outline:none;}
 .ssrow{margin-bottom:16px;}
 .sslabel{font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:6px;}
 .ssval{font-family:"Zen Maru Gothic";font-weight:700;font-size:19px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.ssval .prev{color:var(--muted);font-size:15px;}
 .ssval .cur{padding:3px 10px;border-radius:9px;}
 .ssval .u{font-size:12px;color:var(--muted);font-weight:500;}
 .sscauses{margin:0;padding:0;list-style:none;counter-reset:c;}
@@ -328,6 +381,17 @@ input[type=range].prange:focus{outline:none;}
   .app{padding:0;max-width:100%;} body{background:#fff;}
   .staff-sheet{border:2px solid #333;box-shadow:none;}
 }
+
+/* 新設：スタッフ向け詳細リスト用CSS */
+.ss-list { margin: 0; padding-left: 22px; font-size: 14.5px; color: var(--ink); font-weight: 500;}
+.ss-list li { margin-bottom: 6px; }
+.ss-list-food { list-style: none; margin: 0; padding: 0; }
+.ss-list-food li { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--line); padding: 10px 0; gap:8px;}
+.ss-list-food li:last-child { border-bottom: none; }
+.fname { font-family: "Zen Maru Gothic"; font-weight: 700; font-size: 15px; }
+.fmeta { display: flex; align-items: center; gap: 6px; flex:none;}
+.kt-small { font-size: 10.5px; font-weight: 700; color: #fff; background: var(--high); border-radius: 99px; padding: 2px 7px; }
+.freq { font-size: 12px; color: var(--muted); background: var(--bg); padding: 3px 8px; border-radius: 8px; font-weight: 700; }
 
 /* bottom nav */
 .botnav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);
@@ -349,7 +413,6 @@ input[type=range].prange:focus{outline:none;}
     </div>
   </div>
 
-  <!-- ============ HOME ============ -->
   <section class="screen active" id="home">
     <div class="hero">
       <div class="eyebrow">わたしのリン</div>
@@ -367,7 +430,6 @@ input[type=range].prange:focus{outline:none;}
       <div class="gauge-read">
         <span class="gauge-val" id="gVal">–.–</span><span class="gauge-unit">mg/dL</span>
         <div><span class="gauge-zone zone-none" id="gZone">数字を入れてね</span></div>
-        <div id="gTrend"></div>
         <div class="gauge-msg" id="gMsg"></div>
       </div>
       <div class="slider-wrap">
@@ -385,7 +447,7 @@ input[type=range].prange:focus{outline:none;}
 
     <button class="cta-big" data-go="seek">
       <div class="cic">🔎</div>
-      <div><b>なんで上がった？ さがす</b><span>前回とくらべて、今回の原因を一緒にたどります</span></div>
+      <div><b>なんで上がった？ さがす</b><span>今回上がった原因を一緒にたどります</span></div>
       <div class="arr">›</div>
     </button>
 
@@ -410,7 +472,7 @@ input[type=range].prange:focus{outline:none;}
       </button>
       <button class="card" data-go="staff">
         <div class="ic i5">🩺</div>
-        <div class="ct"><b>スタッフに見せるまとめ</b><span>今回の値・原因・目標を1枚で。透析中に見せるだけ</span></div><div class="arr">›</div>
+        <div class="ct"><b>スタッフや家族に見せるまとめ</b><span>今回の値・原因・目標を1枚で。透析中に見せるだけ</span></div><div class="arr">›</div>
       </button>
     </div>
 
@@ -418,14 +480,12 @@ input[type=range].prange:focus{outline:none;}
     <button class="reset-link" id="resetAll">🗑 さいしょから（保存データを消す）</button>
   </section>
 
-  <!-- ============ SEEK (cause finder) ============ -->
   <section class="screen" id="seek">
     <div class="phead"><button class="back" data-back>‹</button><h2>なんで上がった？ さがし</h2></div>
-    <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i><i id="st4"></i></div>
+    <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i></div>
     <div id="seekBody"></div>
   </section>
 
-  <!-- ============ WHY ============ -->
   <section class="screen" id="why">
     <div class="phead"><button class="back" data-back>‹</button><h2>なんでリン、下げるの？</h2></div>
 
@@ -447,22 +507,22 @@ input[type=range].prange:focus{outline:none;}
     <div class="learn-card">
       <div class="ce">🥷</div>
       <h3>本当の敵は「かくれリン」</h3>
-      <p>同じリンでも、体への入りやすさが全然ちがいます。加工食品に「添加物」として入っているリン（＝かくれリン）は、ほぼ全部吸収されてしまいます。</p>
+      <p>同じリンでも、体への入りやすさが全然ちがいます。加工食品に「添加物」として入っているリン（＝かくれリン）は、自然の食品に含まれるリンより、体に吸収されやすいとされています。</p>
       <div class="compare">
         <div class="org"><b>自然のリン</b>肉・魚・卵・豆など。吸収は4〜6割ほど。栄養になる。
           <div class="cbar"><i style="width:50%;background:#3FA776"></i></div></div>
-        <div class="inorg"><b>かくれリン</b>加工食品・練り物・コーラの添加物。ほぼ100%吸収。
+        <div class="inorg"><b>かくれリン</b>加工食品・練り物・コーラなどの添加物。自然のリンより吸収されやすい。
           <div class="cbar"><i style="width:95%;background:#DE6F53"></i></div></div>
       </div>
       <p class="pt" style="margin-top:10px;">飲み物や加工食品の<b>かくれリンが、いちばんの落とし穴</b>です。</p>
       <div style="margin-top:11px;background:var(--high-bg);border-radius:12px;padding:12px 13px;font-size:13px;line-height:1.6;">
-        🏷️ <b>ラベルの罠：</b>原材料名に「リン酸」と書いていなくても、<b>pH調整剤・乳化剤・膨張剤・かんすい・酸味料</b>などは“かくれリン”の仲間のことがあります。買う前にチラッと見てみましょう。
+        🏷️ <b>ラベルの罠：</b>「リン酸」「リン酸塩」「ポリリン酸」「ピロリン酸」などがあれば、添加リンが含まれています。<br><br>「pH調整剤」「乳化剤」「膨張剤」などは、商品によってリン酸塩を含む場合がありますが、表示だけでは判断できません。
       </div>
     </div>
 
     <div class="learn-card" style="border:2px solid #BFE3D0;background:linear-gradient(180deg,#EEF8F2,#fff);">
       <div class="ce">🍖</div>
-      <h3>ここが大事：肉・魚は減らさない</h3>
+      <h3>ここが大事：肉・魚は減らしすぎない</h3>
       <p>「リンを下げたいから」と肉・魚・卵・豆を減らすと、<b>体が弱ってしまいます</b>（筋肉が落ちる・体力が落ちる）。これは逆効果です。</p>
       <p class="pt">まず減らすのは、<b>加工食品・飲み物・薬の飲み忘れ</b>。体を作る食事は、しっかり続けましょう。</p>
     </div>
@@ -477,33 +537,41 @@ input[type=range].prange:focus{outline:none;}
     <button class="next-btn" data-go="seek">🔎 今回の原因をさがしてみる</button>
   </section>
 
-  <!-- ============ SIGNAL (traffic light) ============ -->
   <section class="screen" id="signal">
     <div class="phead"><button class="back" data-back>‹</button><h2>たべもの信号</h2></div>
     <div id="signalBody"></div>
   </section>
 
-  <!-- ============ QUIZ ============ -->
   <section class="screen" id="quiz">
     <div class="phead"><button class="back" data-back>‹</button><h2>くらべるクイズ</h2></div>
     <div id="quizBody"></div>
   </section>
 
-  <!-- ============ GOAL ============ -->
   <section class="screen" id="goal">
     <div class="phead"><button class="back" data-back>‹</button><h2>わたしの目標</h2></div>
     <div id="goalBody"></div>
   </section>
 
-  <!-- ============ STAFF SUMMARY ============ -->
   <section class="screen" id="staff">
-    <div class="phead"><button class="back" data-go="goal">‹</button><h2>スタッフに見せる</h2></div>
+    <div class="phead"><button class="back" data-go="goal">‹</button><h2>スタッフや家族に見せる</h2></div>
     <div id="staffBody"></div>
   </section>
 
 </div>
 
-<!-- ============ NAV ============ -->
+<div class="freq-modal" id="freqModal">
+  <div class="modal-content">
+    <h3 id="modalTitle" style="margin-top:0;font-family:'Zen Maru Gothic';font-size:18px;"></h3>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:16px;">どのくらいの頻度でしたか？</p>
+    <div class="modal-opts">
+      <button data-freq="2.0">ほぼ毎日・常備している</button>
+      <button data-freq="1.5">週に3〜4回</button>
+      <button data-freq="1.0">週に1〜2回・たまに</button>
+      <button id="modalCancel" style="border:none;background:none;color:var(--muted);margin-top:8px;">キャンセル</button>
+    </div>
+  </div>
+</div>
+
 <nav class="botnav">
   <button data-go="home" class="on"><span class="ne">🏠</span>ホーム</button>
   <button data-go="seek"><span class="ne">🔎</span>さがす</button>
@@ -519,10 +587,7 @@ const Store={mem:{},
   set(k,v){try{localStorage.setItem(k,v);}catch(e){this.mem[k]=v;}},
   del(k){try{localStorage.removeItem(k);}catch(e){}delete this.mem[k];}
 };
-const state={prevP:null,curP:null};
-(function init(){
-  const lp=Store.get('lastP'); if(lp!==null) state.prevP=parseFloat(lp);
-})();
+const state={curP:null};
 
 /* ===== navigation ===== */
 const screens=document.querySelectorAll('.screen');
@@ -558,25 +623,16 @@ function zoneOf(v){
 }
 function setGauge(v){
   const needle=document.getElementById('needle'),valEl=document.getElementById('gVal'),
-        zoneEl=document.getElementById('gZone'),msgEl=document.getElementById('gMsg'),trendEl=document.getElementById('gTrend');
+        zoneEl=document.getElementById('gZone'),msgEl=document.getElementById('gMsg');
   if(isNaN(v)||v<=0){
     needle.style.transform='rotate(0deg)';valEl.textContent='–.–';
     zoneEl.className='gauge-zone zone-none';zoneEl.textContent='数字を入れてね';
-    msgEl.textContent='';trendEl.innerHTML='';return;
+    msgEl.textContent='';return;
   }
   const cl=Math.max(MIN,Math.min(MAX,v)),a=polar(cl);
   needle.style.transform=`rotate(${-90+(Math.PI-a)*180/Math.PI}deg)`;
   valEl.textContent=v.toFixed(1);
   const z=zoneOf(v); zoneEl.className='gauge-zone '+z.cls; zoneEl.textContent=v>MAX?'高めです（10以上）':z.label; msgEl.textContent=z.msg;
-  // trend vs prev
-  if(touched && state.prevP!=null && !isNaN(state.prevP)){
-    const d=v-state.prevP;
-    if(d>=0.3) trendEl.innerHTML=`<span class="trend up">▲ 前回 ${state.prevP.toFixed(1)} → 上がった (+${d.toFixed(1)})</span>`;
-    else if(d<=-0.3) trendEl.innerHTML=`<span class="trend down">▼ 前回 ${state.prevP.toFixed(1)} → 下がった (${d.toFixed(1)})</span>`;
-    else trendEl.innerHTML=`<span class="trend flat">― 前回 ${state.prevP.toFixed(1)} → ほぼ同じ</span>`;
-  } else if(state.prevP!=null && !isNaN(state.prevP)){
-    trendEl.innerHTML=`<span class="trend">前回は ${state.prevP.toFixed(1)} mg/dL。今回を合わせてみて</span>`;
-  } else trendEl.innerHTML='';
 }
 let touched=false;
 const slider=document.getElementById('pSlider');
@@ -588,7 +644,7 @@ function applyValue(v){
   if(slider) slider.value=Math.min(Math.max(v,MIN),MAX);  // スライダーは2〜10の範囲で表示
   setGauge(v);
 }
-/* 初期表示は 5.0（ダイヤルの出発点）。前回比トレンドは操作後のみ表示 */
+/* 初期表示は 5.0（ダイヤルの出発点）。 */
 state.curP=5.0;
 document.getElementById('pInput').value='5.0';
 if(slider) slider.value='5.0';
@@ -626,8 +682,8 @@ document.getElementById('pInput').addEventListener('keydown',e=>{if(e.key==='Ent
       return;
     }
     clearTimeout(timer); armed=false;
-    ['lastP','goal','goalDate','goalBaseP','causes','sumCur','sumPrev','goalDone','goalTrouble'].forEach(k=>Store.del(k));
-    state.prevP=null; state.curP=5.0; touched=false;
+    ['goal','goalDate','goalBaseP','causes','sumCur','goalDone','goalTrouble','pctInorg','staffDetails'].forEach(k=>Store.del(k));
+    state.curP=5.0; touched=false;
     document.getElementById('pInput').value='5.0'; if(slider) slider.value='5.0'; setGauge(5.0);
     renderGoalBanner();
     rb.textContent='✓ 消しました。はじめからです'; rb.style.color='var(--good)';
@@ -641,7 +697,7 @@ const CAT={
     bad:'リンの薬は、食べ物のリンをお腹の中でつかまえたり、吸収をおさえたりする薬です。薬によって飲むタイミング（食直前・食直後など）が違うので、薬袋やスタッフに言われたタイミングで、毎食きちんと飲めているか確認しましょう。',
     goals:['薬袋に書かれたタイミング（食直前・食直後）で飲む','食卓のそばに薬を置いておく','昼の薬を小さなケースで持ち歩く','外食用の薬をカバンに入れる','飲みにくさをスタッフに相談する']},
   proc:{name:'加工食品・練り物',icon:'🥷',
-    bad:'ハム・ウインナー・ちくわ・かまぼこ・カップ麺などが増えていたかも。これらの「かくれリン」は、ほぼ全部吸収されます。',
+    bad:'ハム・ウインナー・ちくわ・かまぼこ・カップ麺などが増えていたかも。商品によって添加リンが使われ、自然のリンより吸収されやすいことがあります。',
     goals:['ハム・ウインナーを週2〜3回にする','ちくわ・かまぼこを毎日食べない','カップ麺を減らす','コンビニで加工肉・練り物を避ける','おでんの練り物を少なめにする']},
   dairy:{name:'乳製品',icon:'🥛',
     bad:'牛乳・ヨーグルト・チーズが増えていたかも。体に良い面もありますが、毎日たくさんだとリンが上がることがあります。',
@@ -674,35 +730,75 @@ const MEDQ=[
   {id:'which',t:'どれがリンの薬か分からない',pts:3}
 ];
 const FOODQ=[
-  {id:'ham',t:'ハム・ウインナー',e:'🍖',cat:'proc',pts:3,g:'朝ごはん'},
-  {id:'bacon',t:'ベーコン',e:'🥓',cat:'proc',pts:3,g:'朝ごはん'},
-  {id:'cheese',t:'チーズ',e:'🧀',cat:'dairy',pts:3,g:'朝ごはん'},
-  {id:'milk',t:'牛乳を毎日',e:'🥛',cat:'dairy',pts:2,g:'朝ごはん'},
-  {id:'yogurt',t:'ヨーグルトを毎日',e:'🍨',cat:'dairy',pts:2,g:'朝ごはん'},
-  {id:'cup',t:'カップ麺・インスタント',e:'🍜',cat:'proc',pts:3,g:'昼・コンビニ・外食'},
-  {id:'conbini',t:'コンビニ弁当・惣菜',e:'🍱',cat:'proc',pts:2,g:'昼・コンビニ・外食'},
-  {id:'frozen',t:'冷凍食品',e:'🧊',cat:'proc',pts:2,g:'昼・コンビニ・外食'},
-  {id:'fast',t:'ファストフード',e:'🍔',cat:'proc',pts:2,g:'昼・コンビニ・外食'},
-  {id:'eatout',t:'外食が増えた',e:'🍽️',cat:'event',pts:2,g:'昼・コンビニ・外食'},
-  {id:'cola',t:'コーラ・濃い炭酸',e:'🥤',cat:'drink',pts:3,g:'飲み物・間食'},
-  {id:'soda',t:'その他の炭酸',e:'🧋',cat:'drink',pts:2,g:'飲み物・間食'},
-  {id:'energy',t:'栄養ドリンク',e:'⚡',cat:'drink',pts:2,g:'飲み物・間食'},
-  {id:'lacto',t:'乳酸菌飲料',e:'🥛',cat:'drink',pts:1,g:'飲み物・間食'},
-  {id:'pan',t:'菓子パン・ドーナツ',e:'🍩',cat:'snack',pts:2,g:'飲み物・間食'},
-  {id:'okashi',t:'お菓子・チョコ',e:'🍫',cat:'snack',pts:1,g:'飲み物・間食'},
-  {id:'nuts',t:'ナッツ',e:'🥜',cat:'snack',pts:2,g:'飲み物・間食'},
-  {id:'chikuwa',t:'ちくわ・かまぼこ',e:'🍢',cat:'proc',pts:3,g:'夕ごはん・おでん・煮物'},
-  {id:'satsuma',t:'さつま揚げ・はんぺん',e:'🍥',cat:'proc',pts:3,g:'夕ごはん・おでん・煮物'},
-  {id:'kanikama',t:'カニカマ・魚肉ソーセージ',e:'🦀',cat:'proc',pts:2,g:'夕ごはん・おでん・煮物'},
-  {id:'pizza',t:'ピザ・グラタン',e:'🍕',cat:'dairy',pts:2,g:'夕ごはん・おでん・煮物'},
-  {id:'roe',t:'たらこ・明太子・いくら',e:'🍣',cat:'fish',pts:2,g:'夕ごはん・おでん・煮物'},
-  {id:'small',t:'ししゃも・小魚・じゃこ',e:'🐟',cat:'fish',pts:2,g:'夕ごはん・おでん・煮物'},
-  {id:'liver',t:'レバー・もつ・白子',e:'🍢',cat:'fish',pts:2,g:'夕ごはん・おでん・煮物'},
-  {id:'travel',t:'旅行に行った',e:'✈️',cat:'event',pts:2,g:'行事・旅行・もらい物'},
-  {id:'gather',t:'法事・集まり・お祝い',e:'🎎',cat:'event',pts:2,g:'行事・旅行・もらい物'},
-  {id:'gift',t:'もらい物を食べた',e:'🎁',cat:'event',pts:1,g:'行事・旅行・もらい物'},
-  {id:'appetite',t:'食欲が出て量が増えた',e:'🍚',cat:'appetite',pts:1,g:'行事・旅行・もらい物'}
+  {id:'ham',t:'ハム・ウインナー',e:'🍖',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
+  {id:'bacon',t:'ベーコン',e:'🥓',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
+  {id:'cheese',t:'プロセスチーズ',e:'🧀',cat:'dairy',pts:3,r:3,inorg:1,g:'🧀 乳製品'},
+  {id:'milk',t:'牛乳を毎日',e:'🥛',cat:'dairy',pts:2,r:2,g:'🧀 乳製品'},
+  {id:'yogurt',t:'ヨーグルトを毎日',e:'🍨',cat:'dairy',pts:2,r:2,g:'🧀 乳製品'},
+  {id:'cup',t:'カップ麺・インスタント',e:'🍜',cat:'proc',pts:3,r:3,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
+  {id:'conbini',t:'コンビニ弁当・惣菜',e:'🍱',cat:'proc',pts:2,r:3,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
+  {id:'frozen',t:'冷凍食品',e:'🧊',cat:'proc',pts:2,r:2,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
+  {id:'fast',t:'ファストフード',e:'🍔',cat:'proc',pts:2,r:3,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
+  {id:'eatout',t:'外食が増えた',e:'🍽️',cat:'event',pts:2,r:2,g:'🏪 コンビニ・外食・テイクアウト'},
+  {id:'cola',t:'コーラ系の飲料',e:'🥤',cat:'drink',pts:3,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'soda',t:'サイダーなど甘い透明炭酸',e:'🧋',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
+  {id:'sports',t:'スポーツドリンク',e:'🧃',cat:'drink',pts:1,r:1,g:'🥤 飲み物'},
+  {id:'energy',t:'栄養ドリンク',e:'⚡',cat:'drink',pts:2,r:2,inorg:1,g:'🥤 飲み物'},
+  {id:'lacto',t:'乳酸菌飲料',e:'🍶',cat:'drink',pts:1,r:2,g:'🥤 飲み物'},
+  {id:'cocoa',t:'ミルクココア・カフェオレ',e:'☕',cat:'drink',pts:1,r:2,g:'🥤 飲み物'},
+  {id:'protein',t:'飲むヨーグルト・プロテイン飲料',e:'🥛',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'pan',t:'菓子パン・デニッシュ',e:'🍩',cat:'snack',pts:2,r:3,inorg:1,g:'🍰 おやつ・間食'},
+  {id:'donut',t:'ドーナツ・ケーキ',e:'🍰',cat:'snack',pts:2,r:2,inorg:1,g:'🍰 おやつ・間食'},
+  {id:'choco',t:'チョコ・スナック菓子',e:'🍫',cat:'snack',pts:1,r:2,g:'🍰 おやつ・間食'},
+  {id:'pudding',t:'プリン・洋菓子',e:'🍮',cat:'snack',pts:1,r:2,g:'🍰 おやつ・間食'},
+  {id:'icecream',t:'アイスクリーム',e:'🍦',cat:'snack',pts:1,r:2,g:'🍰 おやつ・間食'},
+  {id:'nuts',t:'ナッツ',e:'🥜',cat:'snack',pts:2,r:2,g:'🍰 おやつ・間食'},
+  {id:'senbei',t:'せんべい・和菓子',e:'🍘',cat:'snack',pts:1,r:1,g:'🍰 おやつ・間食'},
+  {id:'chikuwa',t:'ちくわ・かまぼこ',e:'🍢',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
+  {id:'satsuma',t:'さつま揚げ・はんぺん',e:'🍥',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
+  {id:'kanikama',t:'カニカマ・魚肉ソーセージ',e:'🦀',cat:'proc',pts:2,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
+  {id:'pizza',t:'ピザ・グラタン',e:'🍕',cat:'dairy',pts:2,r:3,inorg:1,g:'🧀 乳製品'},
+  {id:'roe',t:'たらこ・明太子・いくら',e:'🍣',cat:'fish',pts:2,r:2,g:'🐟 魚卵・小魚・レバー'},
+  {id:'small',t:'ししゃも・小魚・じゃこ',e:'🐟',cat:'fish',pts:2,r:2,g:'🐟 魚卵・小魚・レバー'},
+  {id:'liver',t:'レバー・もつ・白子',e:'🍖',cat:'fish',pts:2,r:2,g:'🐟 魚卵・小魚・レバー'},
+  {id:'travel',t:'旅行に行った',e:'✈️',cat:'event',pts:2,r:1,g:'✈️ 行事・旅行・もらい物'},
+  {id:'gather',t:'法事・集まり・お祝い',e:'🎎',cat:'event',pts:2,r:1,g:'✈️ 行事・旅行・もらい物'},
+  {id:'gift',t:'もらい物を食べた',e:'🎁',cat:'event',pts:1,r:1,g:'✈️ 行事・旅行・もらい物'},
+  {id:'appetite',t:'食欲が出て量が増えた',e:'🍚',cat:'appetite',pts:1,r:1,g:'✈️ 行事・旅行・もらい物'}
 ];
+/* 品目ごとの「なぜ上げやすいか」＋置きかえ・目標の提案（100点版） */
+const FOODINFO={
+  ham:{why:'加工肉には、商品によって添加リンが使われます。塩分にも注意が必要です。',sw:'卵・焼き魚・鶏肉にかえる',goals:['ハム・ウインナーを今より週1〜2回減らす','卵や鶏肉など自然な食材に置きかえる']},
+  bacon:{why:'加工肉には、商品によって添加リンが使われます。',sw:'卵・鶏肉にかえる',goals:['ベーコンを今より週1〜2回減らす','卵や鶏肉など自然な食材に置きかえる']},
+  cheese:{why:'商品によって、乳化剤としてリン酸塩が使われることがあります。',sw:'量と回数を少し見直す',goals:['プロセスチーズの量を今より少し減らす','毎日食べている場合は食べない日を作る']},
+  milk:{why:'乳製品由来のリンを含みますが、栄養面の良さもあります。',sw:'量と回数をスタッフと確認',goals:['牛乳の量を今より少し減らす','毎日飲んでいる場合は量や回数をスタッフに相談する']},
+  yogurt:{why:'乳製品でリンが多めです。',sw:'量・回数を少し減らす',goals:['ヨーグルトの量や回数を少し減らす','毎日食べている場合は1日おきにする']},
+  cup:{why:'商品によって麺・具・スープに添加リンが使われ、塩分も多くなりがちです。',sw:'おにぎり＋具などに',goals:['カップ麺を今より週1回減らす','食べる時はスープをなるべく残す']},
+  conbini:{why:'ハム・練り物・チーズが入りがちです。',sw:'おにぎり・サラダ・焼き魚に',goals:['お弁当の加工肉・練り物を残す','おにぎりや焼き魚などシンプルなものを選ぶ']},
+  frozen:{why:'加工・添加物が多くなりがちです。',sw:'素材から作るものに',goals:['冷凍食品を今より週1回減らす','なるべく素材から調理されたものを選ぶ']},
+  fast:{why:'加工肉・チーズ・コーラが重なります。',sw:'頻度を減らす／飲み物をお茶に',goals:['ファストフードの回数を減らす','セットの飲み物をお茶や水にする']},
+  cola:{why:'商品によってリン酸が使われ、自然のリンより吸収されやすいとされています。',sw:'お茶・水・無糖の炭酸水にかえる',goals:['コーラをお茶や水に変える日を作る','飲む量を半分にする']},
+  soda:{why:'透明な炭酸はリンが少なめです。甘いものは糖分に注意。',sw:'お茶や無糖の炭酸水に',goals:['甘い炭酸飲料を無糖の炭酸水に変える','飲む量を半分にする']},
+  sports:{why:'糖分・水分が多く、飲みすぎ注意です。',sw:'普段はお茶・水に',goals:['のどが渇いた時はお茶か水にする','飲む量を半分にする']},
+  energy:{why:'添加物・カフェインが多めです。',sw:'常用しない',goals:['栄養ドリンクを毎日飲まない','疲れた時はしっかり休養をとる']},
+  lacto:{why:'飲む量が増えがちです。',sw:'1日1本までに',goals:['乳酸菌飲料を1日1本までにする','毎日飲んでいる場合は1日おきにする']},
+  cocoa:{why:'乳成分でリンが入ります。',sw:'ブラック・お茶にかえる',goals:['ミルクココア・カフェオレをブラックやお茶に変える','飲む回数を減らす']},
+  protein:{why:'乳＋添加物でリンが多めです。',sw:'量は主治医・スタッフと相談',goals:['プロテイン飲料の量をスタッフに相談する','飲む回数を減らす']},
+  pan:{why:'商品によって、膨張剤などにリン酸塩が使われることがあります。',sw:'食パン・おにぎりなどに',goals:['菓子パンを食べる回数を減らす','菓子パンを食パンやおにぎりに変える']},
+  donut:{why:'乳・添加物が多めです。',sw:'量・回数を減らす',goals:['ケーキやドーナツを半分にする','食べる回数を減らす']},
+  choco:{why:'カカオ・乳でリンがやや多めです。',sw:'小分けにして量を決める',goals:['チョコやスナック菓子を小分けにして食べる','食べる回数を減らす']},
+  pudding:{why:'乳製品由来のリンを含みます。',sw:'量と回数を少し見直す',goals:['プリンや洋菓子を食べる回数を減らす','大きいものを小さいサイズにする']},
+  icecream:{why:'乳製品由来のリンを含み、商品によって添加物も使われます。',sw:'量と回数を決める',goals:['アイスを毎日から週2〜3回にする','大きいサイズを小さいサイズにする']},
+  nuts:{why:'リン・カリウム・脂質が多めです。',sw:'少量に／毎日は避ける',goals:['ナッツを食べる量を今の半分にする','毎日食べるのを避ける']},
+  senbei:{why:'比較的少なめ。食べすぎだけ注意です。',sw:'適量ならOK',goals:['せんべいや和菓子を小分けにして食べる','1回に食べる量を決める']},
+  chikuwa:{why:'商品によって、つなぎなどに添加リンが使われます。',sw:'刺身・焼き魚にかえる',goals:['ちくわやかまぼこを食べる回数を減らす','練り物ではなく切り身の魚に変える']},
+  satsuma:{why:'練り物には、商品によって添加リンが使われます。',sw:'焼き魚・煮魚にかえる',goals:['さつま揚げなどを食べる回数を減らす','練り物ではなく切り身の魚に変える']},
+  kanikama:{why:'練り物には、商品によって添加リンが使われます。',sw:'切り身の魚や魚介に',goals:['カニカマなどを食べる回数を減らす','練り物ではなく切り身の魚や魚介に変える']},
+  pizza:{why:'チーズ＋生地でリンが多めです。',sw:'量を減らす／薄めに',goals:['ピザやグラタンを食べる回数を減らす','チーズの量を少なめにする']},
+  roe:{why:'魚卵はリンが多めです。',sw:'毎日は避ける',goals:['たらこや明太子を毎日食べない','1回に食べる量を減らす']},
+  small:{why:'骨ごとでリン・カルシウムが多めです。',sw:'回数を減らす',goals:['ししゃもや小魚を食べる回数を減らす','1回に食べる量を減らす']},
+  liver:{why:'内臓はリンが多めです。',sw:'量・回数を減らす',goals:['レバーやもつを食べる回数を減らす','1回に食べる量を減らす']}
+};
 
 /* ===== seasonal pitfalls ===== */
 const SEASONS={
@@ -714,54 +810,17 @@ const SEASONS={
 function curSeason(){const m=new Date().getMonth();return (m>=2&&m<=4)?'spring':(m>=5&&m<=7)?'summer':(m>=8&&m<=10)?'autumn':'winter';}
 
 /* ===== cause-finder flow ===== */
-let seekStep=0, medPick=new Set(), foodPick=new Set();
-function setSteps(n){[1,2,3,4].forEach(i=>document.getElementById('st'+i).classList.toggle('on',i<=n));}
-function startSeek(){ seekStep=1; medPick=new Set(); foodPick=new Set(); renderSeek(); }
+let seekStep=0, medPick=new Set(), foodPick=new Set(), foodFreq={};
+function setSteps(n){[1,2,3].forEach(i=>document.getElementById('st'+i).classList.toggle('on',i<=n));}
+function startSeek(){ seekStep=1; medPick=new Set(); foodPick=new Set(); foodFreq={}; renderSeek(); }
 function renderSeek(){
   setSteps(seekStep);
   const body=document.getElementById('seekBody');
-  if(seekStep===1) body.innerHTML=stepValues();
+  if(seekStep===1) body.innerHTML=stepFood();
   else if(seekStep===2) body.innerHTML=stepMed();
-  else if(seekStep===3) body.innerHTML=stepFood();
   else body.innerHTML=stepResult();
   bindSeek();
   window.scrollTo({top:0,behavior:'instant'});
-}
-function stepValues(){
-  const prev=state.prevP!=null?state.prevP.toFixed(1):'';
-  const cur=state.curP!=null?state.curP.toFixed(1):'';
-  return `<div class="panel">
-    <div class="ce">📊</div>
-    <h3>まず、前回と今回をくらべます</h3>
-    <p class="pt">分かる範囲でOK。前回の値は、もし保存されていれば入っています。</p>
-    <div class="twoval">
-      <div class="tv"><label>前回のリン</label><input id="svPrev" type="number" inputmode="decimal" step="0.1" placeholder="–.–" value="${prev}"></div>
-      <div class="ar">→</div>
-      <div class="tv"><label>今回のリン</label><input id="svCur" type="number" inputmode="decimal" step="0.1" placeholder="–.–" value="${cur}"></div>
-    </div>
-  </div>
-  <div id="judgeBox"></div>
-  <button class="next-btn" id="toMed">つぎへ（薬の確認）</button>`;
-}
-function judge(prev,cur){
-  if(isNaN(cur)) return null;
-  if(isNaN(prev)){
-    if(cur<=HI) return {e:'🌿',h:'今回は目標の範囲内です',p:'いい状態。続けられている工夫を確認しましょう。'};
-    return {e:'🔎',h:'今回は少し高めです',p:'最近の食事・薬・飲み物を一緒に見てみましょう。'};
-  }
-  const d=cur-prev;
-  if(d<=-0.3) return {e:'🎉',h:'前回より下がりました',p:'前回の工夫が効いた可能性。何が良かったか思い出してみましょう。'};
-  if(Math.abs(d)<0.3) return {e:'➡️',h:'前回とほぼ同じです',p:'もう一段下げたいなら、続いている原因をさがしましょう。'};
-  if(prev>HI && cur>HI) return {e:'⚠️',h:'高い状態が続いています',p:'生活の中に、続いている原因があるかもしれません。'};
-  if(d>=1.0) return {e:'📈',h:'大きく上がりました',p:'最近、何か変化があったかも。いっしょに探しましょう。'};
-  return {e:'🔼',h:'少し上がりました',p:'最近の食事や薬の飲み方を確認してみましょう。'};
-}
-function renderJudge(){
-  const prev=parseFloat(document.getElementById('svPrev').value);
-  const cur=parseFloat(document.getElementById('svCur').value);
-  const j=judge(prev,cur);
-  document.getElementById('judgeBox').innerHTML = j?`<div class="panel" style="text-align:center;">
-    <div class="ce">${j.e}</div><h3 style="margin-top:4px;">${j.h}</h3><p class="pt" style="margin:0;">${j.p}</p></div>`:'';
 }
 function stepMed(){
   let rows=MEDQ.map(m=>`<div class="mrow" data-mid="${m.id}"><div class="mb">✓</div><div class="mt">${m.t}</div></div>`).join('');
@@ -772,26 +831,34 @@ function stepMed(){
   </div>
   ${rows}
   <div class="mrow good" data-mid="none"><div class="mb">✓</div><div class="mt">薬袋どおりのタイミングで、毎食きちんと飲めている／当てはまらない</div></div>
-  <button class="next-btn" id="toFood" style="margin-top:14px;">つぎへ（最近の食事）</button>`;
+  <button class="next-btn" id="medNext" style="margin-top:14px;">原因を見る</button>`;
 }
+function riskDots(r){
+  let s='';
+  for(let i=1;i<=3;i++) s+=`<span class="rd${i<=r?' l'+r:''}"></span>`;
+  return `<span class="risk">${s}</span>`;
+}
+function riskTag(r){const m={1:'低',2:'中',3:'高'};return `<span class="rtag rt${r}">リン${m[r]||'中'}</span>`;}
 function stepFood(){
   const s=SEASONS[curSeason()];
-  const groups=[...new Set(FOODQ.map(f=>f.g))];
+  const order=['🏪 コンビニ・外食・テイクアウト','🍰 おやつ・間食','🥤 飲み物','🍖 加工肉・ハム・練り物','🧀 乳製品','🐟 魚卵・小魚・レバー','✈️ 行事・旅行・もらい物'];
+  const groups=order.filter(g=>FOODQ.some(f=>f.g===g));
   let html=`<div class="panel" style="margin-bottom:14px;">
-    <div class="ce">🍽️</div><h3>最近1か月で、増えたものは？</h3>
-    <p class="pt">場面を開いて、当てはまるものをタップ（複数OK）。当てはまる場面だけでOKです。</p></div>
+    <div class="ce">🍽️</div><h3>最近1〜2週間で、増えたものは？</h3>
+    <p class="pt">リンは1〜2週間で上下します。この期間に<b>前より回数・量が増えたもの</b>を、場面を開いてタップ（複数OK）。当てはまる場面だけでOK。</p>
+    <p class="pt" style="margin-top:7px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span class="rtag rt3">リン高</span><span class="rtag rt2">リン中</span><span class="rtag rt1">リン低</span> はリンの上げやすさ。🔥は今の季節に増えやすいもの。</p></div>
     <div class="season-banner">${s.emoji} <b>今は「${s.name}」。</b>${s.msg}<br>🔥は、この季節に増えやすいものです。</div>`;
   groups.forEach((g,gi)=>{
-    const items=FOODQ.filter(f=>f.g===g);
+    const items=FOODQ.filter(f=>f.g===g).slice().sort((a,b)=>(b.r||0)-(a.r||0));
     html+=`<div class="acc">
       <button class="acc-head"><span class="acc-t">${g}</span><span class="acc-meta"><span class="acc-count"></span><span class="acc-arr">▾</span></span></button>
       <div class="acc-body"><div class="chips">`+
-      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}</button>`).join('')+
+      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}${riskTag(f.r)}</button>`).join('')+
       `</div></div>
     </div>`;
   });
   html+=`<div class="grp" style="margin-top:14px;"><div class="chips"><button class="chip none-chip" id="foodNone"><span class="che">🙆</span>特に思い当たらない</button></div></div>`;
-  html+=`<button class="next-btn" id="toResult">原因を見る</button>`;
+  html+=`<button class="next-btn" id="foodNext">つぎへ（薬の確認）</button>`;
   return html;
 }
 function updateAccCounts(){
@@ -805,55 +872,199 @@ function scoreCats(){
   const sc={};
   Object.keys(CAT).forEach(k=>sc[k]=0);
   medPick.forEach(id=>{const m=MEDQ.find(x=>x.id===id);if(m)sc.med+=m.pts;});
-  foodPick.forEach(id=>{const f=FOODQ.find(x=>x.id===id);if(f)sc[f.cat]+=f.pts;});
+  foodPick.forEach(id=>{
+    const f=FOODQ.find(x=>x.id===id);
+    const freqMultiplier=foodFreq[id]||1.0; 
+    if(f)sc[f.cat]+=(f.pts * freqMultiplier);
+  });
   return sc;
 }
+
+function additiveTendency(pct){
+  if(pct >= 65) return {label:'多め', color:'var(--high)', note:'添加リンを含む可能性がある食品が多く選ばれています。'};
+  if(pct >= 35) return {label:'中くらい', color:'var(--honey)', note:'添加リンを含む可能性がある食品と、自然食品由来のリンが混在しています。'};
+  return {label:'少なめ', color:'var(--good)', note:'今回の選択では、自然食品由来のリンが中心です。'};
+}
+
 function stepResult(){
-  const sc=scoreCats();
-  let ranked=Object.keys(sc).filter(k=>sc[k]>0).map(k=>({k,v:sc[k]}));
-  // 薬は最重視：3点以上なら必ず先頭へ
-  ranked.sort((a,b)=>b.v-a.v);
-  if(sc.med>=3){ ranked=ranked.filter(r=>r.k!=='med'); ranked.unshift({k:'med',v:sc.med}); }
-  const top=ranked.slice(0,3);
-  // スタッフ画面用に保存
-  Store.set('sumCur', state.curP!=null?String(state.curP):'');
-  Store.set('sumPrev', state.prevP!=null?String(state.prevP):'');
-  Store.set('causes', JSON.stringify(top.map(r=>({name:CAT[r.k].name,icon:CAT[r.k].icon}))));
-  // save current P as next "prev"
-  if(state.curP!=null){ Store.set('lastP', String(state.curP)); }
-  if(top.length===0){
+  const sc = scoreCats();
+  const foodSc = { ...sc }; 
+  delete foodSc.med; // 食品だけのスコアを分離
+  
+  let foodRanked = Object.keys(foodSc).filter(k=>foodSc[k]>0).map(k=>({k, v:foodSc[k]}));
+  foodRanked.sort((a,b)=>b.v-a.v);
+
+  Store.set('sumCur', touched && state.curP!=null ? String(state.curP) : '');
+  
+  // スタッフ画面用の詳細データを保存
+  let staffMeds = [...medPick].map(id => MEDQ.find(m=>m.id===id)?.t).filter(Boolean);
+  let staffFoods = [...foodPick].map(id => {
+      let f = FOODQ.find(x=>x.id===id);
+      let freq = foodFreq[id] || 1.0;
+      let fstr = freq===2.0?'ほぼ毎日':freq===1.5?'週3〜4回':'たまに';
+      return { e: f.e, name: f.t, freq: fstr, inorg: f.inorg, pts: f.pts * freq };
+  }).sort((a,b) => b.pts - a.pts).slice(0, 5); // 上位5件まで
+  Store.set('staffDetails', JSON.stringify({ meds: staffMeds, foods: staffFoods }));
+
+  if(sc.med === 0 && foodRanked.length === 0){
+    window.__itemCauses = [];
+    Store.del('pctInorg');
     return `<div class="result-hero"><div class="big">🌿</div><h3>はっきりした原因は見つかりませんでした</h3>
       <p>悪いことではありません。薬の飲み方・食事量・透析時間・体調の変化を、スタッフと一緒に確認しましょう。</p></div>
-      <button class="next-btn" data-go="goal">🎯 それでも一歩を決める</button>
+      <button class="next-btn" id="toGoal">🎯 次の目標をえらぶ</button>
       <button class="ghost-btn" id="seekAgain">もう一度さがす</button>`;
   }
-  const maxv=top[0].v;
+  
   let html=`<div class="result-hero"><div class="big">🔎</div><h3>今回の「原因の候補」</h3>
     <p>犯人さがしではなく、原因さがし。思い当たるところから直せば大丈夫。</p></div>`;
-  top.forEach((r,i)=>{
-    const c=CAT[r.k];const w=Math.round(r.v/maxv*100);
-    html+=`<div class="rank ${i===0?'r1':''}">
-      <div class="rh"><span class="pos">${i+1}位</span><span class="rt">${c.icon} ${c.name}</span></div>
-      <div class="rbar"><i data-w="${w}"></i></div>
-      <p>${c.bad}</p></div>`;
+
+  // --- 1. お薬の警告（独立カード） ---
+  if (sc.med > 0) {
+    html += `<div class="rank r1" style="border-left-color:var(--high);">
+      <div class="rh"><span class="rt">💊 最初に確認したいこと</span></div>
+      <p style="font-family:'Zen Maru Gothic';font-weight:700;font-size:15.5px;color:var(--ink);margin:4px 0;">お薬の飲み忘れ・タイミング</p>
+      <p>リンの薬は、食べ物のリンをお腹の中でつかまえたり、吸収をおさえたりする薬です。薬によって飲むタイミング（食直前・食直後など）が違うので、薬袋やスタッフに言われたタイミングで、毎食きちんと飲めているか確認しましょう。</p>
+    </div>`;
+  }
+
+  // --- 2. かくれリン vs 自然リン のグラフ（参考値） ---
+  let totalInorg = 0, totalOrg = 0;
+  foodPick.forEach(id => {
+    const f = FOODQ.find(x=>x.id===id);
+    const freq = foodFreq[id] || 1.0;
+    const score = f.pts * freq;
+    if(f.inorg) totalInorg += score;
+    else totalOrg += score;
   });
-  // goals come from top category
-  window.__topCat=top[0].k;
-  html+=`<button class="next-btn" id="toGoal">🎯 今月の目標を1つえらぶ</button>
+  
+  if (totalInorg + totalOrg > 0) {
+    const pctInorg = Math.round((totalInorg / (totalInorg + totalOrg)) * 100);
+    const pctOrg = 100 - pctInorg;
+    Store.set('pctInorg', pctInorg); // スタッフ画面用に保存
+
+    const tendency = additiveTendency(pctInorg);
+    html += `<div class="chart-box">
+      <h3 style="font-size:15px;margin-top:0;">今回選んだ食品の傾向（参考）</h3>
+      <p style="font-size:12px;color:var(--muted);margin:0;">独自スコアによる傾向で、実際のリン摂取量や吸収量ではありません。</p>
+      <div class="bar-wrap" aria-hidden="true">
+        <div class="bar-inorg" style="width:0" data-w="${pctInorg}"></div>
+        <div class="bar-org" style="width:0" data-w="${pctOrg}"></div>
+      </div>
+      <div style="text-align:center;font-family:'Zen Maru Gothic';font-weight:700;font-size:15px;color:${tendency.color};margin:3px 0 8px;">添加リンを含む可能性がある食品：${tendency.label}</div>
+      <div class="legend">
+        <span class="leg-inorg">添加リンを含む可能性がある食品</span>
+        <span class="leg-org">自然食品由来のリン</span>
+      </div>
+    </div>`;
+    
+    // アドバイスの優先順位を適正化
+    let advice = "";
+    if (sc.med >= 3) {
+        advice = "今回は、お薬の飲み方やタイミングが影響した可能性があります。自分で変更せず、薬袋やスタッフと確認しましょう。";
+    } else if (pctInorg >= 50) {
+        advice = "今回は、添加リンを含む可能性のある加工食品が多く選ばれています。肉や魚を減らすのではなく、加工食品から見直しましょう。";
+    } else {
+        advice = "乳製品や小魚などの回数・量が増えていなかったか確認しましょう。";
+    }
+    
+    html += `<div class="advice-hero">
+      <div class="advice-eyebrow"><span class="advice-badge">💡</span> 今回のアドバイス</div>
+      <p class="advice-text">${advice}</p>
+    </div>`;
+  } else {
+    Store.del('pctInorg');
+  }
+
+  // --- 3. 食事カテゴリのランキング ---
+  if (foodRanked.length > 0) {
+    const maxFoodv = Math.max(...foodRanked.map(r=>r.v)) || 1;
+    html += `<h3 class="eyebrow" style="margin-top:20px; font-size:13px;">🍽️ 食事で考えられる原因候補</h3>`;
+    foodRanked.forEach((r,i) => {
+      const c = CAT[r.k]; 
+      const w = Math.round(r.v / maxFoodv * 100);
+      html += `<div class="rank">
+        <div class="rh"><span class="pos">${i+1}位</span><span class="rt">${c.icon} ${c.name}</span></div>
+        <div class="rbar"><i data-w="${w}"></i></div>
+        <p>${c.bad}</p></div>`;
+    });
+  }
+  
+  // --- 選んだ食品の「リン度」可視化 ---
+  const picked=[...foodPick].map(id=>FOODQ.find(f=>f.id===id)).filter(f=>f&&f.cat!=='event'&&f.cat!=='appetite');
+  picked.sort((a,b)=>b.r-a.r);
+  if(picked.length){
+    const lvText={1:'低',2:'中',3:'高'};
+    html+=`<div class="panel" style="margin-top:4px;"><h3>📊 選んだものの「リン上げやすさ」</h3>
+      <p class="pt">あなたが選んだ中で、リンを上げやすい順です。バーが長く赤いほど要注意。<b>添加リン</b>は自然の食品に含まれるリンより、体に吸収されやすいとされています。</p>
+      <div class="foodbars">`+
+      picked.map(f=>{
+        const info=FOODINFO[f.id]||{};
+        return `<div class="fb"><div class="fb-top"><span>${f.e} ${f.t}</span>
+          <span class="fb-tags">${f.inorg?'<span class="kt">添加リンの可能性</span>':''}<span class="fb-lv lvl${f.r}">リン度 ${lvText[f.r]}</span></span></div>
+          <div class="fb-bar"><i class="lvl${f.r}" data-w="${Math.round(f.r/3*100)}"></i></div>
+          ${info.why?`<div class="fb-note">${info.why}${info.sw?` <b>→ ${info.sw}</b>`:''}</div>`:''}</div>`;
+      }).join('')+
+      `</div>
+      <p class="pt" style="margin-top:4px;">※ 肉・魚・卵・豆などのタンパク質は、リンが気になっても<b>減らしすぎない</b>こと。元気のもとです。</p></div>`;
+  }
+  
+  // --- 提案用データの構築（個別の品目ベース） ---
+  let itemScores = [];
+  if (sc.med > 0) {
+    itemScores.push({
+        type: 'med', catName: '💊 お薬の飲み方', itemName: 'お薬のタイミング・飲み忘れ',
+        v: sc.med * 10, goals: CAT.med.goals // 薬は常に最優先にするためのスコア補正
+    });
+  }
+  foodPick.forEach(id => {
+     const f = FOODQ.find(x=>x.id===id);
+     if(!f) return;
+     const freq = foodFreq[id] || 1.0;
+     const score = f.pts * freq;
+     if(score <= 0) return;
+     const info = FOODINFO[f.id] || {};
+     const goals = info.goals || CAT[f.cat].goals; // FOODINFOから個別目標を取得
+     itemScores.push({
+          type: 'food', catName: `🍽️ ${f.t} の見直し`, itemName: f.t,
+          v: score, goals: goals
+     });
+  });
+  itemScores.sort((a, b) => b.v - a.v);
+  window.__itemCauses = itemScores;
+
+  html+=`<button class="next-btn" id="toGoal">🎯 今月の目標をえらぶ</button>
     <button class="ghost-btn" id="seekAgain">もう一度さがす</button>`;
   return html;
 }
+
 function bindSeek(){
   if(seekStep===1){
-    const p=document.getElementById('svPrev'),c=document.getElementById('svCur');
-    [p,c].forEach(el=>el.addEventListener('input',renderJudge));
-    renderJudge();
-    document.getElementById('toMed').addEventListener('click',()=>{
-      const pv=parseFloat(p.value),cv=parseFloat(c.value);
-      state.prevP=isNaN(pv)?state.prevP:pv; state.curP=isNaN(cv)?state.curP:cv;
-      if(state.curP!=null){document.getElementById('pInput').value=state.curP;setGauge(state.curP);}
-      seekStep=2;renderSeek();
+    document.querySelectorAll('#seekBody .acc-head').forEach(h=>{
+      h.addEventListener('click',()=>{h.closest('.acc').classList.toggle('open');});
     });
+    document.querySelectorAll('#seekBody .chip[data-fid]').forEach(ch=>{
+      ch.addEventListener('click',()=>{
+        const id=ch.dataset.fid;
+        if (ch.classList.contains('on')) {
+          ch.classList.remove('on');
+          foodPick.delete(id);
+          delete foodFreq[id];
+          updateAccCounts();
+        } else {
+          // モーダルを開いて頻度を聞く
+          const fData = FOODQ.find(x=>x.id===id);
+          document.getElementById('modalTitle').innerHTML = fData.e + ' ' + fData.t;
+          window.currentFid = id;
+          document.getElementById('freqModal').classList.add('active');
+        }
+      });
+    });
+    document.getElementById('foodNone').addEventListener('click',e=>{
+      foodPick.clear(); foodFreq={};
+      document.querySelectorAll('#seekBody .chip[data-fid]').forEach(c=>c.classList.remove('on'));
+      e.currentTarget.classList.toggle('on'); updateAccCounts();
+    });
+    document.getElementById('foodNext').addEventListener('click',()=>{seekStep=2;renderSeek();});
   } else if(seekStep===2){
     document.querySelectorAll('#seekBody .mrow').forEach(row=>{
       row.addEventListener('click',()=>{
@@ -863,64 +1074,111 @@ function bindSeek(){
         row.classList.toggle('on'); row.classList.contains('on')?medPick.add(id):medPick.delete(id);
       });
     });
-    document.getElementById('toFood').addEventListener('click',()=>{seekStep=3;renderSeek();});
-  } else if(seekStep===3){
-    document.querySelectorAll('#seekBody .acc-head').forEach(h=>{
-      h.addEventListener('click',()=>{h.closest('.acc').classList.toggle('open');});
-    });
-    document.querySelectorAll('#seekBody .chip[data-fid]').forEach(ch=>{
-      ch.addEventListener('click',()=>{
-        document.getElementById('foodNone').classList.remove('on');
-        const id=ch.dataset.fid; ch.classList.toggle('on');
-        ch.classList.contains('on')?foodPick.add(id):foodPick.delete(id);
-        updateAccCounts();
-      });
-    });
-    document.getElementById('foodNone').addEventListener('click',e=>{
-      foodPick.clear(); document.querySelectorAll('#seekBody .chip[data-fid]').forEach(c=>c.classList.remove('on'));
-      e.currentTarget.classList.toggle('on'); updateAccCounts();
-    });
-    document.getElementById('toResult').addEventListener('click',()=>{seekStep=4;renderSeek();});
+    document.getElementById('medNext').addEventListener('click',()=>{seekStep=3;renderSeek();});
   } else {
     document.querySelectorAll('#seekBody .rbar > i').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
+    document.querySelectorAll('#seekBody .fb-bar > i').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
+    document.querySelectorAll('#seekBody .bar-inorg, #seekBody .bar-org').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
     const sa=document.getElementById('seekAgain'); if(sa) sa.addEventListener('click',startSeek);
-    const tg=document.getElementById('toGoal'); if(tg) tg.addEventListener('click',()=>openGoalSelect(window.__topCat));
+    const tg=document.getElementById('toGoal'); if(tg) tg.addEventListener('click',()=>openGoalSelect());
     document.querySelectorAll('#seekBody [data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
   }
 }
 
-/* ===== goal select & page ===== */
+// モーダルのイベント設定
+document.querySelectorAll('.modal-opts button[data-freq]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = window.currentFid;
+    const freq = parseFloat(btn.dataset.freq);
+    foodPick.add(id);
+    foodFreq[id] = freq;
+    document.querySelector(`.chip[data-fid="${id}"]`).classList.add('on');
+    document.getElementById('foodNone').classList.remove('on');
+    document.getElementById('freqModal').classList.remove('active');
+    updateAccCounts();
+  });
+});
+document.getElementById('modalCancel').addEventListener('click', () => {
+  document.getElementById('freqModal').classList.remove('active');
+});
+
+/* ===== goal select & page (提案型・個別対応版) ===== */
 let goalChoice=null;
-function openGoalSelect(catKey){
+function openGoalSelect(){
   go('goal');
-  const c=CAT[catKey]||CAT.proc;
-  let opts=c.goals.slice();
-  // 薬の一歩は常に1つは選べるように添える
-  if(catKey!=='med') opts.push('リンの薬を、薬袋どおりのタイミングで飲む');
-  opts.push('次の受診でスタッフに相談する');
+  const causes = Array.isArray(window.__itemCauses) ? window.__itemCauses : [];
+
+  let opts = [];
+  let summaryText = "";
+
+  if (causes.length === 0) {
+      // フォールバック（原因がない場合）
+      opts.push({ text: '次の受診でスタッフに相談する', rec: true, cat: '🩺 相談' });
+      opts.push({ text: 'リンの薬を、薬袋どおりのタイミングで飲む', rec: false, cat: '💊 お薬' });
+      opts.push({ text: '1週間だけ食べたものをメモする', rec: false, cat: '📝 記録' });
+      summaryText = `今回はっきりした原因は見つかりませんでした。<br>まずはスタッフに相談するか、簡単な記録をつけてみましょう。`;
+  } else {
+      const c1 = causes[0];
+      const c2 = causes.length > 1 ? causes[1] : null;
+
+      // 1位から最大2つ、2位から1つ抽出
+      opts.push({ text: c1.goals[0], rec: true, cat: c1.catName }); 
+      if(c1.goals.length > 1) opts.push({ text: c1.goals[1], rec: false, cat: c1.catName });
+      if(c2 && c2.goals.length > 0) opts.push({ text: c2.goals[0], rec: false, cat: c2.catName });
+      opts.push({ text: '次の受診でスタッフに相談する', rec: false, cat: '🩺 相談' });
+      opts = opts.filter((g, i, arr) => arr.findIndex(x => x.text === g.text) === i);
+
+      summaryText = `今回選んだ内容では、リン上昇に影響した可能性が高い候補は<b>「${c1.itemName}」</b>`;
+      if(c2) summaryText += `や<b>「${c2.itemName}」</b>`;
+      summaryText += `です。<br>すべてを一度に変えるのは大変なので、まずは取り組みやすい行動から1つ選んでみませんか？`;
+  }
+
   goalChoice=null;
   const body=document.getElementById('goalBody');
-  body.innerHTML=`<div class="panel" style="text-align:center;margin-bottom:14px;">
-      <div class="ce">${c.icon}</div><h3>今月は、1つだけ。</h3>
-      <p class="pt" style="margin:0;">たくさん頑張らなくて大丈夫。続けられそうなものを1つ選びましょう。</p></div>
-    <div id="goalOpts">${opts.map((g,i)=>`<button class="goal-opt" data-g="${i}"><span class="gradio"></span>${g}</button>`).join('')}</div>
-    <button class="next-btn" id="saveGoal" style="opacity:.5;pointer-events:none;">これを今月の目標にする</button>`;
+  body.innerHTML=`
+    <div class="panel" style="background:#F2FBF9; border:2px solid var(--teal); margin-bottom:20px;">
+      <div class="ce">👨‍⚕️</div>
+      <h3 style="color:var(--teal-deep); margin-bottom:8px;">解析のまとめと、おすすめの目標</h3>
+      <p style="font-size:14.5px;color:var(--ink);line-height:1.6;margin:0;">${summaryText}</p>
+    </div>
+    
+    <p class="eyebrow" style="margin-bottom:8px;">提案された目標から1つえらぶ</p>
+    <div id="goalOpts">
+      ${opts.map((g,i)=>`
+        <button class="goal-opt" data-g="${i}" style="${g.rec ? 'border-color:var(--honey); background:#FFFBF2;' : ''}">
+          <span class="gradio"></span>
+          <div style="flex:1; line-height:1.4;">
+            ${g.rec ? '<span style="font-size:11px;color:#fff;background:var(--honey);padding:2px 8px;border-radius:99px;margin-bottom:6px;display:inline-block;font-family:\'Zen Maru Gothic\';">✨ 今回のおすすめ</span><br>' : ''}
+            <span class="goal-source">${g.cat}</span>
+            ${g.text}
+          </div>
+        </button>`).join('')}
+    </div>
+    <button class="next-btn" id="saveGoal" disabled style="margin-top:16px;">この目標でがんばる</button>`;
+
   const saveBtn=document.getElementById('saveGoal');
   body.querySelectorAll('.goal-opt').forEach(o=>{
     o.addEventListener('click',()=>{
       body.querySelectorAll('.goal-opt').forEach(x=>x.classList.remove('on'));
-      o.classList.add('on'); goalChoice=opts[parseInt(o.dataset.g)];
-      saveBtn.style.opacity='1'; saveBtn.style.pointerEvents='auto';
+      o.classList.add('on'); 
+      goalChoice=opts[parseInt(o.dataset.g)].text;
+      saveBtn.disabled = false;
     });
   });
   saveBtn.addEventListener('click',()=>{
     if(!goalChoice) return;
     Store.set('goal',goalChoice);
     Store.set('goalDate',new Date().toLocaleDateString('ja-JP'));
-    Store.set('goalBaseP', state.curP!=null?String(state.curP):'');
+    Store.set('goalBaseP', touched && state.curP!=null ? String(state.curP) : '');
+    
+    // 前のふりかえりデータをクリア
+    Store.del('goalDone');
+    Store.del('goalTrouble');
+
     renderGoalPage();
   });
 }
+
 function renderGoalBanner(){
   const g=Store.get('goal');
   const el=document.getElementById('goalBanner');
@@ -931,54 +1189,64 @@ function renderGoalBanner(){
 }
 function renderGoalPage(){
   const g=Store.get('goal'), gd=Store.get('goalDate');
-  const doneSaved=Store.get('goalDone'), troubleSaved=Store.get('goalTrouble');
   const body=document.getElementById('goalBody');
+  const refCard=`<div class="ref-card">
+    <div class="ref-head">🎯 リンの目安（基準値）</div>
+    <div class="ref-stats">
+      <div class="ref-stat">
+        <div class="ref-label">血液中のリン（P）</div>
+        <div class="ref-val"><b>3.5〜5.5</b><span>mg/dL</span></div>
+        <div class="ref-note">5.5 以下をめざします</div>
+      </div>
+      <div class="ref-stat">
+        <div class="ref-label">カルシウム×リン（Ca×P）</div>
+        <div class="ref-val"><b>55</b><span>未満</span></div>
+        <div class="ref-note">血管の石灰化を防ぐ目安</div>
+      </div>
+    </div>
+    <div class="ref-foot">リンとカルシウムが高い状態が続くと、血管が硬くなる<b>「石灰化」</b>が進みます。数字を目安に、食事・お薬・透析でいっしょに管理しましょう。</div>
+  </div>`;
   if(!g){
-    body.innerHTML=`<div class="empty">まだ目標がありません。<br>「🔎 なんで上がった？さがし」をすると、<br>あなたに合った一歩が選べます。</div>
+    body.innerHTML=`${refCard}
+      <div class="empty">まだ目標がありません。<br>「🔎 なんで上がった？さがし」をすると、<br>あなたに合った一歩が選べます。</div>
       <button class="next-btn" data-go="seek">🔎 原因をさがす</button>`;
     body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
     return;
   }
-  const DONE=['ほぼ毎日できた','半分くらいできた','少しできた','あまりできなかった'];
-  const TROUBLE=['外食・行事で薬を持っていけなかった','昼の薬を忘れた','つい食べてしまった','薬が飲みにくかった','特になし'];
   body.innerHTML=`
-    <button class="next-btn" data-go="staff" style="margin-bottom:14px;">📋 スタッフに見せる画面</button>
+    <button class="next-btn" data-go="staff" style="margin-bottom:14px;">📋 スタッフや家族に見せる画面</button>
     <div class="share-card">
       <div class="gl">${gd?gd+' に決めた':''} 今月の目標</div>
       <div class="gv">「${g}」</div>
       <p>1か月だけ試してみましょう。完ぺきでなくて大丈夫。できた日が増えれば十分です。</p>
     </div>
-    <div class="panel" style="margin-top:14px;">
-      <h3>📋 ふりかえり（次の受診で）</h3>
-      <p class="pt">この1か月、どれくらいできましたか？</p>
-      <div style="margin-top:8px;">
-        ${DONE.map(t=>`<div class="mrow good${doneSaved===t?' on':''}" data-done="${t}"><div class="mb">✓</div><div class="mt">${t}</div></div>`).join('')}
-      </div>
-      <p class="pt" style="margin-top:14px;">困ったことは？（あれば1つ）</p>
-      <div class="chips" style="margin-top:6px;">
-        ${TROUBLE.map(t=>`<button class="chip${troubleSaved===t?' on':''}" data-trouble="${t}">${t}</button>`).join('')}
-      </div>
-      <p class="pt" style="margin-top:12px;">※ 次の採血の値は、ホームの🏠ゲージに入れると前回とくらべられます。</p>
-    </div>
-    <button class="ghost-btn" data-go="seek">🔎 別の原因も探す／目標を変える</button>
+    ${refCard}
+    <button class="ghost-btn" data-go="seek" style="margin-top:2px;">🔎 別の原因も探す／目標を変える</button>
     <button class="ghost-btn" id="resetGoal" style="margin-top:8px;color:var(--muted);text-decoration:underline;">この目標をリセットする</button>`;
-  body.querySelectorAll('[data-done]').forEach(r=>r.addEventListener('click',()=>{
-    body.querySelectorAll('[data-done]').forEach(x=>x.classList.remove('on')); r.classList.add('on'); Store.set('goalDone',r.dataset.done);
-  }));
-  body.querySelectorAll('[data-trouble]').forEach(c=>c.addEventListener('click',()=>{
-    body.querySelectorAll('[data-trouble]').forEach(x=>x.classList.remove('on')); c.classList.add('on'); Store.set('goalTrouble',c.dataset.trouble);
-  }));
   const rg=document.getElementById('resetGoal'); if(rg) rg.addEventListener('click',()=>{['goal','goalDate','goalBaseP','goalDone','goalTrouble'].forEach(k=>Store.del(k));renderGoalPage();renderGoalBanner();});
   body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
 }
 
 /* ===== staff summary ===== */
 function renderStaff(){
-  const cur=parseFloat(Store.get('sumCur')), prev=parseFloat(Store.get('sumPrev'));
-  let causes=[]; try{causes=JSON.parse(Store.get('causes')||'[]');}catch(e){}
+  const cur=parseFloat(Store.get('sumCur'));
   const goal=Store.get('goal'), gd=Store.get('goalDate');
+  
+  // スタッフ向け詳細データを取得
+  const detailsStr = Store.get('staffDetails');
+  let details = { meds: [], foods: [] };
+  if(detailsStr){
+    try{
+      const parsed = JSON.parse(detailsStr);
+      if(parsed && Array.isArray(parsed.meds) && Array.isArray(parsed.foods)) details = parsed;
+    }catch(e){
+      Store.del('staffDetails');
+    }
+  }
+  const pctInorg = Store.get('pctInorg');
+
   const body=document.getElementById('staffBody');
-  if(isNaN(cur) && causes.length===0 && !goal){
+  if(isNaN(cur) && details.meds.length === 0 && details.foods.length === 0 && !goal){
     body.innerHTML=`<div class="empty">まだ見せる内容がありません。<br>「🔎 なんで上がった？さがし」をすると、<br>ここに1枚のまとめが作られます。</div>
       <button class="next-btn" data-go="seek">🔎 原因をさがす</button>`;
     body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
@@ -987,12 +1255,34 @@ function renderStaff(){
   let pinfo='';
   if(!isNaN(cur)){
     const z=zoneOf(cur);
-    const arrow=!isNaN(prev)?(cur>prev+0.05?'▲':cur<prev-0.05?'▼':'→'):'';
     pinfo=`<div class="ssrow"><div class="sslabel">リンの値</div>
-      <div class="ssval">${!isNaN(prev)?`<span class="prev">前回 ${prev.toFixed(1)}</span><span>${arrow}</span>`:''}<span class="cur ${z.cls}">今回 ${cur.toFixed(1)}</span><span class="u">mg/dL</span></div></div>`;
+      <div class="ssval"><span class="cur ${z.cls}">今回 ${cur.toFixed(1)}</span><span class="u">mg/dL</span></div></div>`;
   }
-  const clist=causes.length?`<div class="ssrow"><div class="sslabel">原因の候補</div>
-    <ol class="sscauses">${causes.map(c=>`<li>${c.icon} ${c.name}</li>`).join('')}</ol></div>`:'';
+  
+  let clist = '';
+  if (details.meds && details.meds.length > 0) {
+      clist += `<div class="ssrow"><div class="sslabel" style="color:var(--high);">💊 お薬の課題</div>
+        <ul class="ss-list">${details.meds.map(m => `<li>${m}</li>`).join('')}</ul>
+      </div>`;
+  }
+  if (details.foods && details.foods.length > 0) {
+      clist += `<div class="ssrow"><div class="sslabel">🍽️ 食事の原因候補（影響が大きい順）</div>
+        <ul class="ss-list-food">
+          ${details.foods.map(f => `<li><span class="fname">${f.e} ${f.name}</span><span class="fmeta">${f.inorg?'<span class="kt-small">添加リンの可能性</span>':''}<span class="freq">${f.freq}</span></span></li>`).join('')}
+        </ul>
+      </div>`;
+  }
+  if (pctInorg != null) {
+       const tendency = additiveTendency(parseFloat(pctInorg));
+       clist += `<div class="ssrow"><div class="sslabel">⚠️ 添加リンを含む可能性がある食品の傾向</div>
+         <div style="font-family:'Zen Maru Gothic';font-weight:700;font-size:15px;color:${tendency.color};">${tendency.label}</div>
+         <div style="font-size:12.5px;color:var(--muted);margin-top:4px;">${tendency.note} 実際の摂取量を示す値ではありません。</div>
+       </div>`;
+  }
+  if (!clist) {
+      clist = `<div class="ssrow"><div class="sslabel">原因の候補</div><p style="font-size:14px;color:var(--muted);margin:0;">はっきりした原因は記録されていません。</p></div>`;
+  }
+
   const gbox=goal?`<div class="ssrow"><div class="sslabel">今月の目標</div><div class="ssgoal">${goal}</div></div>`:'';
   const done=Store.get('goalDone'), trouble=Store.get('goalTrouble');
   const dbox=done?`<div class="ssrow"><div class="sslabel">目標の実行度</div><div class="ssval" style="font-size:16px;">${done}</div></div>`:'';
@@ -1012,17 +1302,17 @@ function renderStaff(){
 
 /* ===== food signal (tappable, with swaps) ===== */
 const SIG={
-  red:{head:'赤：まず減らしたい',sub:'かくれリンが多め。毎日だと上がりやすい',
+  red:{head:'赤：まず減らしたい',sub:'添加リンを含む商品があり、毎日だと上がりやすい',
     msg:'毎日のものを、まず<b>週2〜3回</b>に減らすところから。',
-    extra:'<div class="label-tip">🏷️ ラベルに「pH調整剤・乳化剤・膨張剤・かんすい」とあれば、かくれリンの目印です。</div>',
+    extra:'<div class="label-tip">🏷️ 「リン酸」「リン酸塩」「ポリリン酸」「ピロリン酸」などは添加リンの表示です。「pH調整剤・乳化剤・膨張剤」だけでは、リンを含むか判断できません。</div>',
     items:[
-      {n:'ハム・ウインナー',e:'🍖',why:'加工肉。かくれリン＋塩分が多め',swap:'卵・焼き魚・鶏肉に'},
-      {n:'ベーコン',e:'🥓',why:'加工肉。かくれリンが多い',swap:'卵・鶏肉に'},
-      {n:'ちくわ・かまぼこ',e:'🍢',why:'つなぎにかくれリン。魚でも油断しない',swap:'刺身・焼き魚に'},
-      {n:'さつま揚げ',e:'🍥',why:'練り物。かくれリンが多い',swap:'焼き魚・煮魚に'},
-      {n:'カップ麺',e:'🍜',why:'麺・スープにかくれリン＋塩分',swap:'おにぎり＋具に（汁は残す）'},
-      {n:'コーラ',e:'🥤',why:'リン酸。ほぼ全部吸収される',swap:'お茶・水に'},
-      {n:'プロセスチーズ',e:'🧀',why:'添加物のかくれリンが加わる',swap:'量を半分に'},
+      {n:'ハム・ウインナー',e:'🍖',why:'商品によって添加リンを含み、塩分も多め',swap:'卵・焼き魚・鶏肉に'},
+      {n:'ベーコン',e:'🥓',why:'商品によって添加リンを含む加工肉',swap:'卵・鶏肉に'},
+      {n:'ちくわ・かまぼこ',e:'🍢',why:'商品によってつなぎなどに添加リンを含む',swap:'刺身・焼き魚に'},
+      {n:'さつま揚げ',e:'🍥',why:'商品によって添加リンを含む練り物',swap:'焼き魚・煮魚に'},
+      {n:'カップ麺',e:'🍜',why:'商品によって麺・具・スープに添加リン。塩分も多め',swap:'おにぎり＋具に（汁は残す）'},
+      {n:'コーラ',e:'🥤',why:'商品によってリン酸を含み、吸収されやすい',swap:'お茶・水に'},
+      {n:'プロセスチーズ',e:'🧀',why:'商品によって乳化剤にリン酸塩を含む',swap:'量と回数を少し見直す'},
       {n:'コンビニ加工食品',e:'🍱',why:'ハム・練り物・チーズが多くなりがち',swap:'おにぎり・サラダ・焼き魚に'}
     ]},
   yellow:{head:'黄：量と回数に注意',sub:'悪くないけど、毎日・多めだと積み重なる',
@@ -1079,16 +1369,16 @@ function renderSignal(){
 
 /* ===== quiz ===== */
 const QUIZ=[
-  {a:{e:'🧀',n:'プロセスチーズ',mg:'かくれリン多め'},b:{e:'🥛',n:'牛乳',mg:'自然のリン'},win:'a',
-   tag:'加工に注意',msg:'プロセスチーズは、もとのリンに添加物のかくれリンが加わります。量を調整するか、ナチュラルチーズに。'},
-  {a:{e:'🍖',n:'ハム',mg:'かくれリンあり'},b:{e:'🍗',n:'鶏むね肉',mg:'自然のリン'},win:'a',
-   tag:'隠れリン',msg:'同じ肉でも、ハムは添加物のかくれリンが加わり、吸収されやすい。新鮮な肉のほうが安心です。'},
+  {a:{e:'🧀',n:'プロセスチーズ',mg:'添加リンの可能性'},b:{e:'🥛',n:'牛乳',mg:'自然のリン'},win:'a',
+   tag:'加工に注意',msg:'プロセスチーズは、商品によって乳化剤としてリン酸塩が使われます。まずは量と回数を見直しましょう。'},
+  {a:{e:'🍖',n:'ハム',mg:'添加リンの可能性'},b:{e:'🍗',n:'鶏むね肉',mg:'自然のリン'},win:'a',
+   tag:'添加リン',msg:'同じ肉でも、ハムには商品によって添加リンが使われます。加工していない肉を選ぶと、添加リンを避けやすくなります。'},
   {a:{e:'🥤',n:'コーラ',mg:'リン酸入り'},b:{e:'🍵',n:'お茶・水',mg:'リンなし'},win:'a',
-   tag:'飲み物の罠',msg:'コーラの「リン酸」はかくれリン。ほぼ全部吸収されます。のどが渇いたらお茶や水を基本に。'},
-  {a:{e:'🍜',n:'カップ麺',mg:'かくれリン多め'},b:{e:'🍙',n:'おにぎり',mg:'少なめ'},win:'a',
-   tag:'手軽さの代償',msg:'インスタント麺は麺やスープにかくれリンが多め。食べるならスープを残すだけでも違います。'},
-  {a:{e:'🐟',n:'焼き魚',mg:'自然のリン'},b:{e:'🍢',n:'ちくわ・練り物',mg:'かくれリンあり'},win:'b',
-   tag:'魚だから安心？',msg:'練り物は「つなぎ」にかくれリンが入り、体にたまりやすい。魚なら、練り物より切り身の調理がおすすめ。ラベルに「pH調整剤・乳化剤」とあれば、かくれリンの目印です。'}
+   tag:'飲み物の罠',msg:'コーラには商品によってリン酸が使われ、自然のリンより吸収されやすいとされています。のどが渇いたらお茶や水を基本に。'},
+  {a:{e:'🍜',n:'カップ麺',mg:'添加リンの可能性'},b:{e:'🍙',n:'おにぎり',mg:'少なめ'},win:'a',
+   tag:'手軽さの代償',msg:'インスタント麺は、商品によって麺・具・スープに添加リンが使われます。回数を減らし、スープはなるべく残しましょう。'},
+  {a:{e:'🐟',n:'焼き魚',mg:'自然のリン'},b:{e:'🍢',n:'ちくわ・練り物',mg:'添加リンの可能性'},win:'b',
+   tag:'魚だから安心？',msg:'練り物には商品によって添加リンが使われます。魚なら、練り物より切り身の調理がおすすめ。「リン酸」「リン酸塩」などの表示を確認しましょう。'}
 ];
 let zi=0,zscore=0,answered=false;
 function startQuiz(){zi=0;zscore=0;answered=false;renderQuiz();}
@@ -1123,7 +1413,7 @@ function renderQuizEnd(){
   document.getElementById('quizBody').innerHTML=`
     <div class="result-hero"><div class="big">${emoji}</div><h3>${zscore} / ${QUIZ.length} 点</h3><p>${word}</p></div>
     <div class="rank"><div class="rh"><span class="rt">🥷 今日のまとめ</span></div>
-      <p>加工食品・練り物・コーラの<b>かくれリン</b>は、ほぼ全部吸収される落とし穴。同じ食材なら、なるべく加工されていない自然なものを選ぶのがコツ。そして<b>肉・魚は減らしすぎない</b>こと。</p></div>
+      <p>加工食品・練り物・コーラなどの<b>添加リン</b>は、自然のリンより吸収されやすい落とし穴。同じ食材なら、なるべく加工されていない自然なものを選ぶのがコツ。そして<b>肉・魚は減らしすぎない</b>こと。</p></div>
     <button class="next-btn" onclick="startQuiz()">もう一度あそぶ</button>
     <button class="ghost-btn" data-go="why">💡 なんで下げるの？を読む</button>`;
   document.querySelectorAll('#quizBody [data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
