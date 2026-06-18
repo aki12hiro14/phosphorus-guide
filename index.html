@@ -27,7 +27,7 @@ body{
   line-height:1.75;-webkit-font-smoothing:antialiased;overscroll-behavior-y:contain;font-size:15px;
 }
 h1,h2,h3,.disp{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif;}
-.app{max-width:520px;margin:0 auto;min-height:100dvh;padding:0 18px calc(108px + env(safe-area-inset-bottom));position:relative;}
+.app{max-width:520px;margin:0 auto;min-height:100dvh;padding:0 18px calc(124px + env(safe-area-inset-bottom));position:relative;}
 button{font-family:inherit;}
 :focus-visible{outline:3px solid rgba(27,154,149,.55);outline-offset:2px;border-radius:8px;}
 
@@ -425,6 +425,8 @@ input[type=range].prange:focus{outline:none;}
   font-family:"Zen Maru Gothic";font-weight:700;font-size:11.5px;color:var(--muted);cursor:pointer;padding:6px 6px;border-radius:12px;flex:1;max-width:84px;}
 .botnav button .ne{font-size:21px;line-height:1;}
 .botnav button.on{color:var(--teal-deep);}
+body.seek-mode .botnav{display:none;}
+body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
 </style>
 </head>
 <body>
@@ -512,7 +514,7 @@ input[type=range].prange:focus{outline:none;}
   </section>
 
   <section class="screen" id="seek">
-    <div class="phead"><button class="back" data-back>‹</button><h2>なんで上がった？ さがし</h2></div>
+    <div class="phead"><button class="back" id="seekHeadBack">‹</button><h2>なんで上がった？ さがし</h2></div>
     <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i></div>
     <div id="seekBody"></div>
   </section>
@@ -626,6 +628,7 @@ const navBtns=document.querySelectorAll('.botnav button');
 let staffReturn='home';
 function go(id){
   if(id==='staff'){ const cur=document.querySelector('.screen.active'); if(cur && cur.id!=='staff') staffReturn=cur.id; }
+  document.body.classList.toggle('seek-mode', id==='seek');
   screens.forEach(s=>s.classList.toggle('active',s.id===id));
   navBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===id));
   window.scrollTo({top:0,behavior:'instant'});
@@ -640,6 +643,7 @@ function go(id){
 function backFromStaff(){
   const t=staffReturn||'home';
   if(t==='seek'){
+    document.body.classList.add('seek-mode');
     screens.forEach(s=>s.classList.toggle('active',s.id==='seek'));
     navBtns.forEach(b=>b.classList.toggle('on',b.dataset.go==='seek'));
     window.scrollTo({top:0,behavior:'instant'});
@@ -676,6 +680,7 @@ async function saveReportImage(){
 document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
 document.querySelectorAll('[data-back]').forEach(el=>el.addEventListener('click',()=>go('home')));
 (function(){const b=document.getElementById('staffBack'); if(b) b.addEventListener('click',backFromStaff);})();
+(function(){const b=document.getElementById('seekHeadBack'); if(b) b.addEventListener('click',seekBack);})();
 
 /* ===== gauge ===== */
 const LO=3.5, HI=5.5, MIN=2.0, MAX=10.0;  /* 目標域 3.5〜5.5（5.5以下が目標内）。表示範囲 2.0〜10.0。施設目標はLO/HIを変更 */
@@ -918,6 +923,7 @@ function curSeason(){const m=new Date().getMonth();return (m>=2&&m<=4)?'spring':
 let seekStep=0, medPick=new Set(), foodPick=new Set(), foodFreq={};
 function setSteps(n){[1,2,3].forEach(i=>document.getElementById('st'+i).classList.toggle('on',i<=n));}
 function startSeek(){ seekStep=1; medPick=new Set(); foodPick=new Set(); foodFreq={}; renderSeek(); }
+function seekBack(){ if(seekStep>1){ seekStep--; renderSeek(); } else { go('home'); } }
 function renderSeek(){
   setSteps(seekStep);
   const body=document.getElementById('seekBody');
@@ -928,7 +934,7 @@ function renderSeek(){
   window.scrollTo({top:0,behavior:'instant'});
 }
 function stepMed(){
-  let rows=MEDQ.map(m=>`<div class="mrow" data-mid="${m.id}"><div class="mb">✓</div><div class="mt">${m.t}</div></div>`).join('');
+  let rows=MEDQ.map(m=>`<div class="mrow${medPick.has(m.id)?' on':''}" data-mid="${m.id}"><div class="mb">✓</div><div class="mt">${m.t}</div></div>`).join('');
   return `<div class="panel" style="margin-bottom:14px;">
     <div class="ce">💊</div>
     <h3>いちばん大事：薬の飲み方</h3>
@@ -936,7 +942,8 @@ function stepMed(){
   </div>
   ${rows}
   <div class="mrow good" data-mid="none"><div class="mb">✓</div><div class="mt">薬袋どおりのタイミングで、毎食きちんと飲めている／当てはまらない</div></div>
-  <button class="next-btn" id="medNext" style="margin-top:14px;">原因を見る</button>`;
+  <button class="next-btn" id="medNext" style="margin-top:14px;">原因を見る ›</button>
+  <button class="ghost-btn" id="medBack">‹ 食べ物にもどる</button>`;
 }
 function riskDots(r){
   let s='';
@@ -956,10 +963,11 @@ function stepFood(){
     <div class="tap-guide"><span class="tg-emoji">👇</span>各場面を<b style="margin:0 3px;">タップして開く</b>と、食品が出てきます</div>`;
   groups.forEach((g,gi)=>{
     const items=FOODQ.filter(f=>f.g===g).slice().sort((a,b)=>(b.r||0)-(a.r||0));
-    html+=`<div class="acc${gi===0?' open':''}">
+    const hasSel=items.some(f=>foodPick.has(f.id));
+    html+=`<div class="acc${gi===0||hasSel?' open':''}">
       <button class="acc-head"><span class="acc-t">${g}</span><span class="acc-meta"><span class="acc-count"></span><span class="acc-toggle"><span class="tg-open">ひらく</span><span class="tg-close">とじる</span><span class="acc-arr">▾</span></span></span></button>
       <div class="acc-body"><div class="chips">`+
-      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}${f.badge?`<span class="rtag rt-note">${f.badge}</span>`:riskTag(f.r)}</button>`).join('')+
+      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}${foodPick.has(f.id)?' on':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}${f.badge?`<span class="rtag rt-note">${f.badge}</span>`:riskTag(f.r)}</button>`).join('')+
       `</div></div>
     </div>`;
   });
@@ -1022,8 +1030,8 @@ function stepResult(){
     return `<div class="result-hero"><div class="big">🌿</div><h3>はっきりした原因は見つかりませんでした</h3>
       <p>悪いことではありません。薬の飲み方・食事量・透析時間・体調の変化を、スタッフと一緒に確認しましょう。</p></div>
       <button class="next-btn" data-go="staff">📋 スタッフ・家族に見せるレポートを作る</button>
-      <button class="ghost-btn" id="toGoal">🎯 今月の目標を変える</button>
-      <button class="ghost-btn" id="seekAgain">🔎 もう一度さがす</button>`;
+      <button class="ghost-btn" id="resBack">‹ 薬の確認にもどる</button>
+      <button class="ghost-btn" id="seekAgain">🔎 はじめからさがす</button>`;
   }
   
   let html=`<div class="result-hero"><div class="big">🔎</div><h3>今回の「原因の候補」</h3>
@@ -1150,8 +1158,8 @@ function stepResult(){
   Store.set('goalBaseP', touched && state.curP!=null ? String(state.curP) : '');
 
   html+=`<button class="next-btn" data-go="staff">📋 スタッフ・家族に見せるレポートを作る</button>
-    <button class="ghost-btn" id="toGoal">🎯 今月の目標を変える</button>
-    <button class="ghost-btn" id="seekAgain">🔎 もう一度さがす</button>`;
+    <button class="ghost-btn" id="resBack">‹ 薬の確認にもどる</button>
+    <button class="ghost-btn" id="seekAgain">🔎 はじめからさがす</button>`;
   return html;
 }
 
@@ -1183,6 +1191,7 @@ function bindSeek(){
       e.currentTarget.classList.toggle('on'); updateAccCounts();
     });
     document.getElementById('foodNext').addEventListener('click',()=>{seekStep=2;renderSeek();});
+    updateAccCounts();
   } else if(seekStep===2){
     document.querySelectorAll('#seekBody .mrow').forEach(row=>{
       row.addEventListener('click',()=>{
@@ -1193,12 +1202,14 @@ function bindSeek(){
       });
     });
     document.getElementById('medNext').addEventListener('click',()=>{seekStep=3;renderSeek();});
+    const mb=document.getElementById('medBack'); if(mb) mb.addEventListener('click',seekBack);
   } else {
     document.querySelectorAll('#seekBody .rbar > i').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
     document.querySelectorAll('#seekBody .fb-bar > i').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
     document.querySelectorAll('#seekBody .bar-inorg, #seekBody .bar-org').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
     const sa=document.getElementById('seekAgain'); if(sa) sa.addEventListener('click',startSeek);
     const tg=document.getElementById('toGoal'); if(tg) tg.addEventListener('click',()=>openGoalSelect());
+    const rb2=document.getElementById('resBack'); if(rb2) rb2.addEventListener('click',seekBack);
     document.querySelectorAll('#seekBody [data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
   }
 }
