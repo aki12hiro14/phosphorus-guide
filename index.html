@@ -584,7 +584,7 @@ input[type=range].prange:focus{outline:none;}
   </section>
 
   <section class="screen" id="staff">
-    <div class="phead"><button class="back" data-go="goal">‹</button><h2>スタッフや家族に見せる</h2></div>
+    <div class="phead"><button class="back" id="staffBack">‹</button><h2>スタッフや家族に見せる</h2></div>
     <div id="staffBody"></div>
   </section>
 
@@ -623,7 +623,9 @@ const state={curP:null};
 /* ===== navigation ===== */
 const screens=document.querySelectorAll('.screen');
 const navBtns=document.querySelectorAll('.botnav button');
+let staffReturn='home';
 function go(id){
+  if(id==='staff'){ const cur=document.querySelector('.screen.active'); if(cur && cur.id!=='staff') staffReturn=cur.id; }
   screens.forEach(s=>s.classList.toggle('active',s.id===id));
   navBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===id));
   window.scrollTo({top:0,behavior:'instant'});
@@ -634,8 +636,46 @@ function go(id){
   if(id==='staff') renderStaff();
   if(id==='home') renderGoalBanner();
 }
+/* レポートの戻る：開く前にいた画面へ。原因の結果から来た時は、結果を保ったまま戻る（やり直さない）。 */
+function backFromStaff(){
+  const t=staffReturn||'home';
+  if(t==='seek'){
+    screens.forEach(s=>s.classList.toggle('active',s.id==='seek'));
+    navBtns.forEach(b=>b.classList.toggle('on',b.dataset.go==='seek'));
+    window.scrollTo({top:0,behavior:'instant'});
+  } else {
+    go(t);
+  }
+}
+/* レポートを画像（PNG）で保存。必要時だけ html2canvas を読み込み、失敗時は印刷へ案内。 */
+async function saveReportImage(){
+  const btn=document.getElementById('saveImg');
+  const sheet=document.querySelector('#staffBody .staff-sheet');
+  if(!sheet) return;
+  const orig=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='画像を作成中…';}
+  try{
+    if(!window.html2canvas){
+      await new Promise((res,rej)=>{const s=document.createElement('script');
+        s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        s.onload=res;s.onerror=()=>rej(new Error('load failed'));document.head.appendChild(s);});
+    }
+    const canvas=await window.html2canvas(sheet,{backgroundColor:'#ffffff',scale:2});
+    const date=new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
+    await new Promise(res=>canvas.toBlob(blob=>{
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download='リンのまとめ_'+date+'.png';
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),5000);res();
+    },'image/png'));
+    if(btn){btn.textContent='✓ 画像を保存しました';setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},2600);}
+  }catch(e){
+    if(btn){btn.textContent='うまくいきません→「印刷」でPDF保存を';setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},3400);}
+  }
+}
 document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
 document.querySelectorAll('[data-back]').forEach(el=>el.addEventListener('click',()=>go('home')));
+(function(){const b=document.getElementById('staffBack'); if(b) b.addEventListener('click',backFromStaff);})();
 
 /* ===== gauge ===== */
 const LO=3.5, HI=5.5, MIN=2.0, MAX=10.0;  /* 目標域 3.5〜5.5（5.5以下が目標内）。表示範囲 2.0〜10.0。施設目標はLO/HIを変更 */
@@ -1389,12 +1429,16 @@ function renderStaff(){
       <div class="sheet-foot">この画面を見せて、いっしょに相談させてください。</div>
     </div>
     <div class="staff-actions">
-      <button class="next-btn" onclick="window.print()">🖨️ 印刷する</button>
+      <button class="ghost-btn" id="staffBackBtn">‹ 前の画面に戻る</button>
+      <button class="next-btn" onclick="window.print()">🖨️ 印刷・PDF保存</button>
+      <button class="ghost-btn" id="saveImg">📷 画像で保存（スマホに）</button>
       <button class="ghost-btn" id="staffToGoal">🎯 今月の目標を変える</button>
       <button class="ghost-btn" data-go="seek">🔎 もう一度さがす</button>
     </div>`;
   body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
   const sg=document.getElementById('staffToGoal'); if(sg) sg.addEventListener('click',()=>openGoalSelect());
+  const bb=document.getElementById('staffBackBtn'); if(bb) bb.addEventListener('click',backFromStaff);
+  const si=document.getElementById('saveImg'); if(si) si.addEventListener('click',saveReportImage);
 }
 
 /* ===== food signal (tappable, with swaps) ===== */
