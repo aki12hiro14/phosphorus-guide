@@ -78,15 +78,15 @@ svg.gauge{width:100%;height:auto;display:block;overflow:visible;}
 .slider-wrap{margin:14px 2px 2px;}
 .slider-hint{font-size:12px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;}
 .slider-hint .ar{font-size:16px;color:var(--teal);}
-input[type=range].prange{-webkit-appearance:none;appearance:none;width:100%;height:32px;background:transparent;cursor:pointer;margin:0;}
+input[type=range].prange{-webkit-appearance:none;appearance:none;width:100%;height:58px;background:transparent;cursor:pointer;margin:0;}
 input[type=range].prange:focus{outline:none;}
-.prange::-webkit-slider-runnable-track{height:12px;border-radius:99px;
+.prange::-webkit-slider-runnable-track{height:22px;border-radius:99px;
   background:linear-gradient(90deg,#9FCBC7 0 18.75%,#3FA776 18.75% 43.75%,#DE6F53 43.75% 100%);}
-.prange::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:32px;height:32px;border-radius:50%;
-  background:#fff;border:5px solid var(--teal-deep);box-shadow:var(--shadow);margin-top:-10px;}
-.prange::-moz-range-track{height:12px;border-radius:99px;
+.prange::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:46px;height:46px;border-radius:50%;
+  background:#fff;border:6px solid var(--teal-deep);box-shadow:0 4px 14px rgba(15,110,106,.30);margin-top:-12px;}
+.prange::-moz-range-track{height:22px;border-radius:99px;
   background:linear-gradient(90deg,#9FCBC7 0 18.75%,#3FA776 18.75% 43.75%,#DE6F53 43.75% 100%);}
-.prange::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:#fff;border:5px solid var(--teal-deep);box-shadow:var(--shadow);}
+.prange::-moz-range-thumb{width:46px;height:46px;border-radius:50%;background:#fff;border:6px solid var(--teal-deep);box-shadow:0 4px 14px rgba(15,110,106,.30);}
 .slider-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px;padding:0 2px;}
 .slider-scale .tgt{color:var(--good);font-weight:700;}
 
@@ -104,6 +104,14 @@ input[type=range].prange:focus{outline:none;}
 @keyframes ctaPulse{0%,100%{box-shadow:0 12px 34px rgba(15,110,106,.16),0 0 0 0 rgba(27,154,149,.42);}
   50%{box-shadow:0 12px 34px rgba(15,110,106,.22),0 0 0 13px rgba(27,154,149,0);}}
 @keyframes arrNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
+/* 下へのスクロール誘導（携帯でスライダーまでで終わりと思われないように） */
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:3px;margin:14px 0 2px;color:var(--teal-deep);
+  text-align:center;transition:opacity .4s ease,max-height .4s ease;max-height:90px;overflow:hidden;}
+.scroll-cue.gone{opacity:0;max-height:0;margin:0;pointer-events:none;}
+.scroll-cue-txt{font-family:"Zen Maru Gothic";font-weight:700;font-size:13.5px;line-height:1.5;}
+.scroll-cue-txt b{color:var(--honey);}
+.scroll-cue-arrow{font-size:24px;line-height:1;animation:downBob 1.3s ease-in-out infinite;}
+@keyframes downBob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
 .cta-lead{font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;color:var(--ink);text-align:center;margin:2px 6px 0;line-height:1.6;}
 .menu-head{font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--muted);margin:6px 4px 10px;}
 
@@ -178,6 +186,7 @@ input[type=range].prange:focus{outline:none;}
 .chip.season-hot::before{content:"🔥";font-size:12px;margin-right:1px;opacity:.85;}
 .rtag{margin-left:6px;font-size:10.5px;font-weight:700;color:#fff;border-radius:99px;padding:2px 7px;font-family:"Zen Maru Gothic";flex:none;line-height:1.5;}
 .rtag.rt1{background:var(--blue);} .rtag.rt2{background:var(--honey);} .rtag.rt3{background:var(--high);}
+.rtag.rt-note{background:#FFF7EA;color:var(--honey);box-shadow:inset 0 0 0 1.5px var(--honey);}
 .acc{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;}
 .acc-head{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;cursor:pointer;
   padding:16px 16px;font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--ink);}
@@ -185,10 +194,21 @@ input[type=range].prange:focus{outline:none;}
 .acc-meta{display:flex;align-items:center;gap:10px;}
 .acc-count{font-size:12px;font-weight:700;color:#fff;background:var(--teal);border-radius:99px;padding:2px 9px;display:none;}
 .acc-count.show{display:inline-block;}
-.acc-arr{color:var(--teal);font-size:14px;transition:transform .2s;}
+.acc-arr{color:inherit;font-size:12px;transition:transform .25s;}
 .acc.open .acc-arr{transform:rotate(180deg);}
+.acc-toggle{display:inline-flex;align-items:center;gap:5px;background:var(--good-bg);color:var(--teal-deep);
+  font-family:"Zen Maru Gothic";font-weight:700;font-size:12.5px;line-height:1;padding:6px 11px;border-radius:999px;
+  box-shadow:inset 0 0 0 1.5px rgba(27,154,149,.40);flex:none;}
+.acc.open .acc-toggle{background:#EEF4F2;color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line);}
+.tg-close{display:none;} .acc.open .tg-open{display:none;} .acc.open .tg-close{display:inline;}
 .acc-body{display:none;padding:0 14px 15px;}
 .acc.open .acc-body{display:block;}
+.acc.open{border-color:#CDE7E2;box-shadow:0 8px 22px rgba(15,110,106,.13);}
+.acc.open .acc-head{background:#F5FBF9;}
+/* タップ誘導の小帯（ただの羅列に見えないように） */
+.tap-guide{display:flex;align-items:center;justify-content:center;gap:7px;margin:2px 2px 12px;
+  font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--teal-deep);}
+.tap-guide .tg-emoji{font-size:17px;animation:downBob 1.3s ease-in-out infinite;}
 .risk{display:inline-flex;gap:2px;margin-left:6px;align-items:center;}
 .rd{width:6px;height:6px;border-radius:99px;background:#D7E4E1;}
 .rd.l1{background:var(--blue);} .rd.l2{background:var(--honey);} .rd.l3{background:var(--high);}
@@ -199,6 +219,7 @@ input[type=range].prange:focus{outline:none;}
 .fb-tags{display:flex;align-items:center;gap:6px;flex:none;}
 .fb-lv{flex:none;font-size:11px;font-weight:700;color:#fff;border-radius:99px;padding:2px 9px;font-family:"Zen Maru Gothic";}
 .fb-lv.lvl1{background:var(--blue);} .fb-lv.lvl2{background:var(--honey);} .fb-lv.lvl3{background:var(--high);}
+.fb-lv.lvl-note{background:#FFF7EA;color:var(--honey);box-shadow:inset 0 0 0 1.5px var(--honey);}
 .fb-note{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.55;}
 .fb-note b{color:var(--teal-deep);font-weight:700;}
 .fb-bar{height:13px;border-radius:99px;background:#EEF3F1;overflow:hidden;}
@@ -375,6 +396,10 @@ input[type=range].prange:focus{outline:none;}
 .sscauses li:first-child::before{background:var(--high);}
 .ssgoal{background:var(--good-bg);border-radius:12px;padding:13px 14px;font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--ink);}
 .sheet-foot{margin-top:4px;font-size:13px;color:var(--muted);text-align:center;border-top:2px dashed var(--line);padding-top:13px;}
+.ss-summary{background:#F2FBF9;border:1px solid #CDEAE4;border-radius:13px;padding:12px 14px;margin-bottom:12px;}
+.ss-summary-eyebrow{font-family:"Zen Maru Gothic";font-weight:700;font-size:12.5px;color:var(--teal-deep);margin-bottom:5px;}
+.ss-summary-txt{font-size:14px;line-height:1.65;color:var(--ink);}
+.ss-summary-txt b{color:var(--teal-deep);}
 .staff-actions{margin-top:14px;}
 @media print{
   .botnav,.topbar,.back,.staff-actions,.phead{display:none!important;}
@@ -439,13 +464,19 @@ input[type=range].prange:focus{outline:none;}
       </div>
       <div class="input-row">
         <label for="pInput">今回のリン</label>
-        <input class="pval" id="pInput" type="number" inputmode="decimal" step="0.1" min="0" max="15" placeholder="5.0">
+        <input class="pval" id="pInput" type="number" inputmode="decimal" step="0.1" min="0" max="15" placeholder="—">
         <button class="btn-small" id="pSet">みる</button>
       </div>
       <div class="target-note">透析の方の目安は <b>3.5〜5.5 mg/dL</b>（5.5以下が目標）。施設で目標が違うこともあります。</div>
     </div>
 
+    <div class="scroll-cue" aria-hidden="true">
+      <span class="scroll-cue-txt">数字を入れたら、下の<b>「なんで上がった？」</b>をタップ</span>
+      <span class="scroll-cue-arrow">↓</span>
+    </div>
+
     <button class="cta-big" data-go="seek">
+      <span class="cta-badge">まずはここ</span>
       <div class="cic">🔎</div>
       <div><b>なんで上がった？ さがす</b><span>今回上がった原因を一緒にたどります</span></div>
       <div class="arr">›</div>
@@ -644,18 +675,18 @@ function applyValue(v){
   if(slider) slider.value=Math.min(Math.max(v,MIN),MAX);  // スライダーは2〜10の範囲で表示
   setGauge(v);
 }
-/* 初期表示は 5.0（ダイヤルの出発点）。 */
-state.curP=5.0;
-document.getElementById('pInput').value='5.0';
-if(slider) slider.value='5.0';
-/* 起動時に針を左端から5.0へスイープ（reduced-motion設定なら瞬時表示） */
+/* 初期は未入力。患者さんが自分で合わせて初めて値が出る（QRで開いた時に「私は5.0だったかな？」と誤解しないように）。 */
+state.curP=null; touched=false;
+document.getElementById('pInput').value='';
+if(slider) slider.value='5.0';   // つまみは中央を出発点に置くだけ（値はまだ未確定）
+/* 起動時、針を左端から中央へそっと動かす演出だけ。数値は「–.–／数字を入れてね」のまま。 */
 (function introSweep(){
   const nd=document.getElementById('needle');
   nd.style.transition='none';
   nd.style.transform='rotate(-90deg)';
   void nd.offsetWidth;            // 一度確定させてから
   nd.style.transition='';         // CSSのtransitionを復活
-  setGauge(5.0);                  // 5.0へアニメーション
+  setGauge(NaN);                  // 「数字を入れてね」状態（針は中央＝上向きに戻る）
 })();
 /* スライダー：指で左右に動かす */
 if(slider) slider.addEventListener('input',()=>applyValue(parseFloat(slider.value)));
@@ -669,6 +700,18 @@ gw.addEventListener('pointerup',()=>{dragging=false;});
 gw.addEventListener('pointercancel',()=>{dragging=false;});
 document.getElementById('pSet').addEventListener('click',()=>{applyValue(parseFloat(document.getElementById('pInput').value));});
 document.getElementById('pInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('pSet').click();});
+/* スクロール誘導：CTAが見えたら／少しスクロールしたら、そっと消す */
+(function(){
+  const cue=document.querySelector('.scroll-cue'), cta=document.querySelector('.cta-big');
+  if(!cue||!cta) return;
+  const hide=()=>cue.classList.add('gone');
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)hide();});},{threshold:.4});
+    io.observe(cta);
+  }
+  window.addEventListener('scroll',()=>{if(window.scrollY>40)hide();},{passive:true});
+})();
+
 /* 全データのリセット（誤操作防止：2回タップ） */
 (function(){
   const rb=document.getElementById('resetAll');
@@ -683,8 +726,8 @@ document.getElementById('pInput').addEventListener('keydown',e=>{if(e.key==='Ent
     }
     clearTimeout(timer); armed=false;
     ['goal','goalDate','goalBaseP','causes','sumCur','goalDone','goalTrouble','pctInorg','staffDetails'].forEach(k=>Store.del(k));
-    state.curP=5.0; touched=false;
-    document.getElementById('pInput').value='5.0'; if(slider) slider.value='5.0'; setGauge(5.0);
+    state.curP=null; touched=false;
+    document.getElementById('pInput').value=''; if(slider) slider.value='5.0'; setGauge(NaN);
     renderGoalBanner();
     rb.textContent='✓ 消しました。はじめからです'; rb.style.color='var(--good)';
     setTimeout(()=>{rb.textContent=LABEL;rb.style.color='';},2500);
@@ -703,8 +746,8 @@ const CAT={
     bad:'牛乳・ヨーグルト・チーズが増えていたかも。体に良い面もありますが、毎日たくさんだとリンが上がることがあります。',
     goals:['牛乳を半分にする','ヨーグルトを隔日にする','チーズを毎日食べない','ピザ・グラタンを減らす']},
   drink:{name:'飲み物',icon:'🥤',
-    bad:'コーラなどの飲み物が増えていたかも。飲み物のリンは吸収されやすく、見落とされがちです。',
-    goals:['コーラを麦茶・水に変える日を作る','炭酸飲料を毎日飲まない','大きいサイズを小さいサイズにする']},
+    bad:'飲み物のリンは水に溶けていて吸収が速く、見落とされがちです。ポイントは「足すもの」と「酸味料（リン酸）」。牛乳・クリーマーを足すと増え、コーラ類はゼロ・トクホ（メッツコーラなど）でも吸収されやすいリンを含む商品があります。お茶・水・無糖の炭酸水・ブラックは安心の置きかえ先です。',
+    goals:['コーラ類（ゼロ・トクホを含む）を無糖の炭酸水・お茶にかえる','コーヒー・お茶は「足すもの（牛乳・クリーマー）」を減らす','水分補給のベースを麦茶・水にする']},
   snack:{name:'間食・おやつ',icon:'🍩',
     bad:'菓子パンやお菓子などの間食が増えていたかも。少しずつでも毎日続くと積み重なります。',
     goals:['菓子パンを減らす','お菓子を半分にする','ナッツ・小魚のおつまみを毎日食べない']},
@@ -740,13 +783,24 @@ const FOODQ=[
   {id:'frozen',t:'冷凍食品',e:'🧊',cat:'proc',pts:2,r:2,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
   {id:'fast',t:'ファストフード',e:'🍔',cat:'proc',pts:2,r:3,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
   {id:'eatout',t:'外食が増えた',e:'🍽️',cat:'event',pts:2,r:2,g:'🏪 コンビニ・外食・テイクアウト'},
-  {id:'cola',t:'コーラ系の飲料',e:'🥤',cat:'drink',pts:3,r:3,inorg:1,g:'🥤 飲み物'},
-  {id:'soda',t:'サイダーなど甘い透明炭酸',e:'🧋',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
-  {id:'sports',t:'スポーツドリンク',e:'🧃',cat:'drink',pts:1,r:1,g:'🥤 飲み物'},
-  {id:'energy',t:'栄養ドリンク',e:'⚡',cat:'drink',pts:2,r:2,inorg:1,g:'🥤 飲み物'},
-  {id:'lacto',t:'乳酸菌飲料',e:'🍶',cat:'drink',pts:1,r:2,g:'🥤 飲み物'},
-  {id:'cocoa',t:'ミルクココア・カフェオレ',e:'☕',cat:'drink',pts:1,r:2,g:'🥤 飲み物'},
-  {id:'protein',t:'飲むヨーグルト・プロテイン飲料',e:'🥛',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'cola',t:'コーラ類',e:'🥤',cat:'drink',pts:3,r:3,inorg:1,badge:'ゼロでもリン高の罠',g:'🥤 飲み物'},
+  {id:'coffee_milk',t:'カフェオレ・カフェラテ',e:'🥛',cat:'drink',pts:3,r:3,inorg:0,g:'🥤 飲み物'},
+  {id:'coffee_can',t:'甘い缶コーヒー・コーヒー牛乳',e:'🧃',cat:'drink',pts:3,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'milktea',t:'ミルクティー・抹茶ラテ・タピオカ',e:'🧋',cat:'drink',pts:3,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'coffee_stick',t:'クリーマー・スティックコーヒー(3in1)',e:'🥄',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'cocoa',t:'ミルクココア・モカ',e:'🍫',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'protein',t:'飲むヨーグルト・プロテイン飲料',e:'💪',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
+  {id:'energy',t:'栄養ドリンク・エナジードリンク',e:'⚡',cat:'drink',pts:2,r:2,inorg:1,g:'🥤 飲み物'},
+  {id:'gyokuro',t:'玉露・抹茶・粉末緑茶',e:'👑',cat:'drink',pts:2,r:2,inorg:0,g:'🥤 飲み物'},
+  {id:'plantmilk',t:'豆乳・アーモンド/オーツミルク',e:'🌱',cat:'drink',pts:1,r:2,inorg:0,g:'🥤 飲み物'},
+  {id:'lacto',t:'乳酸菌飲料',e:'🍶',cat:'drink',pts:1,r:2,inorg:0,g:'🥤 飲み物'},
+  {id:'sports',t:'スポーツドリンク',e:'🏃',cat:'drink',pts:1,r:2,inorg:0,g:'🥤 飲み物'},
+  {id:'coffee_black',t:'ブラックコーヒー(無糖・乳なし)',e:'☕',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
+  {id:'tea_plain',t:'緑茶・ほうじ茶・ウーロン茶(無糖)',e:'🍵',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
+  {id:'mugicha',t:'麦茶・玄米茶',e:'🌾',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
+  {id:'soda',t:'サイダー・炭酸水',e:'🫧',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
+  {id:'beer',t:'ビール・お酒の量が増えた',e:'🍺',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
+  {id:'volume',t:'飲む量そのものが増えた(水・お茶でも)',e:'💧',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
   {id:'pan',t:'菓子パン・デニッシュ',e:'🍩',cat:'snack',pts:2,r:3,inorg:1,g:'🍰 おやつ・間食'},
   {id:'donut',t:'ドーナツ・ケーキ',e:'🍰',cat:'snack',pts:2,r:2,inorg:1,g:'🍰 おやつ・間食'},
   {id:'choco',t:'チョコ・スナック菓子',e:'🍫',cat:'snack',pts:1,r:2,g:'🍰 おやつ・間食'},
@@ -777,13 +831,24 @@ const FOODINFO={
   conbini:{why:'ハム・練り物・チーズが入りがちです。',sw:'おにぎり・サラダ・焼き魚に',goals:['お弁当の加工肉・練り物を残す','おにぎりや焼き魚などシンプルなものを選ぶ']},
   frozen:{why:'加工・添加物が多くなりがちです。',sw:'素材から作るものに',goals:['冷凍食品を今より週1回減らす','なるべく素材から調理されたものを選ぶ']},
   fast:{why:'加工肉・チーズ・コーラが重なります。',sw:'頻度を減らす／飲み物をお茶に',goals:['ファストフードの回数を減らす','セットの飲み物をお茶や水にする']},
-  cola:{why:'商品によってリン酸が使われ、自然のリンより吸収されやすいとされています。',sw:'お茶・水・無糖の炭酸水にかえる',goals:['コーラをお茶や水に変える日を作る','飲む量を半分にする']},
-  soda:{why:'透明な炭酸はリンが少なめです。甘いものは糖分に注意。',sw:'お茶や無糖の炭酸水に',goals:['甘い炭酸飲料を無糖の炭酸水に変える','飲む量を半分にする']},
-  sports:{why:'糖分・水分が多く、飲みすぎ注意です。',sw:'普段はお茶・水に',goals:['のどが渇いた時はお茶か水にする','飲む量を半分にする']},
-  energy:{why:'添加物・カフェインが多めです。',sw:'常用しない',goals:['栄養ドリンクを毎日飲まない','疲れた時はしっかり休養をとる']},
-  lacto:{why:'飲む量が増えがちです。',sw:'1日1本までに',goals:['乳酸菌飲料を1日1本までにする','毎日飲んでいる場合は1日おきにする']},
-  cocoa:{why:'乳成分でリンが入ります。',sw:'ブラック・お茶にかえる',goals:['ミルクココア・カフェオレをブラックやお茶に変える','飲む回数を減らす']},
-  protein:{why:'乳＋添加物でリンが多めです。',sw:'量は主治医・スタッフと相談',goals:['プロテイン飲料の量をスタッフに相談する','飲む回数を減らす']},
+  cola:{why:'コーラ類には、吸収されやすいリン（酸味料のリン酸）を含む商品があります。「ゼロ」でも商品でバラバラで、たとえばコーラのゼロは低めでも、ペプシ〈生〉のゼロは高めです。トクホ（メッツコーラなど）にもリンは入っています。「ゼロ・トクホ＝安心」ではないので、原材料の「酸味料」「リン酸」を確認しましょう。',sw:'無糖の炭酸水・お茶にかえる',goals:['コーラ類をお茶や無糖の炭酸水に変える日を作る','飲む量を半分にする','原材料の「酸味料」「リン酸」を確認する']},
+  coffee_black:{why:'ブラックコーヒー（ドリップ・無糖の缶やインスタントを含む）のリンは少なめで、リンの面では安心です。問題は「足すもの」。',sw:'そのままでOK（ミルク・砂糖を足さない）',goals:['ブラックのまま楽しむ','飲んだ量を「水分」として数える']},
+  coffee_milk:{why:'問題はコーヒーより「牛乳」。カフェオレ・ラテは乳製品としてカウントを。大きいサイズや毎日の習慣は、見逃しやすいリン源です。',sw:'サイズを小さく／ブラックの日を作る',goals:['大きいラテを小さいサイズにする','カフェオレを毎日から減らす','ミルクなしのブラックに変える日を作る']},
+  coffee_can:{why:'乳成分のリンに加え、商品によってリン酸塩・pH調整剤（無機リン）が入ります。「微糖・無糖」は糖の話で、乳成分やリン添加とは別です。',sw:'無糖ブラックの缶に／原材料を確認',goals:['甘い缶コーヒーを無糖ブラックにする','原材料の「リン酸」「pH調整剤」を確認する','1日の本数を減らす']},
+  coffee_stick:{why:'クリーマー（液体・粉末）は植物性でも、乳化や品質調整でリン酸塩が使われることがあります。スティック（3in1）は砂糖＋クリーマーで、ブラックとは別物です。',sw:'量・回数を減らす／ブラック＋少量ミルクに',goals:['クリーマーは1杯1個までにする','スティックコーヒーを減らす','原材料の「リン酸塩」を確認する']},
+  cocoa:{why:'牛乳にココアやチョコが加わり、ブラックよりリン・カリウム・糖分が増えやすいです。',sw:'回数を減らす／お茶にかえる',goals:['ミルクココア・モカを毎日飲まない','飲む回数を減らす']},
+  protein:{why:'乳成分＋添加物でリンが多めです。量や種類は主治医・スタッフと相談しましょう。',sw:'量はスタッフと相談',goals:['プロテイン・栄養補助飲料の量をスタッフに相談する','飲む回数を減らす']},
+  energy:{why:'添加物・カフェインに加え、商品によって無機リンが入ります。常用は避けましょう。',sw:'常用しない',goals:['栄養・エナジードリンクを毎日飲まない','疲れた時はしっかり休養をとる']},
+  gyokuro:{why:'玉露や抹茶は茶葉を濃く使う・丸ごと飲むため、ふつうのお茶よりリン・カリウムが増えます（特にカリウム）。',sw:'日常はふつうのお茶・麦茶に',goals:['玉露・抹茶を毎日の習慣にしない','日常は麦茶やふつうのお茶にする']},
+  plantmilk:{why:'植物性でも、カルシウム・リンを強化した製品やリン酸塩を加えた製品があり、一律に低リンとは限りません。',sw:'無調整・無強化を少量',goals:['「リン酸塩」「強化」の表示を確認する','飲む量を控えめにする']},
+  lacto:{why:'乳成分でリンを含み、飲む量も増えがちです。',sw:'1日1本までに',goals:['乳酸菌飲料を1日1本までにする','毎日飲んでいる場合は1日おきにする']},
+  sports:{why:'商品によって無機リン（酸味料）が入ることがあり、糖分・水分も多めです。汗の塩分補給は食事で調整を。',sw:'ふだんは水・麦茶に',goals:['のどが渇いた時は水か麦茶にする','飲む量を半分にする']},
+  tea_plain:{why:'ふつうの濃さで1〜2杯ならリンはとても少なめで安心です。ただし煎茶や濃いお茶はカリウムが増えるので、がぶ飲みは量を確認。',sw:'濃さ・杯数をほどほどに',goals:['濃いお茶のがぶ飲みを控える','飲んだ量を「水分」として意識する']},
+  mugicha:{why:'麦茶はリンもカリウムもほぼゼロ、ノンカフェイン。最も選びやすい飲み物です（玄米茶も近い低さ）。',sw:'水分補給のベースに',goals:['水分補給のベースを麦茶にする','飲んだ量を「水分」として数える']},
+  soda:{why:'サイダーや炭酸水は、リン酸を使っていない商品が多く、リンは少なめのことが多いです。リン量は「色」ではなく中身（酸味料の種類）で決まります。甘いタイプは糖分に注意、無糖の炭酸水ならより安心。',sw:'無糖の炭酸水に',goals:['甘い炭酸を無糖の炭酸水に変える','飲む量を半分にする']},
+  milktea:{why:'お茶でも「ミルク」が入るとリンが増えます。ペットボトルや粉末のミルクティーは乳成分・リン酸塩も入りがち。紅茶や抹茶そのものとは別物です。',sw:'ストレートティーに／ミルク量を減らす',goals:['ミルクティーをストレートティーに変える','タピオカ・粉末ミルクティーを減らす','原材料の「リン酸塩」を確認する']},
+  beer:{why:'ビール100mLのリンは多くありませんが、何杯も飲むと合計のリン・水分が増えます。焼酎・ウイスキーなど蒸留酒はリンがほぼゼロですが、水分（飲みすぎ）には注意です。',sw:'量を決める／蒸留酒の炭酸割りに',goals:['飲む量（杯数）を決める','水分量に気をつける']},
+  volume:{why:'リンが少ない飲み物でも、たくさん飲めば透析間の体重増加（ドライウェイト超過）につながります。1日の水分制限量を守りましょう。',sw:'1日の水分量を守る',goals:['1日に飲む量（水分）を決めて守る','氷・スープの水分も意識する']},
   pan:{why:'商品によって、膨張剤などにリン酸塩が使われることがあります。',sw:'食パン・おにぎりなどに',goals:['菓子パンを食べる回数を減らす','菓子パンを食パンやおにぎりに変える']},
   donut:{why:'乳・添加物が多めです。',sw:'量・回数を減らす',goals:['ケーキやドーナツを半分にする','食べる回数を減らす']},
   choco:{why:'カカオ・乳でリンがやや多めです。',sw:'小分けにして量を決める',goals:['チョコやスナック菓子を小分けにして食べる','食べる回数を減らす']},
@@ -847,13 +912,14 @@ function stepFood(){
     <div class="ce">🍽️</div><h3>最近1〜2週間で、増えたものは？</h3>
     <p class="pt">リンは1〜2週間で上下します。この期間に<b>前より回数・量が増えたもの</b>を、場面を開いてタップ（複数OK）。当てはまる場面だけでOK。</p>
     <p class="pt" style="margin-top:7px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span class="rtag rt3">リン高</span><span class="rtag rt2">リン中</span><span class="rtag rt1">リン低</span> はリンの上げやすさ。🔥は今の季節に増えやすいもの。</p></div>
-    <div class="season-banner">${s.emoji} <b>今は「${s.name}」。</b>${s.msg}<br>🔥は、この季節に増えやすいものです。</div>`;
+    <div class="season-banner">${s.emoji} <b>今は「${s.name}」。</b>${s.msg}<br>🔥は、この季節に増えやすいものです。</div>
+    <div class="tap-guide"><span class="tg-emoji">👇</span>各場面を<b style="margin:0 3px;">タップして開く</b>と、食品が出てきます</div>`;
   groups.forEach((g,gi)=>{
     const items=FOODQ.filter(f=>f.g===g).slice().sort((a,b)=>(b.r||0)-(a.r||0));
-    html+=`<div class="acc">
-      <button class="acc-head"><span class="acc-t">${g}</span><span class="acc-meta"><span class="acc-count"></span><span class="acc-arr">▾</span></span></button>
+    html+=`<div class="acc${gi===0?' open':''}">
+      <button class="acc-head"><span class="acc-t">${g}</span><span class="acc-meta"><span class="acc-count"></span><span class="acc-toggle"><span class="tg-open">ひらく</span><span class="tg-close">とじる</span><span class="acc-arr">▾</span></span></span></button>
       <div class="acc-body"><div class="chips">`+
-      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}${riskTag(f.r)}</button>`).join('')+
+      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}${f.badge?`<span class="rtag rt-note">${f.badge}</span>`:riskTag(f.r)}</button>`).join('')+
       `</div></div>
     </div>`;
   });
@@ -909,10 +975,15 @@ function stepResult(){
   if(sc.med === 0 && foodRanked.length === 0){
     window.__itemCauses = [];
     Store.del('pctInorg');
+    Store.set('goal','次の受診でスタッフに相談する');
+    Store.set('goalDate', new Date().toLocaleDateString('ja-JP'));
+    Store.del('goalDone'); Store.del('goalTrouble');
+    Store.set('goalBaseP', touched && state.curP!=null ? String(state.curP) : '');
     return `<div class="result-hero"><div class="big">🌿</div><h3>はっきりした原因は見つかりませんでした</h3>
       <p>悪いことではありません。薬の飲み方・食事量・透析時間・体調の変化を、スタッフと一緒に確認しましょう。</p></div>
-      <button class="next-btn" id="toGoal">🎯 次の目標をえらぶ</button>
-      <button class="ghost-btn" id="seekAgain">もう一度さがす</button>`;
+      <button class="next-btn" data-go="staff">📋 スタッフ・家族に見せるレポートを作る</button>
+      <button class="ghost-btn" id="toGoal">🎯 今月の目標を変える</button>
+      <button class="ghost-btn" id="seekAgain">🔎 もう一度さがす</button>`;
   }
   
   let html=`<div class="result-hero"><div class="big">🔎</div><h3>今回の「原因の候補」</h3>
@@ -1000,7 +1071,7 @@ function stepResult(){
       picked.map(f=>{
         const info=FOODINFO[f.id]||{};
         return `<div class="fb"><div class="fb-top"><span>${f.e} ${f.t}</span>
-          <span class="fb-tags">${f.inorg?'<span class="kt">添加リンの可能性</span>':''}<span class="fb-lv lvl${f.r}">リン度 ${lvText[f.r]}</span></span></div>
+          <span class="fb-tags">${f.inorg?'<span class="kt">添加リンの可能性</span>':''}${f.badge?`<span class="fb-lv lvl-note">${f.badge}</span>`:`<span class="fb-lv lvl${f.r}">リン度 ${lvText[f.r]}</span>`}</span></div>
           <div class="fb-bar"><i class="lvl${f.r}" data-w="${Math.round(f.r/3*100)}"></i></div>
           ${info.why?`<div class="fb-note">${info.why}${info.sw?` <b>→ ${info.sw}</b>`:''}</div>`:''}</div>`;
       }).join('')+
@@ -1032,8 +1103,15 @@ function stepResult(){
   itemScores.sort((a, b) => b.v - a.v);
   window.__itemCauses = itemScores;
 
-  html+=`<button class="next-btn" id="toGoal">🎯 今月の目標をえらぶ</button>
-    <button class="ghost-btn" id="seekAgain">もう一度さがす</button>`;
+  // 目標は解析から自動生成（＝おすすめ＝1位の行動）。前回の古い目標が残らないよう毎回上書き。
+  Store.set('goal', itemScores.length ? itemScores[0].goals[0] : '次の受診でスタッフに相談する');
+  Store.set('goalDate', new Date().toLocaleDateString('ja-JP'));
+  Store.del('goalDone'); Store.del('goalTrouble');
+  Store.set('goalBaseP', touched && state.curP!=null ? String(state.curP) : '');
+
+  html+=`<button class="next-btn" data-go="staff">📋 スタッフ・家族に見せるレポートを作る</button>
+    <button class="ghost-btn" id="toGoal">🎯 今月の目標を変える</button>
+    <button class="ghost-btn" id="seekAgain">🔎 もう一度さがす</button>`;
   return html;
 }
 
@@ -1287,17 +1365,36 @@ function renderStaff(){
   const done=Store.get('goalDone'), trouble=Store.get('goalTrouble');
   const dbox=done?`<div class="ssrow"><div class="sslabel">目標の実行度</div><div class="ssval" style="font-size:16px;">${done}</div></div>`:'';
   const tbox=(trouble && trouble!=='特になし')?`<div class="ssrow"><div class="sslabel">困ったこと</div><div class="ssval" style="font-size:15px;font-weight:500;">${trouble}</div></div>`:'';
+  // 解析の一言まとめ（レポート単体で「解析＋まとめ」が一発で読めるように）
+  let summaryLine='';
+  {
+    const topFoods=(details.foods||[]).map(f=>f.name);
+    const hasMed=(details.meds||[]).length>0;
+    if(hasMed && topFoods.length){
+      summaryLine=`今回の解析では、<b>お薬の飲み方</b>と、食べ物では<b>「${topFoods[0]}」</b>${topFoods[1]?`や<b>「${topFoods[1]}」</b>`:''}などが、リン上昇に影響した可能性があります。`;
+    } else if(hasMed){
+      summaryLine=`今回の解析では、<b>お薬の飲み方・タイミング</b>が、リン上昇に影響した可能性があります。`;
+    } else if(topFoods.length){
+      summaryLine=`今回の解析では、食べ物の<b>「${topFoods[0]}」</b>${topFoods[1]?`や<b>「${topFoods[1]}」</b>`:''}などが、リン上昇に影響した可能性があります。`;
+    } else {
+      summaryLine=`今回は、はっきりした原因は記録されていません。お薬・食事・透析・体調を、いっしょに確認させてください。`;
+    }
+  }
+  const sumbox=`<div class="ss-summary"><div class="ss-summary-eyebrow">🔎 今回の解析のまとめ</div><div class="ss-summary-txt">${summaryLine}</div></div>`;
+
   body.innerHTML=`
     <div class="staff-sheet">
       <div class="sheet-head"><span>🩺 リンのまとめ</span><span class="sheet-date">${gd||new Date().toLocaleDateString('ja-JP')}</span></div>
-      ${pinfo}${clist}${gbox}${dbox}${tbox}
+      ${sumbox}${pinfo}${clist}${gbox}${dbox}${tbox}
       <div class="sheet-foot">この画面を見せて、いっしょに相談させてください。</div>
     </div>
     <div class="staff-actions">
       <button class="next-btn" onclick="window.print()">🖨️ 印刷する</button>
+      <button class="ghost-btn" id="staffToGoal">🎯 今月の目標を変える</button>
       <button class="ghost-btn" data-go="seek">🔎 もう一度さがす</button>
     </div>`;
   body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
+  const sg=document.getElementById('staffToGoal'); if(sg) sg.addEventListener('click',()=>openGoalSelect());
 }
 
 /* ===== food signal (tappable, with swaps) ===== */
