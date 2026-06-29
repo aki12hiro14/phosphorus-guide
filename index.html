@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root{
   --bg:#F4F8F6; --surface:#FFFFFF; --ink:#173B39; --muted:#5E7A77;
@@ -27,7 +28,7 @@ body{
   line-height:1.75;-webkit-font-smoothing:antialiased;overscroll-behavior-y:contain;font-size:15px;
 }
 h1,h2,h3,.disp{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif;}
-.app{max-width:520px;margin:0 auto;min-height:100dvh;padding:0 18px calc(124px + env(safe-area-inset-bottom));position:relative;}
+.app{max-width:520px;margin:0 auto;min-height:100dvh;padding:0 18px calc(108px + env(safe-area-inset-bottom));position:relative;}
 button{font-family:inherit;}
 :focus-visible{outline:3px solid rgba(27,154,149,.55);outline-offset:2px;border-radius:8px;}
 
@@ -39,7 +40,7 @@ button{font-family:inherit;}
   box-shadow:0 0 0 3px rgba(27,154,149,.14), inset 0 0 12px rgba(255,255,255,.5);
   display:grid;place-items:center;color:#fff;font-family:"Zen Maru Gothic";font-weight:900;font-size:20px;}
 .topbar .t-title{font-family:"Zen Maru Gothic";font-weight:700;font-size:17px;letter-spacing:.02em;}
-.topbar .t-sub{font-size:11px;color:var(--muted);margin-top:-2px;}
+.topbar .t-sub{font-size:13px;color:var(--muted);margin-top:-2px;}
 
 /* screens */
 .screen{display:none;animation:rise .42s cubic-bezier(.2,.8,.2,1);}
@@ -47,7 +48,7 @@ button{font-family:inherit;}
 @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 @media (prefers-reduced-motion:reduce){.screen{animation:none;}*{transition:none!important;animation:none!important;}}
 
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:6px 0 4px;}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:6px 0 4px;}
 .lead{font-size:15px;color:var(--muted);margin:0 0 18px;}
 
 /* hero / gauge */
@@ -65,6 +66,7 @@ svg.gauge{width:100%;height:auto;display:block;overflow:visible;}
 .zone-good{background:var(--good-bg);color:var(--good);} .zone-warn{background:var(--warn-bg);color:#B9791C;}
 .zone-high{background:var(--high-bg);color:var(--high);} .zone-none{background:#EEF3F1;color:var(--muted);}
 .gauge-msg{font-size:13px;color:var(--muted);margin-top:9px;min-height:18px;}
+.gauge-compare{font-size:13px;color:var(--teal-deep);font-weight:700;margin-top:2px;min-height:16px;}
 .input-row{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:14px;flex-wrap:wrap;}
 .input-row label{font-size:13px;color:var(--muted);}
 .pval{width:96px;font-family:"Zen Maru Gothic";font-weight:700;font-size:23px;text-align:center;
@@ -73,45 +75,41 @@ svg.gauge{width:100%;height:auto;display:block;overflow:visible;}
 .btn-small{background:var(--teal);color:#fff;border:none;border-radius:14px;padding:12px 20px;min-height:46px;
   font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;cursor:pointer;box-shadow:var(--shadow);}
 .btn-small:active{transform:scale(.96);}
-.target-note{font-size:11.5px;color:var(--muted);margin-top:10px;}
+.target-note{font-size:13.5px;color:var(--muted);margin-top:10px;}
 .gauge-wrap{touch-action:pan-y;cursor:ew-resize;}
 .slider-wrap{margin:14px 2px 2px;}
-.slider-hint{font-size:12px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;}
+.slider-hint{font-size:13px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;}
 .slider-hint .ar{font-size:16px;color:var(--teal);}
-input[type=range].prange{-webkit-appearance:none;appearance:none;width:100%;height:58px;background:transparent;cursor:pointer;margin:0;}
+input[type=range].prange{-webkit-appearance:none;appearance:none;width:100%;height:48px;background:transparent;cursor:pointer;margin:0;}
 input[type=range].prange:focus{outline:none;}
-.prange::-webkit-slider-runnable-track{height:22px;border-radius:99px;
+.prange::-webkit-slider-runnable-track{height:18px;border-radius:99px;
   background:linear-gradient(90deg,#9FCBC7 0 18.75%,#3FA776 18.75% 43.75%,#DE6F53 43.75% 100%);}
 .prange::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:46px;height:46px;border-radius:50%;
-  background:#fff;border:6px solid var(--teal-deep);box-shadow:0 4px 14px rgba(15,110,106,.30);margin-top:-12px;}
-.prange::-moz-range-track{height:22px;border-radius:99px;
+  background:#fff;border:6px solid var(--teal-deep);box-shadow:var(--shadow);margin-top:-14px;}
+.prange::-moz-range-track{height:18px;border-radius:99px;
   background:linear-gradient(90deg,#9FCBC7 0 18.75%,#3FA776 18.75% 43.75%,#DE6F53 43.75% 100%);}
-.prange::-moz-range-thumb{width:46px;height:46px;border-radius:50%;background:#fff;border:6px solid var(--teal-deep);box-shadow:0 4px 14px rgba(15,110,106,.30);}
-.slider-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px;padding:0 2px;}
+.prange::-moz-range-thumb{width:46px;height:46px;border-radius:50%;background:#fff;border:6px solid var(--teal-deep);box-shadow:var(--shadow);}
+.prange.unset::-webkit-slider-thumb{background:#fff;border-color:#C7D6D3;opacity:.55;box-shadow:none;}
+.prange.unset::-moz-range-thumb{background:#fff;border-color:#C7D6D3;opacity:.55;box-shadow:none;}
+.slider-scale{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:6px;padding:0 2px;}
 .slider-scale .tgt{color:var(--good);font-weight:700;}
 
 /* primary CTA */
 .cta-big{display:flex;align-items:center;gap:15px;width:100%;text-align:left;cursor:pointer;position:relative;
   background:linear-gradient(135deg,var(--teal-deep),var(--teal));color:#fff;border:none;border-radius:22px;
-  padding:22px 20px;box-shadow:var(--shadow-lg);margin:14px 0 18px;animation:ctaPulse 2.6s ease-in-out infinite;}
+  padding:24px 20px;box-shadow:var(--shadow-lg);margin:22px 0 18px;animation:ctaPulse 2.6s ease-in-out infinite;}
 .cta-big:active{transform:scale(.99);animation:none;}
 .cta-big .cic{font-size:34px;}
 .cta-big b{font-family:"Zen Maru Gothic";font-weight:700;font-size:20px;display:block;}
 .cta-big span{font-size:13.5px;opacity:.92;display:block;margin-top:2px;}
 .cta-big .arr{margin-left:auto;font-size:28px;font-weight:700;animation:arrNudge 1.4s ease-in-out infinite;}
-.cta-badge{position:absolute;top:-11px;left:18px;background:var(--honey);color:#fff;font-family:"Zen Maru Gothic";
-  font-weight:700;font-size:12px;padding:3px 12px;border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.15);}
+.cta-badge{position:absolute;top:-16px;left:18px;background:var(--honey);color:#fff;font-family:"Zen Maru Gothic";
+  font-weight:700;font-size:14px;padding:6px 16px;border-radius:999px;box-shadow:0 4px 10px rgba(0,0,0,.22);
+  animation:badgeBounce 1.4s ease-in-out infinite;}
+@keyframes badgeBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
 @keyframes ctaPulse{0%,100%{box-shadow:0 12px 34px rgba(15,110,106,.16),0 0 0 0 rgba(27,154,149,.42);}
   50%{box-shadow:0 12px 34px rgba(15,110,106,.22),0 0 0 13px rgba(27,154,149,0);}}
 @keyframes arrNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
-/* 下へのスクロール誘導（携帯でスライダーまでで終わりと思われないように） */
-.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:3px;margin:14px 0 2px;color:var(--teal-deep);
-  text-align:center;transition:opacity .4s ease,max-height .4s ease;max-height:90px;overflow:hidden;}
-.scroll-cue.gone{opacity:0;max-height:0;margin:0;pointer-events:none;}
-.scroll-cue-txt{font-family:"Zen Maru Gothic";font-weight:700;font-size:13.5px;line-height:1.5;}
-.scroll-cue-txt b{color:var(--honey);}
-.scroll-cue-arrow{font-size:24px;line-height:1;animation:downBob 1.3s ease-in-out infinite;}
-@keyframes downBob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
 .cta-lead{font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;color:var(--ink);text-align:center;margin:2px 6px 0;line-height:1.6;}
 .menu-head{font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--muted);margin:6px 4px 10px;}
 
@@ -129,14 +127,14 @@ input[type=range].prange:focus{outline:none;}
   transition:transform .15s,box-shadow .2s;color:inherit;}
 .card:active{transform:scale(.985);box-shadow:var(--shadow-lg);}
 .card .ic{width:50px;height:50px;flex:none;border-radius:15px;display:grid;place-items:center;font-size:25px;}
-.ic.i1{background:var(--warn-bg);} .ic.i2{background:var(--high-bg);} .ic.i3{background:#E5F1F0;} .ic.i4{background:#EFE9F7;} .ic.i5{background:#DCEFEC;}
+.ic.i1{background:var(--warn-bg);} .ic.i2{background:var(--high-bg);} .ic.i3{background:#E5F1F0;} .ic.i4{background:#EFE9F7;} .ic.i5{background:#DCEFEC;} .ic.i6{background:var(--blue-bg);} .ic.i7{background:#FFF3D6;}
 .card .ct{flex:1;min-width:0;}
 .card .ct b{font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;display:block;}
 .card .ct span{font-size:13.5px;color:var(--muted);display:block;line-height:1.5;margin-top:1px;}
 .card .arr{color:var(--teal);font-size:22px;flex:none;font-weight:700;}
-.disclaimer{font-size:11px;color:var(--muted);text-align:center;margin:20px 6px 4px;line-height:1.6;}
+.disclaimer{font-size:13px;color:var(--muted);text-align:center;margin:20px 6px 4px;line-height:1.6;}
 .reset-link{display:block;margin:14px auto 4px;background:none;border:none;color:var(--muted);
-  font-size:12px;text-decoration:underline;cursor:pointer;font-family:inherit;padding:6px 10px;}
+  font-size:13px;text-decoration:underline;cursor:pointer;font-family:inherit;padding:6px 10px;}
 .reset-link:active{transform:scale(.97);}
 
 /* page header */
@@ -150,6 +148,7 @@ input[type=range].prange:focus{outline:none;}
 .steps{display:flex;gap:6px;margin:2px 0 16px;}
 .steps > i{flex:1;height:6px;border-radius:99px;background:var(--line);}
 .steps > i.on{background:linear-gradient(90deg,var(--teal),#48C9B0);}
+.continue-note{background:var(--blue-bg);color:var(--blue);font-size:13px;font-weight:700;border-radius:12px;padding:11px 14px;margin-bottom:14px;line-height:1.55;}
 
 /* generic card */
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px 18px;box-shadow:var(--shadow);margin-bottom:13px;}
@@ -183,10 +182,9 @@ input[type=range].prange:focus{outline:none;}
 .season-banner{background:linear-gradient(135deg,#FBEFD8,#FCEDE7);border:1px solid #F0D9B0;border-radius:16px;
   padding:13px 15px;margin-bottom:16px;font-size:13.5px;line-height:1.65;color:var(--ink);}
 .season-banner b{font-weight:700;}
-.chip.season-hot::before{content:"🔥";font-size:12px;margin-right:1px;opacity:.85;}
-.rtag{margin-left:6px;font-size:10.5px;font-weight:700;color:#fff;border-radius:99px;padding:2px 7px;font-family:"Zen Maru Gothic";flex:none;line-height:1.5;}
-.rtag.rt1{background:var(--blue);} .rtag.rt2{background:var(--honey);} .rtag.rt3{background:var(--high);}
-.rtag.rt-note{background:#FFF7EA;color:var(--honey);box-shadow:inset 0 0 0 1.5px var(--honey);}
+.chip.season-hot{border-color:var(--honey);background:#FFFBF2;}
+.chip.season-hot::before{content:"🔥";font-size:13px;}
+.chip.season-hot.on{border-color:var(--teal);background:var(--good-bg);}
 .acc{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;}
 .acc-head{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;cursor:pointer;
   padding:16px 16px;font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--ink);}
@@ -194,32 +192,20 @@ input[type=range].prange:focus{outline:none;}
 .acc-meta{display:flex;align-items:center;gap:10px;}
 .acc-count{font-size:12px;font-weight:700;color:#fff;background:var(--teal);border-radius:99px;padding:2px 9px;display:none;}
 .acc-count.show{display:inline-block;}
-.acc-arr{color:inherit;font-size:12px;transition:transform .25s;}
+.acc-arr{color:var(--teal);font-size:14px;transition:transform .2s;}
 .acc.open .acc-arr{transform:rotate(180deg);}
-.acc-toggle{display:inline-flex;align-items:center;gap:5px;background:var(--good-bg);color:var(--teal-deep);
-  font-family:"Zen Maru Gothic";font-weight:700;font-size:12.5px;line-height:1;padding:6px 11px;border-radius:999px;
-  box-shadow:inset 0 0 0 1.5px rgba(27,154,149,.40);flex:none;}
-.acc.open .acc-toggle{background:#EEF4F2;color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line);}
-.tg-close{display:none;} .acc.open .tg-open{display:none;} .acc.open .tg-close{display:inline;}
 .acc-body{display:none;padding:0 14px 15px;}
 .acc.open .acc-body{display:block;}
-.acc.open{border-color:#CDE7E2;box-shadow:0 8px 22px rgba(15,110,106,.13);}
-.acc.open .acc-head{background:#F5FBF9;}
-/* タップ誘導の小帯（ただの羅列に見えないように） */
-.tap-guide{display:flex;align-items:center;justify-content:center;gap:7px;margin:2px 2px 12px;
-  font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--teal-deep);}
-.tap-guide .tg-emoji{font-size:17px;animation:downBob 1.3s ease-in-out infinite;}
 .risk{display:inline-flex;gap:2px;margin-left:6px;align-items:center;}
 .rd{width:6px;height:6px;border-radius:99px;background:#D7E4E1;}
 .rd.l1{background:var(--blue);} .rd.l2{background:var(--honey);} .rd.l3{background:var(--high);}
 .foodbars{margin-top:8px;}
 .fb{margin-bottom:12px;}
 .fb-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;margin-bottom:5px;}
-.kt{flex:none;font-size:11px;font-weight:700;color:#fff;background:var(--high);border-radius:99px;padding:2px 9px;}
+.kt{flex:none;font-size:12.5px;font-weight:700;color:#fff;background:var(--high);border-radius:99px;padding:2px 9px;}
 .fb-tags{display:flex;align-items:center;gap:6px;flex:none;}
-.fb-lv{flex:none;font-size:11px;font-weight:700;color:#fff;border-radius:99px;padding:2px 9px;font-family:"Zen Maru Gothic";}
+.fb-lv{flex:none;font-size:12.5px;font-weight:700;color:#fff;border-radius:99px;padding:2px 9px;font-family:"Zen Maru Gothic";}
 .fb-lv.lvl1{background:var(--blue);} .fb-lv.lvl2{background:var(--honey);} .fb-lv.lvl3{background:var(--high);}
-.fb-lv.lvl-note{background:#FFF7EA;color:var(--honey);box-shadow:inset 0 0 0 1.5px var(--honey);}
 .fb-note{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.55;}
 .fb-note b{color:var(--teal-deep);font-weight:700;}
 .fb-bar{height:13px;border-radius:99px;background:#EEF3F1;overflow:hidden;}
@@ -230,15 +216,17 @@ input[type=range].prange:focus{outline:none;}
 /* 頻度モーダルとグラフスタイル */
 .freq-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:100;display:none;place-items:center;padding:20px;opacity:0;transition:opacity .2s;}
 .freq-modal.active{display:grid;opacity:1;}
-.modal-content{background:#fff;padding:24px;border-radius:20px;width:100%;max-width:400px;text-align:center;transform:translateY(20px);transition:transform .2s;}
+.modal-content{background:#fff;padding:24px;border-radius:20px;width:100%;max-width:400px;text-align:center;transform:translateY(20px);transition:transform .2s;position:relative;}
 .freq-modal.active .modal-content{transform:none;}
+.modal-x{position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;line-height:1;color:var(--muted);cursor:pointer;padding:8px;}
 .modal-opts button{display:block;width:100%;margin-bottom:8px;padding:14px;border-radius:12px;border:2px solid var(--line);background:#fff;font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;color:var(--ink);transition:.1s;cursor:pointer;}
 .modal-opts button:active{transform:scale(.98);background:var(--good-bg);border-color:var(--good);}
+.modal-opts button[data-freq].on{border-color:var(--teal-deep);background:var(--good-bg);}
 .chart-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0;}
 .bar-wrap{height:20px;border-radius:99px;background:#EEF3F1;display:flex;overflow:hidden;margin:10px 0;}
 .bar-inorg{background:linear-gradient(90deg,var(--high),#EE9A82);transition:width 1s cubic-bezier(.2,.8,.2,1);}
 .bar-org{background:linear-gradient(90deg,var(--good),#9FCBC7);transition:width 1s cubic-bezier(.2,.8,.2,1);}
-.legend{display:flex;gap:12px;font-size:12px;font-weight:700;justify-content:center;color:var(--ink);}
+.legend{display:flex;gap:12px;font-size:13px;font-weight:700;justify-content:center;color:var(--ink);}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;}
 .leg-inorg::before{background:var(--high);} .leg-org::before{background:var(--good);}
 
@@ -291,7 +279,7 @@ input[type=range].prange:focus{outline:none;}
 .goal-opt.on{border-color:var(--good);background:var(--good-bg);font-weight:700;}
 .goal-opt.on .gradio{border-color:var(--good);}
 .goal-opt.on .gradio::after{content:"";width:12px;height:12px;border-radius:99px;background:var(--good);}
-.goal-source{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px;display:block;}
+.goal-source{font-size:13px;font-weight:700;color:var(--teal);margin-bottom:4px;display:block;}
 
 /* traffic-light food guide */
 .signal{border-radius:20px;padding:18px;margin-bottom:13px;box-shadow:var(--shadow);border:1px solid var(--line);}
@@ -302,7 +290,7 @@ input[type=range].prange:focus{outline:none;}
 .signal .dot{width:18px;height:18px;border-radius:99px;flex:none;}
 .signal.red .dot{background:var(--high);} .signal.yellow .dot{background:var(--honey);} .signal.blue .dot{background:var(--blue);}
 .signal h3{font-family:"Zen Maru Gothic";font-weight:900;font-size:16px;margin:0;}
-.signal .sl{font-size:12.5px;color:var(--muted);margin:0 0 11px 28px;}
+.signal .sl{font-size:13.5px;color:var(--muted);margin:0 0 11px 28px;}
 .foods{display:flex;flex-wrap:wrap;gap:7px;}
 .ftag{background:#fff;border:1px solid var(--line);border-radius:11px;padding:7px 11px;font-size:14.5px;font-weight:500;
   display:flex;align-items:center;gap:5px;}
@@ -314,25 +302,7 @@ input[type=range].prange:focus{outline:none;}
 .sig-tip .tipbox .tt{font-weight:700;font-family:"Zen Maru Gothic";font-size:14px;}
 .sig-tip .tipbox .sw{color:var(--good);font-weight:700;}
 .sig-tip .tipbox .sw.blue{color:var(--blue);}
-.label-tip{margin-top:11px;background:#fff;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.55;color:var(--ink);}
-.advice-hero{position:relative;margin:18px 0;padding:20px 18px 20px 22px;border-radius:20px;
-  background:linear-gradient(135deg,#E7F6F0,#F3FBF8);border:2px solid var(--good);
-  box-shadow:0 12px 32px rgba(63,167,118,.22);}
-.advice-hero::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:6px;border-radius:0 99px 99px 0;background:var(--good);}
-.advice-eyebrow{display:flex;align-items:center;gap:10px;font-family:"Zen Maru Gothic";font-weight:700;font-size:18px;color:var(--teal-deep);margin:0 0 10px;}
-.advice-badge{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 3px 9px rgba(0,0,0,.10);font-size:20px;flex:none;}
-.advice-text{color:var(--ink);font-weight:600;font-size:16.5px;line-height:1.75;margin:0;}
-.ref-card{background:linear-gradient(135deg,#EAF6F4,#F4FBF9);border:1.5px solid var(--teal);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(15,110,106,.10);}
-.ref-head{font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--teal-deep);margin:0 0 12px;}
-.ref-stats{display:flex;gap:10px;}
-.ref-stat{flex:1;background:#fff;border-radius:14px;padding:13px 8px;text-align:center;box-shadow:0 2px 7px rgba(0,0,0,.05);}
-.ref-label{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px;line-height:1.4;}
-.ref-val{font-family:"Zen Maru Gothic";color:var(--teal-deep);line-height:1;white-space:nowrap;}
-.ref-val b{font-size:23px;font-weight:700;}
-.ref-val span{font-size:12px;margin-left:3px;color:var(--muted);}
-.ref-note{font-size:11.5px;color:var(--ink);margin-top:7px;line-height:1.45;}
-.ref-foot{font-size:12.5px;color:var(--ink);margin-top:12px;line-height:1.6;background:#fff;border-radius:11px;padding:10px 12px;}
-.ref-foot b{color:var(--high);}
+.label-tip{margin-top:11px;background:#fff;border-radius:12px;padding:11px 13px;font-size:13.5px;line-height:1.55;color:var(--ink);}
 .sig-legend{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-bottom:14px;
   display:flex;gap:14px;align-items:center;box-shadow:var(--shadow);}
 .sig-legend .tl{display:flex;flex-direction:column;gap:5px;flex:none;background:#37474F;border-radius:9px;padding:6px;}
@@ -354,9 +324,23 @@ input[type=range].prange:focus{outline:none;}
 .cbar{height:9px;border-radius:99px;background:#fff;margin-top:7px;overflow:hidden;}
 .cbar > i{display:block;height:100%;border-radius:99px;}
 
+/* protein ranking */
+.prank-row{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
+  border-radius:18px;padding:16px;margin-bottom:11px;box-shadow:var(--shadow);}
+.prank-row .pr-medal{font-size:30px;flex:none;width:38px;text-align:center;line-height:1.2;}
+.prank-row .pr-body{flex:1;min-width:0;}
+.prank-row .pr-name{font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;margin-bottom:3px;}
+.prank-row .pr-tip{font-size:14px;color:var(--muted);line-height:1.55;margin:0;}
+.prank-bar{height:9px;border-radius:99px;background:#EEF3F1;margin-top:10px;overflow:hidden;}
+.prank-bar > i{display:block;height:100%;border-radius:99px;}
+.prank-axis{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin:4px 2px 14px;font-weight:700;}
+
 /* quiz */
+.quiz-progress{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:var(--teal-deep);margin-bottom:4px;}
+.quiz-progress .qp-count{color:var(--muted);}
 .quiz-score{font-size:13px;color:var(--muted);text-align:center;margin-bottom:12px;font-weight:700;}
 .quiz-q{font-family:"Zen Maru Gothic";font-weight:700;font-size:18px;text-align:center;margin-bottom:16px;}
+.qkey{color:var(--high);text-decoration:underline;text-decoration-thickness:2.5px;text-decoration-color:var(--high);text-underline-offset:2px;}
 .versus{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch;}
 .food{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:20px 12px;text-align:center;
   cursor:pointer;box-shadow:var(--shadow);transition:.15s;display:flex;flex-direction:column;align-items:center;gap:6px;}
@@ -365,29 +349,66 @@ input[type=range].prange:focus{outline:none;}
 .vs{align-self:center;font-family:"Zen Maru Gothic";font-weight:900;color:var(--muted);font-size:16px;}
 .food.correct{border-color:var(--good);background:var(--good-bg);}
 .food.wrong{border-color:var(--high);background:var(--high-bg);opacity:.85;}
-.food .mg{font-size:12px;color:var(--muted);font-weight:700;min-height:16px;}
+.food .mg{font-size:13px;color:var(--muted);font-weight:700;min-height:16px;}
 .reveal{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-top:14px;box-shadow:var(--shadow);animation:rise .3s;}
-.reveal .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--warn-bg);color:#B9791C;margin-bottom:6px;}
+.reveal .tag{display:inline-block;font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--warn-bg);color:#B9791C;margin-bottom:6px;}
 .reveal p{font-size:13.5px;margin:0;}
+.result-badge{display:block;font-family:"Zen Maru Gothic";font-weight:900;border-radius:99px;margin-bottom:8px;text-align:center;}
+.result-badge.is-correct{font-size:21px;padding:12px 20px;color:#fff;letter-spacing:.02em;
+  background:linear-gradient(135deg,#3FA776,#48C9B0);box-shadow:0 10px 22px rgba(63,167,118,.45);
+  animation:badgePop .6s cubic-bezier(.2,1.6,.4,1);}
+.result-badge.is-wrong{font-size:15.5px;padding:7px 16px;color:#B9791C;background:var(--warn-bg);
+  box-shadow:none;animation:badgeFadeIn .3s ease;}
+.reveal-cat{display:block;text-align:center;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;}
+@keyframes badgePop{
+  0%{transform:scale(.35) rotate(-8deg);opacity:0;}
+  55%{transform:scale(1.18) rotate(3deg);opacity:1;}
+  78%{transform:scale(.94) rotate(-1deg);}
+  100%{transform:scale(1) rotate(0);}
+}
+@keyframes badgeFadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
+.quiz-stage-banner{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--teal-deep),var(--teal));
+  color:#fff;border-radius:16px;padding:12px 16px;margin-bottom:14px;box-shadow:var(--shadow);}
+.quiz-stage-banner .qsb-num{font-family:"Zen Maru Gothic";font-weight:900;font-size:13px;background:rgba(255,255,255,.25);
+  padding:4px 10px;border-radius:99px;flex:none;}
+.quiz-stage-banner .qsb-title{font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;}
+.quiz-note{background:var(--warn-bg);border-radius:12px;padding:11px 14px;margin-top:10px;font-size:13.5px;color:var(--ink);line-height:1.55;}
+.quiz-note b{display:block;font-family:"Zen Maru Gothic";font-weight:700;font-size:12.5px;color:#B9791C;margin-bottom:3px;}
+.quiz-stage-summary{background:var(--good-bg);border:1px solid #BFE3D0;border-radius:14px;padding:13px 15px;margin-top:12px;}
+.quiz-stage-summary .qss-label{font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--good);display:block;margin-bottom:4px;}
+.quiz-stage-summary p{font-size:14.5px;margin:0;color:var(--ink);}
+.quiz-overall{background:var(--good-bg);border:1px solid #BFE3D0;border-radius:14px;padding:11px 15px;margin-bottom:16px;font-size:14px;color:var(--ink);text-align:center;}
+.quiz-map{display:grid;gap:12px;margin-bottom:6px;}
+.quiz-map-card{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:var(--surface);
+  border:1px solid var(--line);border-radius:18px;padding:15px 16px;cursor:pointer;box-shadow:var(--shadow);color:inherit;font-family:inherit;}
+.quiz-map-card:active{transform:scale(.985);}
+.quiz-map-card.done{border-color:#BFE3D0;background:var(--good-bg);}
+.quiz-map-card .qmc-num{width:38px;height:38px;flex:none;border-radius:50%;background:var(--teal-deep);color:#fff;
+  display:grid;place-items:center;font-family:"Zen Maru Gothic";font-weight:900;font-size:16px;}
+.quiz-map-card.done .qmc-num{background:var(--good);font-size:19px;}
+.quiz-map-card .qmc-body{flex:1;min-width:0;}
+.quiz-map-card .qmc-body b{font-family:"Zen Maru Gothic";font-weight:700;font-size:15.5px;display:block;}
+.quiz-map-card .qmc-body span{font-size:13px;color:var(--muted);display:block;margin-top:2px;}
+.quiz-map-card .qmc-arr{color:var(--teal);font-size:22px;flex:none;font-weight:700;}
 
 /* big saved-goal card */
 .share-card{background:linear-gradient(135deg,var(--teal-deep),var(--teal));color:#fff;border-radius:20px;
   padding:20px;margin-top:6px;text-align:center;box-shadow:var(--shadow-lg);}
-.share-card .gl{font-size:12px;opacity:.85;font-weight:700;}
+.share-card .gl{font-size:13px;opacity:.85;font-weight:700;}
 .share-card .gv{font-family:"Zen Maru Gothic";font-weight:700;font-size:19px;margin:7px 0 9px;line-height:1.5;}
-.share-card p{font-size:12.5px;opacity:.92;margin:0;}
+.share-card p{font-size:13.5px;opacity:.92;margin:0;}
 .empty{text-align:center;color:var(--muted);padding:26px 14px;font-size:14px;}
 
 /* staff summary sheet */
 .staff-sheet{background:#fff;border:2px solid var(--teal-deep);border-radius:20px;padding:20px 18px;box-shadow:var(--shadow);}
 .sheet-head{display:flex;justify-content:space-between;align-items:center;font-family:"Zen Maru Gothic";font-weight:900;
   font-size:18px;color:var(--teal-deep);border-bottom:2px dashed var(--line);padding-bottom:10px;margin-bottom:15px;}
-.sheet-date{font-size:13px;color:var(--muted);font-weight:500;}
+.sheet-date{font-size:13.5px;color:var(--muted);font-weight:500;}
 .ssrow{margin-bottom:16px;}
-.sslabel{font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:6px;}
+.sslabel{font-size:13.5px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:6px;}
 .ssval{font-family:"Zen Maru Gothic";font-weight:700;font-size:19px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .ssval .cur{padding:3px 10px;border-radius:9px;}
-.ssval .u{font-size:12px;color:var(--muted);font-weight:500;}
+.ssval .u{font-size:13px;color:var(--muted);font-weight:500;}
 .sscauses{margin:0;padding:0;list-style:none;counter-reset:c;}
 .sscauses li{counter-increment:c;font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;padding:9px 0;
   border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;}
@@ -396,11 +417,16 @@ input[type=range].prange:focus{outline:none;}
 .sscauses li:first-child::before{background:var(--high);}
 .ssgoal{background:var(--good-bg);border-radius:12px;padding:13px 14px;font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--ink);}
 .sheet-foot{margin-top:4px;font-size:13px;color:var(--muted);text-align:center;border-top:2px dashed var(--line);padding-top:13px;}
-.ss-summary{background:#F2FBF9;border:1px solid #CDEAE4;border-radius:13px;padding:12px 14px;margin-bottom:12px;}
-.ss-summary-eyebrow{font-family:"Zen Maru Gothic";font-weight:700;font-size:12.5px;color:var(--teal-deep);margin-bottom:5px;}
-.ss-summary-txt{font-size:14px;line-height:1.65;color:var(--ink);}
-.ss-summary-txt b{color:var(--teal-deep);}
 .staff-actions{margin-top:14px;}
+.staff-share-callout{text-align:center;font-family:"Zen Maru Gothic";font-weight:700;font-size:14.5px;
+  color:var(--teal-deep);margin:2px 4px 12px;line-height:1.55;}
+.save-img-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:linear-gradient(135deg,#F2994A,var(--honey));
+  color:#fff;border:none;border-radius:16px;padding:17px;font-family:"Zen Maru Gothic";font-weight:700;font-size:17px;
+  cursor:pointer;box-shadow:0 10px 26px rgba(232,163,61,.38);animation:saveBtnPulse 2.2s ease-in-out infinite;}
+.save-img-btn:active{transform:scale(.98);animation:none;}
+.save-img-btn:disabled{opacity:.65;cursor:not-allowed;animation:none;}
+@keyframes saveBtnPulse{0%,100%{box-shadow:0 10px 26px rgba(232,163,61,.38),0 0 0 0 rgba(232,163,61,.45);}
+  50%{box-shadow:0 10px 26px rgba(232,163,61,.48),0 0 0 11px rgba(232,163,61,0);}}
 @media print{
   .botnav,.topbar,.back,.staff-actions,.phead{display:none!important;}
   .app{padding:0;max-width:100%;} body{background:#fff;}
@@ -415,18 +441,16 @@ input[type=range].prange:focus{outline:none;}
 .ss-list-food li:last-child { border-bottom: none; }
 .fname { font-family: "Zen Maru Gothic"; font-weight: 700; font-size: 15px; }
 .fmeta { display: flex; align-items: center; gap: 6px; flex:none;}
-.kt-small { font-size: 10.5px; font-weight: 700; color: #fff; background: var(--high); border-radius: 99px; padding: 2px 7px; }
-.freq { font-size: 12px; color: var(--muted); background: var(--bg); padding: 3px 8px; border-radius: 8px; font-weight: 700; }
+.kt-small { font-size: 12.5px; font-weight: 700; color: #fff; background: var(--high); border-radius: 99px; padding: 2px 7px; }
+.freq { font-size: 13px; color: var(--muted); background: var(--bg); padding: 3px 8px; border-radius: 8px; font-weight: 700; }
 
 /* bottom nav */
 .botnav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);
   border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 6px calc(8px + env(safe-area-inset-bottom));}
 .botnav button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;
-  font-family:"Zen Maru Gothic";font-weight:700;font-size:11.5px;color:var(--muted);cursor:pointer;padding:6px 6px;border-radius:12px;flex:1;max-width:84px;}
+  font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--muted);cursor:pointer;padding:6px 6px;border-radius:12px;flex:1;max-width:84px;}
 .botnav button .ne{font-size:21px;line-height:1;}
 .botnav button.on{color:var(--teal-deep);}
-body.seek-mode .botnav{display:none;}
-body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
 </style>
 </head>
 <body>
@@ -458,33 +482,27 @@ body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
         <span class="gauge-val" id="gVal">–.–</span><span class="gauge-unit">mg/dL</span>
         <div><span class="gauge-zone zone-none" id="gZone">数字を入れてね</span></div>
         <div class="gauge-msg" id="gMsg"></div>
+        <div class="gauge-compare" id="gCompare"></div>
       </div>
       <div class="slider-wrap">
         <div class="slider-hint"><span class="ar">←</span>指で左右に動かして合わせる<span class="ar">→</span></div>
-        <input type="range" class="prange" id="pSlider" min="2" max="10" step="0.1" value="5.0" aria-label="リンの値を左右に動かして合わせるスライダー">
-        <div class="slider-scale"><span>2.0</span><span class="tgt">目標 3.5〜5.5</span><span>10</span></div>
+        <input type="range" class="prange unset" id="pSlider" min="2" max="10" step="0.1" value="2" aria-label="リンの値を左右に動かして合わせるスライダー">
+        <div class="slider-scale"><span>2.0</span><span class="tgt">目標 3.5〜5.5未満</span><span>10</span></div>
       </div>
       <div class="input-row">
         <label for="pInput">今回のリン</label>
-        <input class="pval" id="pInput" type="number" inputmode="decimal" step="0.1" min="0" max="15" placeholder="—">
+        <input class="pval" id="pInput" type="number" inputmode="decimal" step="0.1" min="0" max="15" placeholder="例：5.0">
         <button class="btn-small" id="pSet">みる</button>
       </div>
-      <div class="target-note">透析の方の目安は <b>3.5〜5.5 mg/dL</b>（5.5以下が目標）。施設で目標が違うこともあります。</div>
-    </div>
-
-    <div class="scroll-cue" aria-hidden="true">
-      <span class="scroll-cue-txt">数字を入れたら、下の<b>「なんで上がった？」</b>をタップ</span>
-      <span class="scroll-cue-arrow">↓</span>
+      <div class="target-note">透析の方の目安は <b>3.5以上、5.5未満 mg/dL</b>が目標です。施設で目標が違うこともあります。</div>
     </div>
 
     <button class="cta-big" data-go="seek">
-      <span class="cta-badge">まずはここ</span>
+      <span class="cta-badge">👉 まずはここをタップ</span>
       <div class="cic">🔎</div>
       <div><b>なんで上がった？ さがす</b><span>今回上がった原因を一緒にたどります</span></div>
       <div class="arr">›</div>
     </button>
-
-    <div id="goalBanner"></div>
 
     <div class="menu">
       <button class="card" data-go="why">
@@ -494,6 +512,14 @@ body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
       <button class="card" data-go="signal">
         <div class="ic i2">🚦</div>
         <div class="ct"><b>たべもの信号（赤・黄・青）</b><span>減らすもの／注意するもの／減らしすぎないもの</span></div><div class="arr">›</div>
+      </button>
+      <button class="card" data-go="capx">
+        <div class="ic i6">🧮</div>
+        <div class="ct"><b>カルシウム・リン積（Ca×P）</b><span>定期検査の数字でわかること</span></div><div class="arr">›</div>
+      </button>
+      <button class="card" data-go="prank">
+        <div class="ic i7">🏆</div>
+        <div class="ct"><b>たんぱく質を守る、低リンランキング</b><span>卵白・肉・魚…たんぱく質を減らさずリンを抑えるコツ</span></div><div class="arr">›</div>
       </button>
       <button class="card" data-go="quiz">
         <div class="ic i3">🍙</div>
@@ -505,7 +531,7 @@ body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
       </button>
       <button class="card" data-go="staff">
         <div class="ic i5">🩺</div>
-        <div class="ct"><b>スタッフや家族に見せるまとめ</b><span>今回の値・原因・目標を1枚で。透析中に見せるだけ</span></div><div class="arr">›</div>
+        <div class="ct"><b>スタッフに見せるまとめ</b><span>今回の値・原因・目標を1枚で。透析中に見せるだけ</span></div><div class="arr">›</div>
       </button>
     </div>
 
@@ -514,7 +540,7 @@ body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
   </section>
 
   <section class="screen" id="seek">
-    <div class="phead"><button class="back" id="seekHeadBack">‹</button><h2>なんで上がった？ さがし</h2></div>
+    <div class="phead"><button class="back" id="seekBackBtn">‹</button><h2>なんで上がった？ さがし</h2></div>
     <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i></div>
     <div id="seekBody"></div>
   </section>
@@ -570,9 +596,132 @@ body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
     <button class="next-btn" data-go="seek">🔎 今回の原因をさがしてみる</button>
   </section>
 
+  <section class="screen" id="capx">
+    <div class="phead"><button class="back" data-back>‹</button><h2>カルシウム・リン積（Ca×P）</h2></div>
+
+    <div class="learn-card">
+      <div class="ce">🧮</div>
+      <h3>Ca×P積って、なに？</h3>
+      <p>血液中の<b>カルシウム</b>と<b>リン</b>を掛け算した数字です。定期検査で、リンやカルシウムと一緒に見ている値です。</p>
+      <div style="background:var(--bg);border-radius:14px;padding:14px 16px;margin-top:10px;text-align:center;">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">たとえば</div>
+        <div style="font-family:'Zen Maru Gothic';font-weight:700;font-size:17px;color:var(--ink);">カルシウム 9.0  × リン 6.5 ＝ <span style="color:var(--teal-deep);">58.5</span></div>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="ce">🦴</div>
+      <h3>なぜ気にするの？</h3>
+      <p>カルシウムとリンは、どちらも<b>骨を作る大切な成分</b>です。</p>
+      <p class="pt">ただ、血液の中に両方が多すぎると、骨ではない場所——血管や心臓など——にくっついて、石灰のようにたまることがあります（石灰化）。血管に付くと血管が硬くなり、心臓や脳の病気につながる心配があります。高リン血症やカルシウムの異常が続くと、血管・心臓・肺・目などへの石灰化が問題になります。</p>
+    </div>
+
+    <div class="learn-card">
+      <div class="ce">📏</div>
+      <h3>目安は「55」</h3>
+      <p>Ca×P積が<b>55以上</b>になると、カルシウムとリンの組み合わせが高く、体の中に石灰がたまりやすくなる目安を超えている、という意味です。</p>
+      <p class="pt"><b>55を1回超えただけで、すぐに血管が石灰化するわけではありません。</b>高い状態が何度も続かないように、まずリンをしっかり下げることが大切です。</p>
+    </div>
+
+    <div class="learn-card" style="border:2px solid #BFE3D0;background:linear-gradient(180deg,#EEF8F2,#fff);">
+      <div class="ce">🤝</div>
+      <h3>まとめると</h3>
+      <p>カルシウムとリンは、どちらも骨を作る大切な成分です。しかし、血液の中で両方多くなると、骨ではない場所でくっつき、石灰のように血管や心臓にたまることがあります。</p>
+      <p class="pt">Ca×P積は、カルシウムとリンを掛け算した数字。これが55以上になると、血管が硬くなる危険が高くなる目安と考えます。</p>
+      <p class="pt" style="margin-top:9px;"><b>1回高かっただけで、すぐに大きな病気になるわけではありません。</b>高い状態が続かないように、リンの薬や食事、透析について、いっしょに見直していきましょう。</p>
+    </div>
+
+    <div class="learn-card">
+      <div class="ce">📋</div>
+      <h3>いまの考え方</h3>
+      <p class="pt">Ca×P積だけを見るのではなく、<b>リン値とカルシウム値をそれぞれ適切に管理する</b>のが基本です。2025年改訂の日本透析医学会ガイドラインも、血液透析患者のリン・カルシウムを個別に管理する方針を示しています。</p>
+    </div>
+
+    <button class="next-btn" data-go="seek">🔎 今回の原因をさがしてみる</button>
+  </section>
+
   <section class="screen" id="signal">
     <div class="phead"><button class="back" data-back>‹</button><h2>たべもの信号</h2></div>
     <div id="signalBody"></div>
+  </section>
+
+  <section class="screen" id="prank">
+    <div class="phead"><button class="back" data-back>‹</button><h2>低リンランキング</h2></div>
+
+    <div class="learn-card">
+      <div class="ce">🍖</div>
+      <h3>「量」だけでなく「比」で見る</h3>
+      <p>リンが気になっても、肉・魚・卵を全部減らす必要はありません。<b>「リンの量」だけでなく「たんぱく質に対してリンがどれだけ多いか（リン/たんぱく比）」</b>で見ると、減らさなくていい食べ方が見えてきます。</p>
+      <p class="pt">同じ「たんぱく質」でも、リンの量や、体への吸収されやすさはかなり違います。なるべく比が低いものを選ぶのがコツです。</p>
+    </div>
+
+    <p class="eyebrow" style="margin:18px 4px 6px;">たんぱく質を守る、低リンランキング</p>
+    <div class="prank-axis"><span>低リン・優等生</span><span>リンに注意</span></div>
+    <p style="font-size:13px;color:var(--muted);text-align:center;margin:-6px 4px 14px;">※棒の長さは食品選びのイメージです。実際のリン量は、食品・商品・食べる量によって変わります。</p>
+
+    <div class="prank-row">
+      <div class="pr-medal">🥇</div>
+      <div class="pr-body">
+        <div class="pr-name">卵白</div>
+        <p class="pr-tip">リンがかなり少なく、たんぱく質はしっかり摂れる、いちばんの優等生。ゆで卵の白身だけ、卵白焼き、スープに卵白を足すなど。黄身を外すだけで大きく変わります。</p>
+        <div class="prank-bar"><i style="width:12%;background:var(--good);"></i></div>
+      </div>
+    </div>
+
+    <div class="prank-row">
+      <div class="pr-medal">🥈</div>
+      <div class="pr-body">
+        <div class="pr-name">加工されていない肉・魚</div>
+        <p class="pr-tip">鶏むね肉、ささみ、豚もも・ヒレ、魚の切り身など。ハムや練り物、味付き加工肉に比べて、添加リンを避けやすくなります。</p>
+        <div class="prank-bar"><i style="width:32%;background:var(--good);"></i></div>
+      </div>
+    </div>
+
+    <div class="prank-row">
+      <div class="pr-medal">🥉</div>
+      <div class="pr-body">
+        <div class="pr-name">豆腐・納豆</div>
+        <p class="pr-tip">植物性のリンは比較的吸収されにくいのが利点ですが、リンが少ない食品という意味ではありません。<b>カリウム</b>や食べる量には注意してください。また、<b>ワーファリンを服用している方は、納豆を食べずに医療スタッフへ確認してください。</b></p>
+        <div class="prank-bar"><i style="width:40%;background:#48C9B0;"></i></div>
+      </div>
+    </div>
+
+    <div class="prank-row">
+      <div class="pr-medal">🍳</div>
+      <div class="pr-body">
+        <div class="pr-name">全卵</div>
+        <p class="pr-tip">良質なたんぱく源ですが、リンは主に黄身に含まれます。リンが高いときは、全卵の回数や個数を調整したり、卵白を追加してたんぱく質を補う方法があります。</p>
+        <div class="prank-bar"><i style="width:55%;background:var(--honey);"></i></div>
+      </div>
+    </div>
+
+    <div class="prank-row">
+      <div class="pr-medal">🥛</div>
+      <div class="pr-body">
+        <div class="pr-name">乳製品・チーズ</div>
+        <p class="pr-tip">たんぱく質も摂れますが、リンも多くなりやすい食品です。量と回数を少し調整しましょう。</p>
+        <div class="prank-bar"><i style="width:72%;background:var(--honey);"></i></div>
+      </div>
+    </div>
+
+    <div class="prank-row">
+      <div class="pr-medal">🌭</div>
+      <div class="pr-body">
+        <div class="pr-name">加工肉・練り物・プロテイン製品</div>
+        <p class="pr-tip">ハム・ソーセージ・ちくわ・かまぼこ・一部のサラダチキンやプロテイン飲料には、天然のリンに加えて「添加リン（リン酸塩）」が入っていることがあります。原材料表示の「リン酸」「リン酸塩」をチェックしましょう。</p>
+        <div class="prank-bar"><i style="width:100%;background:var(--high);"></i></div>
+      </div>
+    </div>
+
+    <div class="learn-card" style="border:2px solid #BFE3D0;background:linear-gradient(180deg,#EEF8F2,#fff);margin-top:6px;">
+      <div class="ce">🤝</div>
+      <h3>いちばん大事なメッセージ</h3>
+      <p><b>リンを減らす＝たんぱく質を減らす、ではありません。</b></p>
+      <p class="pt">① 卵は卵白を活用する<br>② ハムや加工肉より、生の肉・魚を選ぶ<br>③ 添加リン（リン酸塩）入りの食品表示を確認する<br>④ 納豆・豆腐は、カリウムや薬との相性に注意して利用する</p>
+      <p class="pt" style="margin-top:9px;">この工夫で、栄養を保ちながらリンを抑えられます。</p>
+    </div>
+
+    <button class="next-btn" data-go="seek">🔎 今回の原因をさがしてみる</button>
   </section>
 
   <section class="screen" id="quiz">
@@ -586,7 +735,7 @@ body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
   </section>
 
   <section class="screen" id="staff">
-    <div class="phead"><button class="back" id="staffBack">‹</button><h2>スタッフや家族に見せる</h2></div>
+    <div class="phead"><button class="back" data-back>‹</button><h2>スタッフに見せる</h2></div>
     <div id="staffBody"></div>
   </section>
 
@@ -594,13 +743,15 @@ body.seek-mode .app{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
 
 <div class="freq-modal" id="freqModal">
   <div class="modal-content">
+    <button class="modal-x" id="modalX" aria-label="閉じる">✕</button>
     <h3 id="modalTitle" style="margin-top:0;font-family:'Zen Maru Gothic';font-size:18px;"></h3>
     <p style="font-size:13.5px;color:var(--muted);margin-bottom:16px;">どのくらいの頻度でしたか？</p>
     <div class="modal-opts">
       <button data-freq="2.0">ほぼ毎日・常備している</button>
       <button data-freq="1.5">週に3〜4回</button>
       <button data-freq="1.0">週に1〜2回・たまに</button>
-      <button id="modalCancel" style="border:none;background:none;color:var(--muted);margin-top:8px;">キャンセル</button>
+      <button id="modalRemove" style="border:none;background:none;color:var(--high);margin-top:6px;font-weight:700;font-size:14px;">この食品の選択をやめる</button>
+      <button id="modalCancel" style="border:none;background:none;color:var(--muted);margin-top:6px;font-size:14px;">キャンセル</button>
     </div>
   </div>
 </div>
@@ -625,65 +776,24 @@ const state={curP:null};
 /* ===== navigation ===== */
 const screens=document.querySelectorAll('.screen');
 const navBtns=document.querySelectorAll('.botnav button');
-let staffReturn='home';
 function go(id){
-  if(id==='staff'){ const cur=document.querySelector('.screen.active'); if(cur && cur.id!=='staff') staffReturn=cur.id; }
-  document.body.classList.toggle('seek-mode', id==='seek');
   screens.forEach(s=>s.classList.toggle('active',s.id===id));
   navBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===id));
   window.scrollTo({top:0,behavior:'instant'});
-  if(id==='seek') startSeek();
+  if(id==='seek'){ if(seekStep===0) startSeek(); else renderSeek(); }
   if(id==='quiz') startQuiz();
   if(id==='signal') renderSignal();
   if(id==='goal') renderGoalPage();
   if(id==='staff') renderStaff();
-  if(id==='home') renderGoalBanner();
-}
-/* レポートの戻る：開く前にいた画面へ。原因の結果から来た時は、結果を保ったまま戻る（やり直さない）。 */
-function backFromStaff(){
-  const t=staffReturn||'home';
-  if(t==='seek'){
-    document.body.classList.add('seek-mode');
-    screens.forEach(s=>s.classList.toggle('active',s.id==='seek'));
-    navBtns.forEach(b=>b.classList.toggle('on',b.dataset.go==='seek'));
-    window.scrollTo({top:0,behavior:'instant'});
-  } else {
-    go(t);
-  }
-}
-/* レポートを画像（PNG）で保存。必要時だけ html2canvas を読み込み、失敗時は印刷へ案内。 */
-async function saveReportImage(){
-  const btn=document.getElementById('saveImg');
-  const sheet=document.querySelector('#staffBody .staff-sheet');
-  if(!sheet) return;
-  const orig=btn?btn.textContent:'';
-  if(btn){btn.disabled=true;btn.textContent='画像を作成中…';}
-  try{
-    if(!window.html2canvas){
-      await new Promise((res,rej)=>{const s=document.createElement('script');
-        s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-        s.onload=res;s.onerror=()=>rej(new Error('load failed'));document.head.appendChild(s);});
-    }
-    const canvas=await window.html2canvas(sheet,{backgroundColor:'#ffffff',scale:2});
-    const date=new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
-    await new Promise(res=>canvas.toBlob(blob=>{
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');a.href=url;a.download='リンのまとめ_'+date+'.png';
-      document.body.appendChild(a);a.click();a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url),5000);res();
-    },'image/png'));
-    if(btn){btn.textContent='✓ 画像を保存しました';setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},2600);}
-  }catch(e){
-    if(btn){btn.textContent='うまくいきません→「印刷」でPDF保存を';setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},3400);}
-  }
 }
 document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
 document.querySelectorAll('[data-back]').forEach(el=>el.addEventListener('click',()=>go('home')));
-(function(){const b=document.getElementById('staffBack'); if(b) b.addEventListener('click',backFromStaff);})();
-(function(){const b=document.getElementById('seekHeadBack'); if(b) b.addEventListener('click',seekBack);})();
+document.getElementById('seekBackBtn').addEventListener('click',()=>{
+  if(seekStep>1){ seekStep--; renderSeek(); } else { go('home'); }
+});
 
 /* ===== gauge ===== */
-const LO=3.5, HI=5.5, MIN=2.0, MAX=10.0;  /* 目標域 3.5〜5.5（5.5以下が目標内）。表示範囲 2.0〜10.0。施設目標はLO/HIを変更 */
+const LO=3.5, HI=5.5, MIN=2.0, MAX=10.0;  /* 目標域 3.5以上5.5未満（2025年版 日本透析医学会ガイドラインに基づく）。表示範囲 2.0〜10.0。施設目標・個別化（高齢・低栄養・糖尿病/動脈硬化性疾患では上限を下げる等）はLO/HIを変更 */
 function polar(v){const t=Math.max(0,Math.min(1,(v-MIN)/(MAX-MIN)));return Math.PI - t*Math.PI;}
 function pt(v,r){const a=polar(v);return [130+r*Math.cos(a),124-r*Math.sin(a)];}
 function arc(v1,v2,r){const [x1,y1]=pt(v1,r),[x2,y2]=pt(v2,r);const lg=(polar(v1)-polar(v2))>Math.PI?1:0;return `M${x1} ${y1} A${r} ${r} 0 ${lg} 1 ${x2} ${y2}`;}
@@ -693,7 +803,7 @@ document.getElementById('arcHigh').setAttribute('d',arc(HI,MAX,100));
 
 function zoneOf(v){
   if(v<LO) return {cls:'zone-warn',label:'少し低め',msg:'栄養がとれているか、栄養士さんに相談を。'};
-  if(v<=HI) return {cls:'zone-good',label:'目標の範囲内 ◎',msg:'いい調子です。この調子で続けましょう。'};
+  if(v<HI) return {cls:'zone-good',label:'目標の範囲内 ◎',msg:'いい調子です。この調子で続けましょう。'};
   if(v<=7.0) return {cls:'zone-high',label:'少し高め',msg:'「なんで上がった？」で原因を見てみましょう。'};
   return {cls:'zone-high',label:'高めです',msg:'食事とお薬を見直し、スタッフにも相談を。'};
 }
@@ -703,12 +813,40 @@ function setGauge(v){
   if(isNaN(v)||v<=0){
     needle.style.transform='rotate(0deg)';valEl.textContent='–.–';
     zoneEl.className='gauge-zone zone-none';zoneEl.textContent='数字を入れてね';
-    msgEl.textContent='';return;
+    msgEl.textContent='今回の採血結果を入力してください';return;
   }
   const cl=Math.max(MIN,Math.min(MAX,v)),a=polar(cl);
   needle.style.transform=`rotate(${-90+(Math.PI-a)*180/Math.PI}deg)`;
   valEl.textContent=v.toFixed(1);
   const z=zoneOf(v); zoneEl.className='gauge-zone '+z.cls; zoneEl.textContent=v>MAX?'高めです（10以上）':z.label; msgEl.textContent=z.msg;
+}
+/* 前回値との比較表示 */
+function showPrevCompare(){
+  const compEl=document.getElementById('gCompare');
+  if(!compEl) return;
+  const prevRaw=Store.get('prevP');
+  if(!prevRaw || prevRaw==='' || state.curP==null){ compEl.textContent=''; return; }
+  const prev=parseFloat(prevRaw);
+  if(isNaN(prev)){ compEl.textContent=''; return; }
+  const diff=Math.round((state.curP-prev)*10)/10;
+  const arrow= diff>0.05?'↑':diff<-0.05?'↓':'→';
+  const sign = diff>0?'+':'';
+  compEl.textContent=`前回 ${prev.toFixed(1)} → 今回 ${state.curP.toFixed(1)} mg/dL（${arrow}${sign}${diff.toFixed(1)}）`;
+}
+/* 確定（保存）：入力欄での「みる」やスライダー・ゲージの操作終了時に呼ぶ。入力した時点で即時保存し、
+   スタッフ画面に「なんで上がった？さがし」を最後までしなくても値が反映されるようにする。
+   同じ起動中（セッション中）に何度入力し直しても、prevPは「直前の確定値」ではなく
+   「このセッションが始まる前の値（＝本当の前回採血値）」のまま固定する。 */
+let valueCommittedThisSession=false;
+function commitValue(){
+  if(!touched || state.curP==null) return;
+  const prevRaw=Store.get('sumCur');
+  if(!valueCommittedThisSession && prevRaw && prevRaw!==''){
+    Store.set('prevP', prevRaw);
+  }
+  Store.set('sumCur', String(state.curP));
+  valueCommittedThisSession=true;
+  showPrevCompare();
 }
 let touched=false;
 const slider=document.getElementById('pSlider');
@@ -717,46 +855,29 @@ function applyValue(v){
   v=Math.round(v*10)/10;                              // 実測値はそのまま保持（10超も丸めない）
   touched=true; state.curP=v;
   document.getElementById('pInput').value=v.toFixed(1);
-  if(slider) slider.value=Math.min(Math.max(v,MIN),MAX);  // スライダーは2〜10の範囲で表示
+  if(slider){ slider.value=Math.min(Math.max(v,MIN),MAX); slider.classList.remove('unset'); }  // スライダーは2〜10の範囲で表示
   setGauge(v);
 }
-/* 初期は未入力。患者さんが自分で合わせて初めて値が出る（QRで開いた時に「私は5.0だったかな？」と誤解しないように）。 */
-state.curP=null; touched=false;
+/* 初期表示は空欄（誤認防止）。実測値が入力されるまで「目標の範囲内」等の判定は出さない。 */
+state.curP=null;
 document.getElementById('pInput').value='';
-if(slider) slider.value='5.0';   // つまみは中央を出発点に置くだけ（値はまだ未確定）
-/* 起動時、針を左端から中央へそっと動かす演出だけ。数値は「–.–／数字を入れてね」のまま。 */
-(function introSweep(){
-  const nd=document.getElementById('needle');
-  nd.style.transition='none';
-  nd.style.transform='rotate(-90deg)';
-  void nd.offsetWidth;            // 一度確定させてから
-  nd.style.transition='';         // CSSのtransitionを復活
-  setGauge(NaN);                  // 「数字を入れてね」状態（針は中央＝上向きに戻る）
-})();
-/* スライダー：指で左右に動かす */
-if(slider) slider.addEventListener('input',()=>applyValue(parseFloat(slider.value)));
+setGauge(NaN);
+showPrevCompare();
+/* スライダー：指で左右に動かす（inputは描画のみ、changeで確定・保存） */
+if(slider){
+  slider.addEventListener('input',()=>applyValue(parseFloat(slider.value)));
+  slider.addEventListener('change',commitValue);
+}
 /* ゲージ本体も左右ドラッグで調整できる */
 const gw=document.querySelector('.gauge-wrap');
 let dragging=false;
 function gaugeFromX(x){const r=gw.getBoundingClientRect();let t=(x-r.left)/r.width;t=Math.max(0,Math.min(1,t));return MIN+t*(MAX-MIN);}
 gw.addEventListener('pointerdown',e=>{dragging=true;try{gw.setPointerCapture(e.pointerId);}catch(_){}applyValue(gaugeFromX(e.clientX));});
 gw.addEventListener('pointermove',e=>{if(dragging){e.preventDefault();applyValue(gaugeFromX(e.clientX));}});
-gw.addEventListener('pointerup',()=>{dragging=false;});
+gw.addEventListener('pointerup',()=>{dragging=false;commitValue();});
 gw.addEventListener('pointercancel',()=>{dragging=false;});
-document.getElementById('pSet').addEventListener('click',()=>{applyValue(parseFloat(document.getElementById('pInput').value));});
+document.getElementById('pSet').addEventListener('click',()=>{applyValue(parseFloat(document.getElementById('pInput').value));commitValue();});
 document.getElementById('pInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('pSet').click();});
-/* スクロール誘導：CTAが見えたら／少しスクロールしたら、そっと消す */
-(function(){
-  const cue=document.querySelector('.scroll-cue'), cta=document.querySelector('.cta-big');
-  if(!cue||!cta) return;
-  const hide=()=>cue.classList.add('gone');
-  if('IntersectionObserver' in window){
-    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)hide();});},{threshold:.4});
-    io.observe(cta);
-  }
-  window.addEventListener('scroll',()=>{if(window.scrollY>40)hide();},{passive:true});
-})();
-
 /* 全データのリセット（誤操作防止：2回タップ） */
 (function(){
   const rb=document.getElementById('resetAll');
@@ -770,10 +891,9 @@ document.getElementById('pInput').addEventListener('keydown',e=>{if(e.key==='Ent
       return;
     }
     clearTimeout(timer); armed=false;
-    ['goal','goalDate','goalBaseP','causes','sumCur','goalDone','goalTrouble','pctInorg','staffDetails'].forEach(k=>Store.del(k));
-    state.curP=null; touched=false;
-    document.getElementById('pInput').value=''; if(slider) slider.value='5.0'; setGauge(NaN);
-    renderGoalBanner();
+    ['goal','goalDate','goalBaseP','causes','sumCur','prevP','goalDone','goalTrouble','pctInorg','staffDetails'].forEach(k=>Store.del(k));
+    state.curP=null; touched=false; valueCommittedThisSession=false;
+    document.getElementById('pInput').value=''; if(slider){ slider.value='2'; slider.classList.add('unset'); } setGauge(NaN); showPrevCompare();
     rb.textContent='✓ 消しました。はじめからです'; rb.style.color='var(--good)';
     setTimeout(()=>{rb.textContent=LABEL;rb.style.color='';},2500);
   });
@@ -791,8 +911,8 @@ const CAT={
     bad:'牛乳・ヨーグルト・チーズが増えていたかも。体に良い面もありますが、毎日たくさんだとリンが上がることがあります。',
     goals:['牛乳を半分にする','ヨーグルトを隔日にする','チーズを毎日食べない','ピザ・グラタンを減らす']},
   drink:{name:'飲み物',icon:'🥤',
-    bad:'飲み物のリンは水に溶けていて吸収が速く、見落とされがちです。ポイントは「足すもの」と「酸味料（リン酸）」。牛乳・クリーマーを足すと増え、コーラ類はゼロ・トクホ（メッツコーラなど）でも吸収されやすいリンを含む商品があります。お茶・水・無糖の炭酸水・ブラックは安心の置きかえ先です。',
-    goals:['コーラ類（ゼロ・トクホを含む）を無糖の炭酸水・お茶にかえる','コーヒー・お茶は「足すもの（牛乳・クリーマー）」を減らす','水分補給のベースを麦茶・水にする']},
+    bad:'コーラなどの飲み物が増えていたかも。飲み物のリンは吸収されやすく、見落とされがちです。',
+    goals:['コーラを麦茶・水に変える日を作る','炭酸飲料を毎日飲まない','大きいサイズを小さいサイズにする']},
   snack:{name:'間食・おやつ',icon:'🍩',
     bad:'菓子パンやお菓子などの間食が増えていたかも。少しずつでも毎日続くと積み重なります。',
     goals:['菓子パンを減らす','お菓子を半分にする','ナッツ・小魚のおつまみを毎日食べない']},
@@ -818,52 +938,41 @@ const MEDQ=[
   {id:'which',t:'どれがリンの薬か分からない',pts:3}
 ];
 const FOODQ=[
-  {id:'ham',t:'ハム・ウインナー',e:'🍖',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
-  {id:'bacon',t:'ベーコン',e:'🥓',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
-  {id:'cheese',t:'プロセスチーズ',e:'🧀',cat:'dairy',pts:3,r:3,inorg:1,g:'🧀 乳製品'},
-  {id:'milk',t:'牛乳を毎日',e:'🥛',cat:'dairy',pts:2,r:2,g:'🧀 乳製品'},
-  {id:'yogurt',t:'ヨーグルトを毎日',e:'🍨',cat:'dairy',pts:2,r:2,g:'🧀 乳製品'},
-  {id:'cup',t:'カップ麺・インスタント',e:'🍜',cat:'proc',pts:3,r:3,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
-  {id:'conbini',t:'コンビニ弁当・惣菜',e:'🍱',cat:'proc',pts:2,r:3,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
-  {id:'frozen',t:'冷凍食品',e:'🧊',cat:'proc',pts:2,r:2,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
-  {id:'fast',t:'ファストフード',e:'🍔',cat:'proc',pts:2,r:3,inorg:1,g:'🏪 コンビニ・外食・テイクアウト'},
-  {id:'eatout',t:'外食が増えた',e:'🍽️',cat:'event',pts:2,r:2,g:'🏪 コンビニ・外食・テイクアウト'},
-  {id:'cola',t:'コーラ類',e:'🥤',cat:'drink',pts:3,r:3,inorg:1,badge:'ゼロでもリン高の罠',g:'🥤 飲み物'},
-  {id:'coffee_milk',t:'カフェオレ・カフェラテ',e:'🥛',cat:'drink',pts:3,r:3,inorg:0,g:'🥤 飲み物'},
-  {id:'coffee_can',t:'甘い缶コーヒー・コーヒー牛乳',e:'🧃',cat:'drink',pts:3,r:3,inorg:1,g:'🥤 飲み物'},
-  {id:'milktea',t:'ミルクティー・抹茶ラテ・タピオカ',e:'🧋',cat:'drink',pts:3,r:3,inorg:1,g:'🥤 飲み物'},
-  {id:'coffee_stick',t:'クリーマー・スティックコーヒー(3in1)',e:'🥄',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
-  {id:'cocoa',t:'ミルクココア・モカ',e:'🍫',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
-  {id:'protein',t:'飲むヨーグルト・プロテイン飲料',e:'💪',cat:'drink',pts:2,r:3,inorg:1,g:'🥤 飲み物'},
-  {id:'energy',t:'栄養ドリンク・エナジードリンク',e:'⚡',cat:'drink',pts:2,r:2,inorg:1,g:'🥤 飲み物'},
-  {id:'gyokuro',t:'玉露・抹茶・粉末緑茶',e:'👑',cat:'drink',pts:2,r:2,inorg:0,g:'🥤 飲み物'},
-  {id:'plantmilk',t:'豆乳・アーモンド/オーツミルク',e:'🌱',cat:'drink',pts:1,r:2,inorg:0,g:'🥤 飲み物'},
-  {id:'lacto',t:'乳酸菌飲料',e:'🍶',cat:'drink',pts:1,r:2,inorg:0,g:'🥤 飲み物'},
-  {id:'sports',t:'スポーツドリンク',e:'🏃',cat:'drink',pts:1,r:2,inorg:0,g:'🥤 飲み物'},
-  {id:'coffee_black',t:'ブラックコーヒー(無糖・乳なし)',e:'☕',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
-  {id:'tea_plain',t:'緑茶・ほうじ茶・ウーロン茶(無糖)',e:'🍵',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
-  {id:'mugicha',t:'麦茶・玄米茶',e:'🌾',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
-  {id:'soda',t:'サイダー・炭酸水',e:'🫧',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
-  {id:'beer',t:'ビール・お酒の量が増えた',e:'🍺',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
-  {id:'volume',t:'飲む量そのものが増えた(水・お茶でも)',e:'💧',cat:'drink',pts:1,r:1,inorg:0,g:'🥤 飲み物'},
-  {id:'pan',t:'菓子パン・デニッシュ',e:'🍩',cat:'snack',pts:2,r:3,inorg:1,g:'🍰 おやつ・間食'},
-  {id:'donut',t:'ドーナツ・ケーキ',e:'🍰',cat:'snack',pts:2,r:2,inorg:1,g:'🍰 おやつ・間食'},
-  {id:'choco',t:'チョコ・スナック菓子',e:'🍫',cat:'snack',pts:1,r:2,g:'🍰 おやつ・間食'},
-  {id:'pudding',t:'プリン・洋菓子',e:'🍮',cat:'snack',pts:1,r:2,g:'🍰 おやつ・間食'},
-  {id:'icecream',t:'アイスクリーム',e:'🍦',cat:'snack',pts:1,r:2,g:'🍰 おやつ・間食'},
-  {id:'nuts',t:'ナッツ',e:'🥜',cat:'snack',pts:2,r:2,g:'🍰 おやつ・間食'},
-  {id:'senbei',t:'せんべい・和菓子',e:'🍘',cat:'snack',pts:1,r:1,g:'🍰 おやつ・間食'},
-  {id:'chikuwa',t:'ちくわ・かまぼこ',e:'🍢',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
-  {id:'satsuma',t:'さつま揚げ・はんぺん',e:'🍥',cat:'proc',pts:3,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
-  {id:'kanikama',t:'カニカマ・魚肉ソーセージ',e:'🦀',cat:'proc',pts:2,r:3,inorg:1,g:'🍖 加工肉・ハム・練り物'},
-  {id:'pizza',t:'ピザ・グラタン',e:'🍕',cat:'dairy',pts:2,r:3,inorg:1,g:'🧀 乳製品'},
-  {id:'roe',t:'たらこ・明太子・いくら',e:'🍣',cat:'fish',pts:2,r:2,g:'🐟 魚卵・小魚・レバー'},
-  {id:'small',t:'ししゃも・小魚・じゃこ',e:'🐟',cat:'fish',pts:2,r:2,g:'🐟 魚卵・小魚・レバー'},
-  {id:'liver',t:'レバー・もつ・白子',e:'🍖',cat:'fish',pts:2,r:2,g:'🐟 魚卵・小魚・レバー'},
-  {id:'travel',t:'旅行に行った',e:'✈️',cat:'event',pts:2,r:1,g:'✈️ 行事・旅行・もらい物'},
-  {id:'gather',t:'法事・集まり・お祝い',e:'🎎',cat:'event',pts:2,r:1,g:'✈️ 行事・旅行・もらい物'},
-  {id:'gift',t:'もらい物を食べた',e:'🎁',cat:'event',pts:1,r:1,g:'✈️ 行事・旅行・もらい物'},
-  {id:'appetite',t:'食欲が出て量が増えた',e:'🍚',cat:'appetite',pts:1,r:1,g:'✈️ 行事・旅行・もらい物'}
+  {id:'ham',t:'ハム・ウインナー',e:'🍖',cat:'proc',pts:3,r:3,inorg:1,g:'朝ごはん'},
+  {id:'bacon',t:'ベーコン',e:'🥓',cat:'proc',pts:3,r:3,inorg:1,g:'朝ごはん'},
+  {id:'cheese',t:'プロセスチーズ',e:'🧀',cat:'dairy',pts:3,r:3,inorg:1,g:'朝ごはん'},
+  {id:'milk',t:'牛乳を毎日',e:'🥛',cat:'dairy',pts:2,r:2,g:'朝ごはん'},
+  {id:'yogurt',t:'ヨーグルトを毎日',e:'🍨',cat:'dairy',pts:2,r:2,g:'朝ごはん'},
+  {id:'cup',t:'カップ麺・インスタント',e:'🍜',cat:'proc',pts:3,r:3,inorg:1,g:'昼・コンビニ・外食'},
+  {id:'conbini',t:'コンビニ弁当・惣菜',e:'🍱',cat:'proc',pts:2,r:3,inorg:1,g:'昼・コンビニ・外食'},
+  {id:'frozen',t:'冷凍食品',e:'🧊',cat:'proc',pts:2,r:2,inorg:1,g:'昼・コンビニ・外食'},
+  {id:'fast',t:'ファストフード',e:'🍔',cat:'proc',pts:2,r:3,inorg:1,g:'昼・コンビニ・外食'},
+  {id:'eatout',t:'外食が増えた',e:'🍽️',cat:'event',pts:2,r:2,g:'昼・コンビニ・外食'},
+  {id:'cola',t:'コーラ系の飲料',e:'🥤',cat:'drink',pts:3,r:3,inorg:1,g:'飲み物'},
+  {id:'soda',t:'サイダーなど甘い透明炭酸',e:'🧋',cat:'drink',pts:1,r:1,inorg:0,g:'飲み物'},
+  {id:'sports',t:'スポーツドリンク',e:'🧃',cat:'drink',pts:1,r:1,g:'飲み物'},
+  {id:'energy',t:'栄養ドリンク',e:'⚡',cat:'drink',pts:2,r:2,inorg:1,g:'飲み物'},
+  {id:'lacto',t:'乳酸菌飲料',e:'🍶',cat:'drink',pts:1,r:2,g:'飲み物'},
+  {id:'cocoa',t:'ミルクココア・カフェオレ',e:'☕',cat:'drink',pts:1,r:2,g:'飲み物'},
+  {id:'protein',t:'飲むヨーグルト・プロテイン飲料',e:'🥛',cat:'drink',pts:2,r:3,inorg:1,g:'飲み物'},
+  {id:'pan',t:'菓子パン・デニッシュ',e:'🍩',cat:'snack',pts:2,r:3,inorg:1,g:'おやつ・間食'},
+  {id:'donut',t:'ドーナツ・ケーキ',e:'🍰',cat:'snack',pts:2,r:2,inorg:1,g:'おやつ・間食'},
+  {id:'choco',t:'チョコ・スナック菓子',e:'🍫',cat:'snack',pts:1,r:2,g:'おやつ・間食'},
+  {id:'pudding',t:'プリン・洋菓子',e:'🍮',cat:'snack',pts:1,r:2,g:'おやつ・間食'},
+  {id:'icecream',t:'アイスクリーム',e:'🍦',cat:'snack',pts:1,r:2,g:'おやつ・間食'},
+  {id:'nuts',t:'ナッツ',e:'🥜',cat:'snack',pts:2,r:2,g:'おやつ・間食'},
+  {id:'senbei',t:'せんべい・和菓子',e:'🍘',cat:'snack',pts:1,r:1,g:'おやつ・間食'},
+  {id:'chikuwa',t:'ちくわ・かまぼこ',e:'🍢',cat:'proc',pts:3,r:3,inorg:1,g:'夕ごはん・おでん・煮物'},
+  {id:'satsuma',t:'さつま揚げ・はんぺん',e:'🍥',cat:'proc',pts:3,r:3,inorg:1,g:'夕ごはん・おでん・煮物'},
+  {id:'kanikama',t:'カニカマ・魚肉ソーセージ',e:'🦀',cat:'proc',pts:2,r:3,inorg:1,g:'夕ごはん・おでん・煮物'},
+  {id:'pizza',t:'ピザ・グラタン',e:'🍕',cat:'dairy',pts:2,r:3,inorg:1,g:'夕ごはん・おでん・煮物'},
+  {id:'roe',t:'たらこ・明太子・いくら',e:'🍣',cat:'fish',pts:2,r:2,g:'夕ごはん・おでん・煮物'},
+  {id:'small',t:'ししゃも・小魚・じゃこ',e:'🐟',cat:'fish',pts:2,r:2,g:'夕ごはん・おでん・煮物'},
+  {id:'liver',t:'レバー・もつ・白子',e:'🍖',cat:'fish',pts:2,r:2,g:'夕ごはん・おでん・煮物'},
+  {id:'travel',t:'旅行に行った',e:'✈️',cat:'event',pts:2,r:1,g:'行事・旅行・もらい物'},
+  {id:'gather',t:'法事・集まり・お祝い',e:'🎎',cat:'event',pts:2,r:1,g:'行事・旅行・もらい物'},
+  {id:'gift',t:'もらい物を食べた',e:'🎁',cat:'event',pts:1,r:1,g:'行事・旅行・もらい物'},
+  {id:'appetite',t:'食欲が出て量が増えた',e:'🍚',cat:'appetite',pts:1,r:1,g:'行事・旅行・もらい物'}
 ];
 /* 品目ごとの「なぜ上げやすいか」＋置きかえ・目標の提案（100点版） */
 const FOODINFO={
@@ -876,24 +985,13 @@ const FOODINFO={
   conbini:{why:'ハム・練り物・チーズが入りがちです。',sw:'おにぎり・サラダ・焼き魚に',goals:['お弁当の加工肉・練り物を残す','おにぎりや焼き魚などシンプルなものを選ぶ']},
   frozen:{why:'加工・添加物が多くなりがちです。',sw:'素材から作るものに',goals:['冷凍食品を今より週1回減らす','なるべく素材から調理されたものを選ぶ']},
   fast:{why:'加工肉・チーズ・コーラが重なります。',sw:'頻度を減らす／飲み物をお茶に',goals:['ファストフードの回数を減らす','セットの飲み物をお茶や水にする']},
-  cola:{why:'コーラ類には、吸収されやすいリン（酸味料のリン酸）を含む商品があります。「ゼロ」でも商品でバラバラで、たとえばコーラのゼロは低めでも、ペプシ〈生〉のゼロは高めです。トクホ（メッツコーラなど）にもリンは入っています。「ゼロ・トクホ＝安心」ではないので、原材料の「酸味料」「リン酸」を確認しましょう。',sw:'無糖の炭酸水・お茶にかえる',goals:['コーラ類をお茶や無糖の炭酸水に変える日を作る','飲む量を半分にする','原材料の「酸味料」「リン酸」を確認する']},
-  coffee_black:{why:'ブラックコーヒー（ドリップ・無糖の缶やインスタントを含む）のリンは少なめで、リンの面では安心です。問題は「足すもの」。',sw:'そのままでOK（ミルク・砂糖を足さない）',goals:['ブラックのまま楽しむ','飲んだ量を「水分」として数える']},
-  coffee_milk:{why:'問題はコーヒーより「牛乳」。カフェオレ・ラテは乳製品としてカウントを。大きいサイズや毎日の習慣は、見逃しやすいリン源です。',sw:'サイズを小さく／ブラックの日を作る',goals:['大きいラテを小さいサイズにする','カフェオレを毎日から減らす','ミルクなしのブラックに変える日を作る']},
-  coffee_can:{why:'乳成分のリンに加え、商品によってリン酸塩・pH調整剤（無機リン）が入ります。「微糖・無糖」は糖の話で、乳成分やリン添加とは別です。',sw:'無糖ブラックの缶に／原材料を確認',goals:['甘い缶コーヒーを無糖ブラックにする','原材料の「リン酸」「pH調整剤」を確認する','1日の本数を減らす']},
-  coffee_stick:{why:'クリーマー（液体・粉末）は植物性でも、乳化や品質調整でリン酸塩が使われることがあります。スティック（3in1）は砂糖＋クリーマーで、ブラックとは別物です。',sw:'量・回数を減らす／ブラック＋少量ミルクに',goals:['クリーマーは1杯1個までにする','スティックコーヒーを減らす','原材料の「リン酸塩」を確認する']},
-  cocoa:{why:'牛乳にココアやチョコレートが加わるため、牛乳のリンに加えて、カリウムや糖分も多くなりやすい飲み物です。',sw:'回数を減らす／お茶にかえる',goals:['ミルクココア・モカを毎日飲まない','飲む回数を減らす']},
-  protein:{why:'乳成分＋添加物でリンが多めです。量や種類は主治医・スタッフと相談しましょう。',sw:'量はスタッフと相談',goals:['プロテイン・栄養補助飲料の量をスタッフに相談する','飲む回数を減らす']},
-  energy:{why:'添加物・カフェインに加え、商品によって無機リンが入ります。常用は避けましょう。',sw:'常用しない',goals:['栄養・エナジードリンクを毎日飲まない','疲れた時はしっかり休養をとる']},
-  gyokuro:{why:'玉露や抹茶は茶葉を濃く使う・丸ごと飲むため、ふつうのお茶よりリン・カリウムが増えます（特にカリウム）。',sw:'日常はふつうのお茶・麦茶に',goals:['玉露・抹茶を毎日の習慣にしない','日常は麦茶やふつうのお茶にする']},
-  plantmilk:{why:'植物性でも、カルシウム・リンを強化した製品やリン酸塩を加えた製品があり、一律に低リンとは限りません。',sw:'無調整・無強化を少量',goals:['「リン酸塩」「強化」の表示を確認する','飲む量を控えめにする']},
-  lacto:{why:'乳成分でリンを含み、飲む量も増えがちです。',sw:'1日1本までに',goals:['乳酸菌飲料を1日1本までにする','毎日飲んでいる場合は1日おきにする']},
-  sports:{why:'商品によって無機リン（酸味料）が入ることがあり、糖分・水分も多めです。汗の塩分補給は食事で調整を。',sw:'ふだんは水・麦茶に',goals:['のどが渇いた時は水か麦茶にする','飲む量を半分にする']},
-  tea_plain:{why:'ふつうの濃さで1〜2杯ならリンはとても少なめで安心です。ただし煎茶や濃いお茶はカリウムが増えるので、がぶ飲みは量を確認。',sw:'濃さ・杯数をほどほどに',goals:['濃いお茶のがぶ飲みを控える','飲んだ量を「水分」として意識する']},
-  mugicha:{why:'麦茶はリンもカリウムもほぼゼロ、ノンカフェイン。最も選びやすい飲み物です（玄米茶も近い低さ）。',sw:'水分補給のベースに',goals:['水分補給のベースを麦茶にする','飲んだ量を「水分」として数える']},
-  soda:{why:'サイダーや炭酸水は、リン酸を使っていない商品が多く、リンは少なめのことが多いです。リン量は「色」ではなく中身（酸味料の種類）で決まります。甘いタイプは糖分に注意、無糖の炭酸水ならより安心。',sw:'無糖の炭酸水に',goals:['甘い炭酸を無糖の炭酸水に変える','飲む量を半分にする']},
-  milktea:{why:'お茶でも「ミルク」が入るとリンが増えます。ペットボトルや粉末のミルクティーは乳成分・リン酸塩も入りがち。紅茶や抹茶そのものとは別物です。',sw:'ストレートティーに／ミルク量を減らす',goals:['ミルクティーをストレートティーに変える','タピオカ・粉末ミルクティーを減らす','原材料の「リン酸塩」を確認する']},
-  beer:{why:'ビール100mLのリンは多くありませんが、何杯も飲むと合計のリン・水分が増えます。焼酎・ウイスキーなど蒸留酒はリンがほぼゼロですが、水分（飲みすぎ）には注意です。',sw:'量を決める／蒸留酒の炭酸割りに',goals:['飲む量（杯数）を決める','水分量に気をつける']},
-  volume:{why:'リンが少ない飲み物でも、たくさん飲めば透析間の体重増加（ドライウェイト超過）につながります。1日の水分制限量を守りましょう。',sw:'1日の水分量を守る',goals:['1日に飲む量（水分）を決めて守る','氷・スープの水分も意識する']},
+  cola:{why:'商品によってリン酸が使われ、自然のリンより吸収されやすいとされています。',sw:'お茶・水・無糖の炭酸水にかえる',goals:['コーラをお茶や水に変える日を作る','飲む量を半分にする']},
+  soda:{why:'透明な炭酸はリンが少なめです。甘いものは糖分に注意。',sw:'お茶や無糖の炭酸水に',goals:['甘い炭酸飲料を無糖の炭酸水に変える','飲む量を半分にする']},
+  sports:{why:'糖分・水分が多く、飲みすぎ注意です。',sw:'普段はお茶・水に',goals:['のどが渇いた時はお茶か水にする','飲む量を半分にする']},
+  energy:{why:'添加物・カフェインが多めです。',sw:'常用しない',goals:['栄養ドリンクを毎日飲まない','疲れた時はしっかり休養をとる']},
+  lacto:{why:'飲む量が増えがちです。',sw:'1日1本までに',goals:['乳酸菌飲料を1日1本までにする','毎日飲んでいる場合は1日おきにする']},
+  cocoa:{why:'乳成分でリンが入ります。',sw:'ブラック・お茶にかえる',goals:['ミルクココア・カフェオレをブラックやお茶に変える','飲む回数を減らす']},
+  protein:{why:'乳＋添加物でリンが多めです。',sw:'量は主治医・スタッフと相談',goals:['プロテイン飲料の量をスタッフに相談する','飲む回数を減らす']},
   pan:{why:'商品によって、膨張剤などにリン酸塩が使われることがあります。',sw:'食パン・おにぎりなどに',goals:['菓子パンを食べる回数を減らす','菓子パンを食パンやおにぎりに変える']},
   donut:{why:'乳・添加物が多めです。',sw:'量・回数を減らす',goals:['ケーキやドーナツを半分にする','食べる回数を減らす']},
   choco:{why:'カカオ・乳でリンがやや多めです。',sw:'小分けにして量を決める',goals:['チョコやスナック菓子を小分けにして食べる','食べる回数を減らす']},
@@ -923,7 +1021,11 @@ function curSeason(){const m=new Date().getMonth();return (m>=2&&m<=4)?'spring':
 let seekStep=0, medPick=new Set(), foodPick=new Set(), foodFreq={};
 function setSteps(n){[1,2,3].forEach(i=>document.getElementById('st'+i).classList.toggle('on',i<=n));}
 function startSeek(){ seekStep=1; medPick=new Set(); foodPick=new Set(); foodFreq={}; renderSeek(); }
-function seekBack(){ if(seekStep>1){ seekStep--; renderSeek(); } else { go('home'); } }
+function continuingNote(){
+  return (medPick.size>0||foodPick.size>0)
+    ? `<div class="continue-note">↩️ 前回の続きから表示しています。やり直すときは、結果画面の「もう一度さがす」を使ってください。</div>`
+    : '';
+}
 function renderSeek(){
   setSteps(seekStep);
   const body=document.getElementById('seekBody');
@@ -934,40 +1036,35 @@ function renderSeek(){
   window.scrollTo({top:0,behavior:'instant'});
 }
 function stepMed(){
-  let rows=MEDQ.map(m=>`<div class="mrow${medPick.has(m.id)?' on':''}" data-mid="${m.id}"><div class="mb">✓</div><div class="mt">${m.t}</div></div>`).join('');
-  return `<div class="panel" style="margin-bottom:14px;">
+  let rows=MEDQ.map(m=>`<div class="mrow" data-mid="${m.id}"><div class="mb">✓</div><div class="mt">${m.t}</div></div>`).join('');
+  return `${continuingNote()}<div class="panel" style="margin-bottom:14px;">
     <div class="ce">💊</div>
     <h3>いちばん大事：薬の飲み方</h3>
     <p class="pt">リンが上がる原因として、じつは食事より「薬のタイミング・飲み忘れ」が多いです。当てはまるものをタップ（複数OK）。</p>
   </div>
   ${rows}
   <div class="mrow good" data-mid="none"><div class="mb">✓</div><div class="mt">薬袋どおりのタイミングで、毎食きちんと飲めている／当てはまらない</div></div>
-  <button class="next-btn" id="medNext" style="margin-top:14px;">原因を見る ›</button>
-  <button class="ghost-btn" id="medBack">‹ 食べ物にもどる</button>`;
+  <button class="next-btn" id="medNext" style="margin-top:14px;">原因を見る</button>`;
 }
 function riskDots(r){
   let s='';
   for(let i=1;i<=3;i++) s+=`<span class="rd${i<=r?' l'+r:''}"></span>`;
   return `<span class="risk">${s}</span>`;
 }
-function riskTag(r){const m={1:'低',2:'中',3:'高'};return `<span class="rtag rt${r}">リン${m[r]||'中'}</span>`;}
 function stepFood(){
   const s=SEASONS[curSeason()];
-  const order=['🏪 コンビニ・外食・テイクアウト','🍰 おやつ・間食','🥤 飲み物','🍖 加工肉・ハム・練り物','🧀 乳製品','🐟 魚卵・小魚・レバー','✈️ 行事・旅行・もらい物'];
-  const groups=order.filter(g=>FOODQ.some(f=>f.g===g));
-  let html=`<div class="panel" style="margin-bottom:14px;">
+  const groups=[...new Set(FOODQ.map(f=>f.g))];
+  let html=`${continuingNote()}<div class="panel" style="margin-bottom:14px;">
     <div class="ce">🍽️</div><h3>最近1〜2週間で、増えたものは？</h3>
-    <p class="pt">リンは1〜2週間で上下します。この期間に<b>前より回数・量が増えたもの</b>を、場面を開いてタップ（複数OK）。当てはまる場面だけでOK。</p>
-    <p class="pt" style="margin-top:7px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span class="rtag rt3">リン高</span><span class="rtag rt2">リン中</span><span class="rtag rt1">リン低</span> はリンの上げやすさ。🔥は今の季節に増えやすいもの。</p></div>
-    <div class="season-banner">${s.emoji} <b>今は「${s.name}」。</b>${s.msg}<br>🔥は、この季節に増えやすいものです。</div>
-    <div class="tap-guide"><span class="tg-emoji">👇</span>各場面を<b style="margin:0 3px;">タップして開く</b>と、食品が出てきます</div>`;
+    <p class="pt">場面を開いて、当てはまるものをタップ（複数OK）。当てはまる場面だけでOK。</p>
+    <p class="pt" style="margin-top:7px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;">${riskDots(3)} が多い・赤いほど、リンを上げやすい食べものです。</p></div>
+    <div class="season-banner">${s.emoji} <b>今は「${s.name}」。</b>${s.msg}<br>🔥は、この季節に増えやすいものです。</div>`;
   groups.forEach((g,gi)=>{
-    const items=FOODQ.filter(f=>f.g===g).slice().sort((a,b)=>(b.r||0)-(a.r||0));
-    const hasSel=items.some(f=>foodPick.has(f.id));
-    html+=`<div class="acc${gi===0||hasSel?' open':''}">
-      <button class="acc-head"><span class="acc-t">${g}</span><span class="acc-meta"><span class="acc-count"></span><span class="acc-toggle"><span class="tg-open">ひらく</span><span class="tg-close">とじる</span><span class="acc-arr">▾</span></span></span></button>
+    const items=FOODQ.filter(f=>f.g===g);
+    html+=`<div class="acc">
+      <button class="acc-head"><span class="acc-t">${g}</span><span class="acc-meta"><span class="acc-count"></span><span class="acc-arr">▾</span></span></button>
       <div class="acc-body"><div class="chips">`+
-      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}${foodPick.has(f.id)?' on':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}${f.badge?`<span class="rtag rt-note">${f.badge}</span>`:riskTag(f.r)}</button>`).join('')+
+      items.map(f=>`<button class="chip${s.ids.includes(f.id)?' season-hot':''}" data-fid="${f.id}"><span class="che">${f.e}</span>${f.t}${riskDots(f.r)}</button>`).join('')+
       `</div></div>
     </div>`;
   });
@@ -1008,8 +1105,7 @@ function stepResult(){
   let foodRanked = Object.keys(foodSc).filter(k=>foodSc[k]>0).map(k=>({k, v:foodSc[k]}));
   foodRanked.sort((a,b)=>b.v-a.v);
 
-  Store.set('sumCur', touched && state.curP!=null ? String(state.curP) : '');
-  
+  if(touched && state.curP!=null) Store.set('sumCur', String(state.curP));
   // スタッフ画面用の詳細データを保存
   let staffMeds = [...medPick].map(id => MEDQ.find(m=>m.id===id)?.t).filter(Boolean);
   let staffFoods = [...foodPick].map(id => {
@@ -1023,15 +1119,10 @@ function stepResult(){
   if(sc.med === 0 && foodRanked.length === 0){
     window.__itemCauses = [];
     Store.del('pctInorg');
-    Store.set('goal','次の受診でスタッフに相談する');
-    Store.set('goalDate', new Date().toLocaleDateString('ja-JP'));
-    Store.del('goalDone'); Store.del('goalTrouble');
-    Store.set('goalBaseP', touched && state.curP!=null ? String(state.curP) : '');
     return `<div class="result-hero"><div class="big">🌿</div><h3>はっきりした原因は見つかりませんでした</h3>
       <p>悪いことではありません。薬の飲み方・食事量・透析時間・体調の変化を、スタッフと一緒に確認しましょう。</p></div>
-      <button class="next-btn" data-go="staff">📋 スタッフ・家族に見せるレポートを作る</button>
-      <button class="ghost-btn" id="resBack">‹ 薬の確認にもどる</button>
-      <button class="ghost-btn" id="seekAgain">🔎 はじめからさがす</button>`;
+      <button class="next-btn" id="toReport">📋 レポートを見る</button>
+      <button class="ghost-btn" id="seekAgain">もう一度さがす</button>`;
   }
   
   let html=`<div class="result-hero"><div class="big">🔎</div><h3>今回の「原因の候補」</h3>
@@ -1064,7 +1155,7 @@ function stepResult(){
     const tendency = additiveTendency(pctInorg);
     html += `<div class="chart-box">
       <h3 style="font-size:15px;margin-top:0;">今回選んだ食品の傾向（参考）</h3>
-      <p style="font-size:12px;color:var(--muted);margin:0;">独自スコアによる傾向で、実際のリン摂取量や吸収量ではありません。</p>
+      <p style="font-size:13px;color:var(--muted);margin:0;">独自スコアによる傾向で、実際のリン摂取量や吸収量ではありません。</p>
       <div class="bar-wrap" aria-hidden="true">
         <div class="bar-inorg" style="width:0" data-w="${pctInorg}"></div>
         <div class="bar-org" style="width:0" data-w="${pctOrg}"></div>
@@ -1086,9 +1177,9 @@ function stepResult(){
         advice = "乳製品や小魚などの回数・量が増えていなかったか確認しましょう。";
     }
     
-    html += `<div class="advice-hero">
-      <div class="advice-eyebrow"><span class="advice-badge">💡</span> 今回のアドバイス</div>
-      <p class="advice-text">${advice}</p>
+    html += `<div class="panel" style="background:var(--good-bg);border-color:var(--good);margin-top:14px;margin-bottom:14px;">
+      <h3 style="margin-bottom:4px;">💡 今回のアドバイス</h3>
+      <p style="color:var(--ink);font-weight:500;font-size:14px;margin:0;">${advice}</p>
     </div>`;
   } else {
     Store.del('pctInorg');
@@ -1119,7 +1210,7 @@ function stepResult(){
       picked.map(f=>{
         const info=FOODINFO[f.id]||{};
         return `<div class="fb"><div class="fb-top"><span>${f.e} ${f.t}</span>
-          <span class="fb-tags">${f.inorg?'<span class="kt">添加リンの可能性</span>':''}${f.badge?`<span class="fb-lv lvl-note">${f.badge}</span>`:`<span class="fb-lv lvl${f.r}">リン度 ${lvText[f.r]}</span>`}</span></div>
+          <span class="fb-tags">${f.inorg?'<span class="kt">添加リンの可能性</span>':''}<span class="fb-lv lvl${f.r}">リン度 ${lvText[f.r]}</span></span></div>
           <div class="fb-bar"><i class="lvl${f.r}" data-w="${Math.round(f.r/3*100)}"></i></div>
           ${info.why?`<div class="fb-note">${info.why}${info.sw?` <b>→ ${info.sw}</b>`:''}</div>`:''}</div>`;
       }).join('')+
@@ -1151,15 +1242,8 @@ function stepResult(){
   itemScores.sort((a, b) => b.v - a.v);
   window.__itemCauses = itemScores;
 
-  // 目標は解析から自動生成（＝おすすめ＝1位の行動）。前回の古い目標が残らないよう毎回上書き。
-  Store.set('goal', itemScores.length ? itemScores[0].goals[0] : '次の受診でスタッフに相談する');
-  Store.set('goalDate', new Date().toLocaleDateString('ja-JP'));
-  Store.del('goalDone'); Store.del('goalTrouble');
-  Store.set('goalBaseP', touched && state.curP!=null ? String(state.curP) : '');
-
-  html+=`<button class="next-btn" data-go="staff">📋 スタッフ・家族に見せるレポートを作る</button>
-    <button class="ghost-btn" id="resBack">‹ 薬の確認にもどる</button>
-    <button class="ghost-btn" id="seekAgain">🔎 はじめからさがす</button>`;
+  html+=`<button class="next-btn" id="toReport">📋 レポートを見る</button>
+    <button class="ghost-btn" id="seekAgain">もう一度さがす</button>`;
   return html;
 }
 
@@ -1172,16 +1256,18 @@ function bindSeek(){
       ch.addEventListener('click',()=>{
         const id=ch.dataset.fid;
         if (ch.classList.contains('on')) {
-          ch.classList.remove('on');
-          foodPick.delete(id);
-          delete foodFreq[id];
-          updateAccCounts();
-        } else {
-          // モーダルを開いて頻度を聞く
+          // 2回目のタップ：頻度を変更する（取り消しはモーダル内の「選択をやめる」から）
           const fData = FOODQ.find(x=>x.id===id);
           document.getElementById('modalTitle').innerHTML = fData.e + ' ' + fData.t;
           window.currentFid = id;
-          document.getElementById('freqModal').classList.add('active');
+          openFreqModal(foodFreq[id]||1.0);
+        } else {
+          // 1回目のタップ：初期頻度（週1〜2回）で即時選択。モーダルは出さない。
+          foodPick.add(id);
+          foodFreq[id]=1.0;
+          ch.classList.add('on');
+          document.getElementById('foodNone').classList.remove('on');
+          updateAccCounts();
         }
       });
     });
@@ -1191,7 +1277,6 @@ function bindSeek(){
       e.currentTarget.classList.toggle('on'); updateAccCounts();
     });
     document.getElementById('foodNext').addEventListener('click',()=>{seekStep=2;renderSeek();});
-    updateAccCounts();
   } else if(seekStep===2){
     document.querySelectorAll('#seekBody .mrow').forEach(row=>{
       row.addEventListener('click',()=>{
@@ -1202,33 +1287,55 @@ function bindSeek(){
       });
     });
     document.getElementById('medNext').addEventListener('click',()=>{seekStep=3;renderSeek();});
-    const mb=document.getElementById('medBack'); if(mb) mb.addEventListener('click',seekBack);
   } else {
     document.querySelectorAll('#seekBody .rbar > i').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
     document.querySelectorAll('#seekBody .fb-bar > i').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
     document.querySelectorAll('#seekBody .bar-inorg, #seekBody .bar-org').forEach(i=>{requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';});});
     const sa=document.getElementById('seekAgain'); if(sa) sa.addEventListener('click',startSeek);
-    const tg=document.getElementById('toGoal'); if(tg) tg.addEventListener('click',()=>openGoalSelect());
-    const rb2=document.getElementById('resBack'); if(rb2) rb2.addEventListener('click',seekBack);
+    const tg=document.getElementById('toReport'); if(tg) tg.addEventListener('click',()=>go('staff'));
     document.querySelectorAll('#seekBody [data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
   }
 }
 
 // モーダルのイベント設定
+function openFreqModal(currentFreq){
+  document.querySelectorAll('.modal-opts button[data-freq]').forEach(b=>{
+    b.classList.toggle('on', parseFloat(b.dataset.freq)===currentFreq);
+  });
+  document.getElementById('freqModal').classList.add('active');
+}
+function closeFreqModal(){
+  document.getElementById('freqModal').classList.remove('active');
+}
 document.querySelectorAll('.modal-opts button[data-freq]').forEach(btn => {
   btn.addEventListener('click', () => {
     const id = window.currentFid;
     const freq = parseFloat(btn.dataset.freq);
     foodPick.add(id);
     foodFreq[id] = freq;
-    document.querySelector(`.chip[data-fid="${id}"]`).classList.add('on');
+    const chipEl=document.querySelector(`.chip[data-fid="${id}"]`);
+    if(chipEl) chipEl.classList.add('on');
     document.getElementById('foodNone').classList.remove('on');
-    document.getElementById('freqModal').classList.remove('active');
+    closeFreqModal();
     updateAccCounts();
   });
 });
-document.getElementById('modalCancel').addEventListener('click', () => {
-  document.getElementById('freqModal').classList.remove('active');
+document.getElementById('modalRemove').addEventListener('click', () => {
+  const id = window.currentFid;
+  foodPick.delete(id);
+  delete foodFreq[id];
+  const chipEl=document.querySelector(`.chip[data-fid="${id}"]`);
+  if(chipEl) chipEl.classList.remove('on');
+  closeFreqModal();
+  updateAccCounts();
+});
+document.getElementById('modalCancel').addEventListener('click', closeFreqModal);
+document.getElementById('modalX').addEventListener('click', closeFreqModal);
+document.getElementById('freqModal').addEventListener('click', (e)=>{
+  if(e.target.id==='freqModal') closeFreqModal();  // 背景タップで閉じる
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Escape' && document.getElementById('freqModal').classList.contains('active')) closeFreqModal();
 });
 
 /* ===== goal select & page (提案型・個別対応版) ===== */
@@ -1308,51 +1415,46 @@ function openGoalSelect(){
   });
 }
 
-function renderGoalBanner(){
-  const g=Store.get('goal');
-  const el=document.getElementById('goalBanner');
-  if(g){ el.innerHTML=`<button class="goal-banner" data-go="goal" style="width:100%;border:1px solid #BFE3D0;">
-    <span class="ge">🎯</span><span><b>今月の目標</b><p>${g}</p></span></button>`;
-    el.querySelector('[data-go]').addEventListener('click',()=>go('goal'));
-  } else el.innerHTML='';
-}
 function renderGoalPage(){
   const g=Store.get('goal'), gd=Store.get('goalDate');
+  const doneSaved=Store.get('goalDone'), troubleSaved=Store.get('goalTrouble');
   const body=document.getElementById('goalBody');
-  const refCard=`<div class="ref-card">
-    <div class="ref-head">🎯 リンの目安（基準値）</div>
-    <div class="ref-stats">
-      <div class="ref-stat">
-        <div class="ref-label">血液中のリン（P）</div>
-        <div class="ref-val"><b>3.5〜5.5</b><span>mg/dL</span></div>
-        <div class="ref-note">5.5 以下をめざします</div>
-      </div>
-      <div class="ref-stat">
-        <div class="ref-label">カルシウム×リン（Ca×P）</div>
-        <div class="ref-val"><b>55</b><span>未満</span></div>
-        <div class="ref-note">血管の石灰化を防ぐ目安</div>
-      </div>
-    </div>
-    <div class="ref-foot">リンとカルシウムが高い状態が続くと、血管が硬くなる<b>「石灰化」</b>が進みます。数字を目安に、食事・お薬・透析でいっしょに管理しましょう。</div>
-  </div>`;
   if(!g){
-    body.innerHTML=`${refCard}
-      <div class="empty">まだ目標がありません。<br>「🔎 なんで上がった？さがし」をすると、<br>あなたに合った一歩が選べます。</div>
+    body.innerHTML=`<div class="empty">まだ目標がありません。<br>「🔎 なんで上がった？さがし」をすると、<br>あなたに合った一歩が選べます。</div>
       <button class="next-btn" data-go="seek">🔎 原因をさがす</button>`;
     body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
     return;
   }
+  const DONE=['ほぼ毎日できた','半分くらいできた','少しできた','あまりできなかった'];
+  const TROUBLE=['外食・行事で薬を持っていけなかった','昼の薬を忘れた','つい食べてしまった','薬が飲みにくかった','特になし'];
   body.innerHTML=`
-    <button class="next-btn" data-go="staff" style="margin-bottom:14px;">📋 スタッフや家族に見せる画面</button>
+    <button class="next-btn" data-go="staff" style="margin-bottom:14px;">📋 スタッフに見せる画面</button>
     <div class="share-card">
       <div class="gl">${gd?gd+' に決めた':''} 今月の目標</div>
       <div class="gv">「${g}」</div>
       <p>1か月だけ試してみましょう。完ぺきでなくて大丈夫。できた日が増えれば十分です。</p>
     </div>
-    ${refCard}
-    <button class="ghost-btn" data-go="seek" style="margin-top:2px;">🔎 別の原因も探す／目標を変える</button>
+    <div class="panel" style="margin-top:14px;">
+      <h3>📋 ふりかえり（次の受診で）</h3>
+      <p class="pt">この1か月、どれくらいできましたか？</p>
+      <div style="margin-top:8px;">
+        ${DONE.map(t=>`<div class="mrow good${doneSaved===t?' on':''}" data-done="${t}"><div class="mb">✓</div><div class="mt">${t}</div></div>`).join('')}
+      </div>
+      <p class="pt" style="margin-top:14px;">困ったことは？（あれば1つ）</p>
+      <div class="chips" style="margin-top:6px;">
+        ${TROUBLE.map(t=>`<button class="chip${troubleSaved===t?' on':''}" data-trouble="${t}">${t}</button>`).join('')}
+      </div>
+      <p class="pt" style="margin-top:12px;">※ 次の採血の値は、ホームの🏠ゲージに入れると確認できます。</p>
+    </div>
+    <button class="ghost-btn" data-go="seek">🔎 別の原因も探す／目標を変える</button>
     <button class="ghost-btn" id="resetGoal" style="margin-top:8px;color:var(--muted);text-decoration:underline;">この目標をリセットする</button>`;
-  const rg=document.getElementById('resetGoal'); if(rg) rg.addEventListener('click',()=>{['goal','goalDate','goalBaseP','goalDone','goalTrouble'].forEach(k=>Store.del(k));renderGoalPage();renderGoalBanner();});
+  body.querySelectorAll('[data-done]').forEach(r=>r.addEventListener('click',()=>{
+    body.querySelectorAll('[data-done]').forEach(x=>x.classList.remove('on')); r.classList.add('on'); Store.set('goalDone',r.dataset.done);
+  }));
+  body.querySelectorAll('[data-trouble]').forEach(c=>c.addEventListener('click',()=>{
+    body.querySelectorAll('[data-trouble]').forEach(x=>x.classList.remove('on')); c.classList.add('on'); Store.set('goalTrouble',c.dataset.trouble);
+  }));
+  const rg=document.getElementById('resetGoal'); if(rg) rg.addEventListener('click',()=>{['goal','goalDate','goalBaseP','goalDone','goalTrouble'].forEach(k=>Store.del(k));renderGoalPage();});
   body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
 }
 
@@ -1405,7 +1507,7 @@ function renderStaff(){
        const tendency = additiveTendency(parseFloat(pctInorg));
        clist += `<div class="ssrow"><div class="sslabel">⚠️ 添加リンを含む可能性がある食品の傾向</div>
          <div style="font-family:'Zen Maru Gothic';font-weight:700;font-size:15px;color:${tendency.color};">${tendency.label}</div>
-         <div style="font-size:12.5px;color:var(--muted);margin-top:4px;">${tendency.note} 実際の摂取量を示す値ではありません。</div>
+         <div style="font-size:13.5px;color:var(--muted);margin-top:4px;">${tendency.note} 実際の摂取量を示す値ではありません。</div>
        </div>`;
   }
   if (!clist) {
@@ -1416,40 +1518,57 @@ function renderStaff(){
   const done=Store.get('goalDone'), trouble=Store.get('goalTrouble');
   const dbox=done?`<div class="ssrow"><div class="sslabel">目標の実行度</div><div class="ssval" style="font-size:16px;">${done}</div></div>`:'';
   const tbox=(trouble && trouble!=='特になし')?`<div class="ssrow"><div class="sslabel">困ったこと</div><div class="ssval" style="font-size:15px;font-weight:500;">${trouble}</div></div>`:'';
-  // 解析の一言まとめ（レポート単体で「解析＋まとめ」が一発で読めるように）
-  let summaryLine='';
-  {
-    const topFoods=(details.foods||[]).map(f=>f.name);
-    const hasMed=(details.meds||[]).length>0;
-    if(hasMed && topFoods.length){
-      summaryLine=`今回の解析では、<b>お薬の飲み方</b>と、食べ物では<b>「${topFoods[0]}」</b>${topFoods[1]?`や<b>「${topFoods[1]}」</b>`:''}などが、リン上昇に影響した可能性があります。`;
-    } else if(hasMed){
-      summaryLine=`今回の解析では、<b>お薬の飲み方・タイミング</b>が、リン上昇に影響した可能性があります。`;
-    } else if(topFoods.length){
-      summaryLine=`今回の解析では、食べ物の<b>「${topFoods[0]}」</b>${topFoods[1]?`や<b>「${topFoods[1]}」</b>`:''}などが、リン上昇に影響した可能性があります。`;
-    } else {
-      summaryLine=`今回は、はっきりした原因は記録されていません。お薬・食事・透析・体調を、いっしょに確認させてください。`;
-    }
-  }
-  const sumbox=`<div class="ss-summary"><div class="ss-summary-eyebrow">🔎 今回の解析のまとめ</div><div class="ss-summary-txt">${summaryLine}</div></div>`;
-
   body.innerHTML=`
     <div class="staff-sheet">
       <div class="sheet-head"><span>🩺 リンのまとめ</span><span class="sheet-date">${gd||new Date().toLocaleDateString('ja-JP')}</span></div>
-      ${sumbox}${pinfo}${clist}${gbox}${dbox}${tbox}
+      ${pinfo}${clist}${gbox}${dbox}${tbox}
       <div class="sheet-foot">この画面を見せて、いっしょに相談させてください。</div>
     </div>
     <div class="staff-actions">
-      <button class="ghost-btn" id="staffBackBtn">‹ 前の画面に戻る</button>
-      <button class="next-btn" onclick="window.print()">🖨️ 印刷・PDF保存</button>
-      <button class="ghost-btn" id="saveImg">📷 画像で保存（スマホに）</button>
-      <button class="ghost-btn" id="staffToGoal">🎯 今月の目標を変える</button>
-      <button class="ghost-btn" data-go="seek">🔎 もう一度さがす</button>
+      <p class="staff-share-callout">📲 ぜひ家族やスタッフと共有してください！</p>
+      <button class="save-img-btn" id="staffSaveImg"><span>📷</span><span>写真に保存する</span></button>
+      <button class="ghost-btn" onclick="window.print()">🖨️ 印刷する</button>
+      <button class="ghost-btn" id="staffSeekAgain">🔎 もう一度さがす</button>
     </div>`;
   body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
-  const sg=document.getElementById('staffToGoal'); if(sg) sg.addEventListener('click',()=>openGoalSelect());
-  const bb=document.getElementById('staffBackBtn'); if(bb) bb.addEventListener('click',backFromStaff);
-  const si=document.getElementById('saveImg'); if(si) si.addEventListener('click',saveReportImage);
+  const ssa=body.querySelector('#staffSeekAgain'); if(ssa) ssa.addEventListener('click',()=>{ startSeek(); go('seek'); });
+  const ssi=body.querySelector('#staffSaveImg'); if(ssi) ssi.addEventListener('click',saveStaffImage);
+}
+
+/* 画面のまとめを画像として保存（スマホなら共有シートから「写真に保存」できる） */
+async function saveStaffImage(){
+  const btn=document.getElementById('staffSaveImg');
+  const target=document.querySelector('.staff-sheet');
+  if(!target || typeof html2canvas==='undefined'){
+    alert('画像の準備ができませんでした。少し待ってから、もう一度お試しください。');
+    return;
+  }
+  const orig=btn.innerHTML;
+  btn.disabled=true; btn.innerHTML='<span>📷</span><span>画像を作っています…</span>';
+  try{
+    const canvas=await html2canvas(target,{scale:2,backgroundColor:'#ffffff'});
+    const fileName=`リンのまとめ_${new Date().toLocaleDateString('ja-JP').replace(/\//g,'-')}.png`;
+    const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+    if(!blob) throw new Error('blob failed');
+    // スマホ（共有シート対応）なら「写真に保存」を選べる共有メニューを開く
+    if(navigator.canShare && navigator.canShare({files:[new File([blob],fileName,{type:'image/png'})]})){
+      const file=new File([blob],fileName,{type:'image/png'});
+      await navigator.share({files:[file],title:'リンのまとめ'});
+    } else {
+      // 共有シートが使えない場合は、そのままダウンロード（保存）する
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download=fileName;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),3000);
+    }
+  }catch(e){
+    if(e && e.name!=='AbortError'){
+      alert('画像の保存に失敗しました。お手数ですが、画面のスクリーンショットでも代用できます。');
+    }
+  }finally{
+    btn.disabled=false; btn.innerHTML=orig;
+  }
 }
 
 /* ===== food signal (tappable, with swaps) ===== */
@@ -1519,60 +1638,266 @@ function renderSignal(){
   });
 }
 
-/* ===== quiz ===== */
-const QUIZ=[
-  {a:{e:'🧀',n:'プロセスチーズ',mg:'添加リンの可能性'},b:{e:'🥛',n:'牛乳',mg:'自然のリン'},win:'a',
-   tag:'加工に注意',msg:'プロセスチーズは、商品によって乳化剤としてリン酸塩が使われます。まずは量と回数を見直しましょう。'},
-  {a:{e:'🍖',n:'ハム',mg:'添加リンの可能性'},b:{e:'🍗',n:'鶏むね肉',mg:'自然のリン'},win:'a',
-   tag:'添加リン',msg:'同じ肉でも、ハムには商品によって添加リンが使われます。加工していない肉を選ぶと、添加リンを避けやすくなります。'},
-  {a:{e:'🥤',n:'コーラ',mg:'リン酸入り'},b:{e:'🍵',n:'お茶・水',mg:'リンなし'},win:'a',
-   tag:'飲み物の罠',msg:'コーラには商品によってリン酸が使われ、自然のリンより吸収されやすいとされています。のどが渇いたらお茶や水を基本に。'},
-  {a:{e:'🍜',n:'カップ麺',mg:'添加リンの可能性'},b:{e:'🍙',n:'おにぎり',mg:'少なめ'},win:'a',
-   tag:'手軽さの代償',msg:'インスタント麺は、商品によって麺・具・スープに添加リンが使われます。回数を減らし、スープはなるべく残しましょう。'},
-  {a:{e:'🐟',n:'焼き魚',mg:'自然のリン'},b:{e:'🍢',n:'ちくわ・練り物',mg:'添加リンの可能性'},win:'b',
-   tag:'魚だから安心？',msg:'練り物には商品によって添加リンが使われます。魚なら、練り物より切り身の調理がおすすめ。「リン酸」「リン酸塩」などの表示を確認しましょう。'}
+/* ===== quiz : 全5ステージ・各5問・合計25問 ===== */
+const QUIZ_STAGES=[
+{title:'まず見つけよう！かくれリン入門',
+ summary:'肉・魚・卵を全部減らすのではなく、まず加工食品のかくれリンを探す。',
+ questions:[
+  {q:'添加リンが入っている可能性が高いのはどっち？',key:'可能性が高い',   a:{e:'🧀',label:'プロセスチーズ',reveal:'添加リンの可能性'},b:{e:'🥛',label:'牛乳',reveal:'自然のリン'},win:'a',
+   cat:'乳化剤の罠',
+   explain:'牛乳にも自然のリンは含まれています。一方、プロセスチーズには、チーズを均一になじませる目的で、商品によってリン酸塩を含む乳化剤が使われることがあります。食べてはいけないわけではありませんが、量や回数、原材料表示を確認しましょう。',
+   note:{label:'ひとこと',text:'「チーズ＝全部ダメ」ではなく、種類と表示を見るのがコツ。'}},
+  {q:'添加リンを避けやすいのはどっち？',key:'避けやすい',   a:{e:'🍖',label:'ハム',reveal:'添加リンの可能性'},b:{e:'🍗',label:'自宅で焼いた鶏むね肉',reveal:'自然のリン'},win:'b',
+   cat:'加工肉の添加リン',
+   explain:'鶏むね肉とハムは、どちらもたんぱく質を含みます。ただし、ハムには食感や保水性をよくするため、商品によってリン酸塩が使われています。加工されていない肉を自宅で調理すると、添加リンを避けやすくなります。',
+   note:{label:'ひとこと',text:'ハムを選ぶときは、原材料欄の「リン酸塩」を確認。'}},
+  {q:'リンの面で、より注意したい飲み物はどっち？',key:'より注意したい',   a:{e:'🥤',label:'コーラ',reveal:'リン酸入り'},b:{e:'🍵',label:'水・無糖のお茶',reveal:'リンなし'},win:'a',
+   cat:'飲み物の罠',
+   explain:'コーラなどの一部の清涼飲料には、酸味料としてリン酸が使われています。飲み物に含まれる添加リンは吸収されやすく、食事以外から毎日積み重なりやすいのが特徴です。水や無糖のお茶を基本にすると、添加リンを減らしやすくなります。',
+   note:{label:'ひとこと',text:'飲み物は毎日のことなので、変更効果が大きい。'}},
+  {q:'添加リンが重なりやすいのはどっち？',key:'重なりやすい',   a:{e:'🍜',label:'カップ麺',reveal:'添加リンの可能性'},b:{e:'🍙',label:'手作りのおにぎり',reveal:'少なめ'},win:'a',
+   cat:'手軽さの代償',
+   explain:'カップ麺は、麺・具・調味料など複数の加工原料からできています。商品によっては、それぞれにリン酸塩などが使われる可能性があります。手作りのおにぎりのように、材料が少なく分かりやすい食品は、添加リンを避けやすい選択です。',
+   note:{label:'ひとこと',text:'加工された材料が重なるほど、かくれリンも見えにくくなる。'}},
+  {q:'魚を食べるなら、添加リンを避けやすいのはどっち？',key:'避けやすい',   a:{e:'🐟',label:'焼き魚',reveal:'自然のリン'},b:{e:'🍢',label:'ちくわ・かまぼこ',reveal:'添加リンの可能性'},win:'a',
+   cat:'魚だから安心？',
+   explain:'どちらも魚から作られますが、ちくわやかまぼこなどの練り物には、商品によってリン酸塩が使われます。魚の切り身を焼いたものは自然のリンを含みますが、良質なたんぱく源でもあります。リンが高いから魚そのものを減らすのではなく、まず加工度の高い食品を見直しましょう。'}
+ ]},
+{title:'朝ごはん・軽食のかくれリン',
+ summary:'朝食は「何種類の加工食品が重なっているか」を見る。',
+ questions:[
+  {q:'添加リンを避けやすい朝食はどっち？',key:'避けやすい',   a:{e:'🍞',label:'食パンと目玉焼き',reveal:'少なめ'},b:{e:'🥐',label:'クリーム入りの菓子パン',reveal:'添加リンの可能性'},win:'a',
+   cat:'朝食の見極め',
+   explain:'菓子パンには、パン生地、クリーム、チョコ、加工油脂など、複数の加工原料が使われています。商品によっては膨張剤や乳化剤などにリン化合物を含む場合があります。食パンと卵のように、材料が比較的シンプルな方が添加リンを避けやすくなります。',
+   note:{label:'注意',text:'食パンにも商品差があるため、必ずしもゼロではありません。'}},
+  {q:'添加リンが重なりやすいのはどっち？',key:'重なりやすい',   a:{e:'🍚',label:'ご飯と納豆',reveal:'吸収されにくい'},b:{e:'🥪',label:'ハムチーズトースト',reveal:'添加リンの可能性'},win:'b',
+   cat:'重なる添加リン',
+   explain:'ハムとプロセスチーズには、それぞれ商品によってリン酸塩が使われることがあります。納豆にもリンは含まれますが、植物性リンはフィチン酸と結びついているため、添加リンや多くの動物性リンより吸収されにくい傾向があります。',
+   note:{label:'注意',text:'納豆はカリウムを含みます。また、ワーファリン内服中の方は原則として避ける必要があります。'}},
+  {q:'添加リンを避けやすいのはどっち？',key:'避けやすい',   a:{e:'🥚',label:'ゆで卵',reveal:'自然のリン'},b:{e:'🌭',label:'ウインナー',reveal:'添加リンの可能性'},win:'a',
+   cat:'卵は優等生',
+   explain:'卵には自然のリンが含まれますが、体を作る良質なたんぱく源です。ウインナーには、商品によって保水性や食感をよくするリン酸塩が使われています。リンを減らすために卵をやめるより、まず加工肉の種類や回数を見直しましょう。',
+   note:{label:'ひとこと',text:'卵の中でも、特に卵白は高たんぱく・低リンです。'}},
+  {q:'原材料表示をより確認したいのはどっち？',key:'より確認したい',   a:{e:'🥛',label:'普通の牛乳',reveal:'自然のリン'},b:{e:'☕',label:'乳飲料・加工されたコーヒー飲料',reveal:'確認が必要'},win:'b',
+   cat:'飲料の見えにくさ',
+   explain:'牛乳にも自然のリンは含まれます。一方、加工された乳飲料やコーヒー飲料では、商品によって乳化剤や安定剤などが使われ、リン化合物を含む可能性があります。商品名だけで判断せず、原材料表示を確認することが大切です。',
+   note:{label:'注意',text:'「乳化剤」と書いてあるだけでは、必ずリンを含むとは断定できません。'}},
+  {q:'添加リンが重なりやすいのはどっち？',key:'重なりやすい',   a:{e:'🍙',label:'手作りのおにぎり',reveal:'少なめ'},b:{e:'🥖',label:'ハム・チーズ入りの惣菜パン',reveal:'添加リンの可能性'},win:'b',
+   cat:'重なる加工食品',
+   explain:'惣菜パンでは、パン生地に加えて、ハム、チーズ、ソースなどの加工食品が重なります。それぞれの商品に添加リンが含まれる可能性があり、全体のリン負荷が見えにくくなります。シンプルなおにぎりの方が、材料を把握しやすい食品です。'}
+ ]},
+{title:'コンビニ・外食で選んでみよう',
+ summary:'外食やコンビニでは、「肉や魚の形が残っている料理」を選ぶと分かりやすい。',
+ questions:[
+  {q:'添加リンを避けやすい肉料理はどっち？',key:'避けやすい',   a:{e:'🐓',label:'塩味の焼き鳥',reveal:'少なめ'},b:{e:'🍗',label:'チキンナゲット',reveal:'添加リンの可能性'},win:'a',
+   cat:'成形肉に注意',
+   explain:'チキンナゲットは肉を細かく加工して成形した食品で、商品によってリン酸塩などが使われます。肉の形が残っている焼き鳥の方が、一般には添加リンを避けやすい選択です。',
+   note:{label:'注意',text:'焼き鳥でも、加工肉や味付き加工品を使った商品では添加物が入る場合があります。'}},
+  {q:'添加リンが重なりやすいのはどっち？',key:'重なりやすい',   a:{e:'🍙',label:'焼き鮭のおにぎり',reveal:'自然のリン'},b:{e:'🥪',label:'ハムチーズサンド',reveal:'添加リンの可能性'},win:'b',
+   cat:'コンビニの定番対決',
+   explain:'ハムとプロセスチーズは、どちらも商品によってリン酸塩が使われます。焼き鮭にも自然のリンはありますが、魚由来のたんぱく質も取れます。食品のリン含有量だけでなく、添加リンの有無と栄養価を一緒に考えましょう。'},
+  {q:'添加リンを避けやすいのはどっち？',key:'避けやすい',   a:{e:'🥢',label:'ざるそば',reveal:'少なめ'},b:{e:'🥡',label:'カップ焼きそば',reveal:'添加リンの可能性'},win:'a',
+   cat:'麺類対決',
+   explain:'カップ焼きそばは、麺、ソース、具材など複数の加工原料で構成されています。商品によってリン酸塩が使われる可能性があります。ざるそばにも自然のリンは含まれますが、加工度は比較的低く、材料も把握しやすい食品です。',
+   note:{label:'注意',text:'リン以外では、どちらも塩分や食べる量に注意が必要です。'}},
+  {q:'魚料理として、添加リンを避けやすいのはどっち？',key:'避けやすい',   a:{e:'🍣',label:'刺身',reveal:'自然のリン'},b:{e:'🍢',label:'練り物中心のおでん',reveal:'添加リンの可能性'},win:'a',
+   cat:'おでんの落とし穴',
+   explain:'おでんのちくわ、はんぺん、さつま揚げなどは加工された練り物です。商品によってリン酸塩が使われています。刺身は自然のリンを含みますが、加工されていない魚のたんぱく源です。',
+   note:{label:'注意',text:'おでんはリンだけでなく、塩分や水分摂取にも注意が必要です。'}},
+  {q:'添加リンを避けやすいのはどっち？',key:'避けやすい',   a:{e:'🧑\u200d🍳',label:'ひき肉から自宅で作ったハンバーグ',reveal:'少なめ'},b:{e:'🛒',label:'市販の成形ハンバーグ',reveal:'添加リンの可能性'},win:'a',
+   cat:'成形肉のからくり',
+   explain:'市販の成形肉には、食感や保水性を整える目的で、商品によってリン酸塩が使われます。自宅で肉、玉ねぎ、卵などから作れば、何が入っているか把握できます。',
+   note:{label:'ひとこと',text:'「手作りだから低リン」ではなく、添加物を把握しやすいのが利点。'}}
+ ]},
+{title:'原材料表示を見ぬけ！',
+ summary:'確実なのは、「リン」「リン酸」「リン酸塩」という文字を探すこと。',
+ questions:[
+  {q:'添加リンが入っていると、より確実に判断できるのはどっち？',key:'より確実に判断できる',   a:{e:'🏷️',label:'原材料に「リン酸塩（Na）」と書かれている',reveal:'添加リン確定'},b:{e:'🏷️',label:'「調味料」とだけ書かれている',reveal:'断定できない'},win:'a',
+   cat:'表示の基本',
+   explain:'「リン酸」「リン酸塩」「ポリリン酸」「ピロリン酸」など、リンを示す名称が書かれていれば、添加リンが含まれていると判断できます。'},
+  {q:'添加リンが入っていると、より確実に判断できるのはどっち？',key:'より確実に判断できる',   a:{e:'🏷️',label:'豚肉、食塩、香辛料',reveal:'添加リンなし'},b:{e:'🏷️',label:'豚肉、食塩、リン酸塩（Na）、香辛料',reveal:'添加リン確定'},win:'b',
+   cat:'原材料を比べる',
+   explain:'同じ肉製品でも、原材料欄に「リン酸塩」と書かれている商品には添加リンが含まれています。食品名やパッケージの印象より、裏面の原材料表示を確認しましょう。'},
+  {q:'添加リンが入っていると、より確実に判断できるのはどっち？',key:'より確実に判断できる',   a:{e:'🏷️',label:'水、茶葉',reveal:'添加リンなし'},b:{e:'🏷️',label:'果糖ぶどう糖液糖、香料、リン酸',reveal:'添加リン確定'},win:'b',
+   cat:'飲み物の原材料',
+   explain:'飲み物でも、原材料に「リン酸」と書かれていれば添加リンを含みます。水や茶葉だけで作られた無糖茶は、添加リンを避けやすい飲み物です。'},
+  {q:'添加リンが入っていると、より確実に判断できるのはどっち？',key:'より確実に判断できる',   a:{e:'🏷️',label:'pH調整剤',reveal:'断定できない'},b:{e:'🏷️',label:'リン酸塩（Na）',reveal:'添加リン確定'},win:'b',
+   cat:'pH調整剤の正体',
+   explain:'「リン酸塩」と書かれていれば、添加リンが入っていることが分かります。一方、「pH調整剤」にはリン化合物を使う場合もありますが、リンを含まないものもあり、表示だけでは断定できません。',
+   note:{label:'大事なポイント',text:'「pH調整剤＝必ずリン」ではない。'}},
+  {q:'添加リンを避けるために、より確実な確認方法はどっち？',key:'より確実な確認方法',   a:{e:'🏷️',label:'「無塩せき」と書いてあるかだけを見る',reveal:'保証にならない'},b:{e:'🏷️',label:'原材料欄に「リン酸塩」がないかを見る',reveal:'確実な確認方法'},win:'b',
+   cat:'「無塩せき」の誤解',
+   explain:'「無塩せき」は、主に発色剤を使わずに製造したことを示す言葉です。リン酸塩を使用していないことまで保証する表示ではありません。添加リンを避けたいときは、「無塩せき」という言葉だけで判断せず、原材料欄を確認しましょう。'}
+ ]},
+{title:'かくれリン実践マスター',
+ summary:'たんぱく質を守りながら、添加リンだけを賢く減らす。',
+ questions:[
+  {q:'高たんぱくでも、原材料表示を確認したいのはどっち？',key:'確認したい',   a:{e:'🍗',label:'生の鶏むね肉を自宅で調理',reveal:'少なめ'},b:{e:'📦',label:'市販のサラダチキン',reveal:'確認が必要'},win:'b',
+   cat:'高たんぱくの誤解',
+   explain:'サラダチキンは手軽な高たんぱく食品ですが、商品によってリン酸塩などが使われる場合があります。「高たんぱく」と書かれていても、必ず低リンとは限りません。原材料が鶏肉、食塩、香辛料などのシンプルな商品を選びましょう。'},
+  {q:'添加リンを避けやすい魚の食べ方はどっち？',key:'避けやすい',   a:{e:'🐟',label:'魚の切り身を焼く',reveal:'自然のリン'},b:{e:'🌭',label:'魚肉ソーセージ',reveal:'添加リンの可能性'},win:'a',
+   cat:'魚の加工度',
+   explain:'魚肉ソーセージは魚から作られますが、加工食品です。商品によってリン酸塩が使われます。魚そのものに近い切り身の方が、添加リンを避けやすくなります。'},
+  {q:'リンを気にするとき、先に見直したいのはどっち？',key:'先に見直したい',   a:{e:'🥚',label:'普通の卵を1個食べること',reveal:'自然のリン'},b:{e:'🌭',label:'ハムやウインナーを毎日食べること',reveal:'積み重なる添加リン'},win:'b',
+   cat:'優先順位を考える',
+   explain:'卵にも自然のリンは含まれますが、良質なたんぱく質を取れます。一方、ハムやウインナーを毎日食べると、商品によっては吸収されやすい添加リンが積み重なります。卵をすぐ禁止するのではなく、まず加工肉の頻度と原材料を確認しましょう。'},
+  {q:'添加リンの面で、より注意したいのはどっち？',key:'より注意したい',   a:{e:'🥜',label:'無塩ナッツを少量',reveal:'吸収されにくい'},b:{e:'🧀',label:'プロセスチーズを毎日',reveal:'添加リンの可能性'},win:'b',
+   cat:'植物性リンの実力',
+   explain:'ナッツにもリンは多く含まれますが、植物性リンはフィチン酸と結びついているため、比較的吸収されにくい特徴があります。プロセスチーズには自然のリンに加えて、商品によってリン酸塩が使われます。ただし、ナッツはカリウムやエネルギーも多いため、好きなだけ食べてよいという意味ではありません。',
+   note:{label:'表現上のポイント',text:'「ナッツは低リン」ではなく、「表示されているリン量のすべてが同じように吸収されるわけではない」と伝えます。'}},
+  {q:'リン対策として、やってはいけない間違いはどっち？',key:'やってはいけない',   a:{e:'🚫',label:'肉や魚をすべて減らす',reveal:'やってはいけない'},b:{e:'🔍',label:'加工食品や添加リンを見直す',reveal:'正しい見直し方'},win:'a',
+   cat:'最後の心得',
+   explain:'リンを気にして、肉、魚、卵などを必要以上に減らすと、たんぱく質不足や筋肉量の低下につながります。まず見直したいのは、リン酸塩を含む加工食品や飲み物、そしてリンの薬を決められたタイミングで飲めているかです。体を作る食品は必要な量を食べながら、吸収されやすい添加リンを減らしましょう。'}
+ ]}
 ];
-let zi=0,zscore=0,answered=false;
-function startQuiz(){zi=0;zscore=0;answered=false;renderQuiz();}
+const QUIZ_TOTAL_STAGES=5, QUIZ_Q_PER_STAGE=5;
+let curStageIdx=0, qIdx=0, stageScore=0, answered=false;
+
+/* ===== 進捗の保存（ステージごとのクリア状況・スコア） ===== */
+function getQuizProgress(){
+  try{
+    const raw=Store.get('quizProgress');
+    if(raw){
+      const p=JSON.parse(raw);
+      if(p && Array.isArray(p.completed) && Array.isArray(p.scores) && p.completed.length===QUIZ_TOTAL_STAGES) return p;
+    }
+  }catch(e){}
+  return {completed:Array(QUIZ_TOTAL_STAGES).fill(false), scores:Array(QUIZ_TOTAL_STAGES).fill(0)};
+}
+function saveQuizProgress(p){ Store.set('quizProgress', JSON.stringify(p)); }
+function allStagesDone(p){ return p.completed.every(Boolean); }
+
+/* 問題文の中の「避けやすい」「重なりやすい」などの方向を示す言葉を強調し、
+   問いの意味（良い方を選ぶ／注意すべき方を選ぶ）を読み間違えにくくする */
+function highlightKey(text,key){
+  if(!key) return text;
+  const i=text.indexOf(key);
+  if(i<0) return text;
+  return text.slice(0,i)+'<span class="qkey">'+key+'</span>'+text.slice(i+key.length);
+}
+
+/* くらべるクイズに入ったら、まずステージ一覧（マップ）を表示。
+   一気に25問やらなくても、1ステージ（5問・約2分）だけで終えて、続きは後からでOKにする。 */
+function startQuiz(){ renderQuizMap(); }
+
+function renderQuizMap(){
+  const prog=getQuizProgress();
+  const doneCount=prog.completed.filter(Boolean).length;
+  const totalScore=prog.scores.reduce((a,b)=>a+b,0);
+  const body=document.getElementById('quizBody');
+  body.innerHTML=`
+    <p class="lead">5問ずつ、5つのステージに分かれています。<b>今日は1ステージだけでも大丈夫</b>。続きはいつでも、ここから始められます。</p>
+    ${doneCount>0?`<div class="quiz-overall">これまでの正解：<b>${totalScore} / ${doneCount*QUIZ_Q_PER_STAGE}問</b>　（${doneCount} / ${QUIZ_TOTAL_STAGES} ステージ クリア）</div>`:''}
+    <div class="quiz-map">
+      ${QUIZ_STAGES.map((s,i)=>{
+        const done=prog.completed[i];
+        return `<button class="quiz-map-card${done?' done':''}" data-stage="${i}">
+          <div class="qmc-num">${done?'✅':(i+1)}</div>
+          <div class="qmc-body"><b>${s.title}</b><span>${done?`正解 ${prog.scores[i]} / ${QUIZ_Q_PER_STAGE}問・もう一度できます`:`${QUIZ_Q_PER_STAGE}問・約2分`}</span></div>
+          <div class="qmc-arr">›</div>
+        </button>`;
+      }).join('')}
+    </div>
+    ${doneCount===QUIZ_TOTAL_STAGES?`<button class="next-btn" id="quizFinalBtn">🏆 最終まとめを見る</button>`:''}
+    <button class="ghost-btn" data-go="why" style="margin-top:14px;">💡 なんで下げるの？を読む</button>`;
+  body.querySelectorAll('.quiz-map-card').forEach(c=>c.addEventListener('click',()=>startStage(parseInt(c.dataset.stage,10))));
+  const fb=body.querySelector('#quizFinalBtn'); if(fb) fb.addEventListener('click', renderQuizEnd);
+  body.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
+}
+
+function startStage(stageIdx){
+  curStageIdx=stageIdx; qIdx=0; stageScore=0; answered=false;
+  renderQuiz();
+}
+function curQ(){
+  return {stage:QUIZ_STAGES[curStageIdx], q:QUIZ_STAGES[curStageIdx].questions[qIdx]};
+}
 function renderQuiz(){
-  if(zi>=QUIZ.length){return renderQuizEnd();}
-  answered=false;const q=QUIZ[zi];
+  answered=false;
+  const {stage,q}=curQ();
+  const stageBanner=qIdx===0
+    ?`<div class="quiz-stage-banner"><span class="qsb-num">ステージ${curStageIdx+1}</span><span class="qsb-title">${stage.title}</span></div>`
+    :'';
+  const scoreLine=qIdx===0?'はじめましょう！':`正解 ${stageScore} ／ このステージ ${qIdx} 問`;
   document.getElementById('quizBody').innerHTML=`
-    <div class="quiz-score">スコア ${zscore} / ${QUIZ.length} ・ 第 ${zi+1} 問</div>
-    <div class="quiz-q">透析で気をつけたいのは、どっち？</div>
+    ${stageBanner}
+    <div class="quiz-progress"><span class="qp-stage">ステージ${curStageIdx+1}：${stage.title}</span><span class="qp-count">${qIdx+1} / ${QUIZ_Q_PER_STAGE}問</span></div>
+    <div class="quiz-score">${scoreLine}</div>
+    <div class="quiz-q">${highlightKey(q.q,q.key)}</div>
     <div class="versus">
-      <button class="food" data-side="a"><div class="fe">${q.a.e}</div><div class="fn">${q.a.n}</div><div class="mg"></div></button>
+      <button class="food" data-side="a"><div class="fe">${q.a.e}</div><div class="fn">${q.a.label}</div><div class="mg"></div></button>
       <div class="vs">VS</div>
-      <button class="food" data-side="b"><div class="fe">${q.b.e}</div><div class="fn">${q.b.n}</div><div class="mg"></div></button>
-    </div><div id="revealBox"></div>`;
+      <button class="food" data-side="b"><div class="fe">${q.b.e}</div><div class="fn">${q.b.label}</div><div class="mg"></div></button>
+    </div><div id="revealBox"></div>
+    <button class="ghost-btn" id="quizPause" style="margin-top:14px;">🗺 ここで一度やめて、ステージ一覧へ</button>`;
   document.querySelectorAll('#quizBody .food').forEach(f=>f.addEventListener('click',()=>pickFood(f.dataset.side)));
+  const pb=document.getElementById('quizPause'); if(pb) pb.addEventListener('click', renderQuizMap);
 }
 function pickFood(side){
-  if(answered)return;answered=true;const q=QUIZ[zi];
-  const correct=side===q.win;if(correct)zscore++;
+  if(answered)return;answered=true;
+  const {stage,q}=curQ();
+  const correct=side===q.win;if(correct)stageScore++;
   document.querySelectorAll('#quizBody .food').forEach(f=>{
-    const s=f.dataset.side;f.querySelector('.mg').textContent=q[s].mg;
+    const s=f.dataset.side;f.querySelector('.mg').textContent=q[s].reveal;
     if(s===q.win)f.classList.add('correct');else if(s===side)f.classList.add('wrong');
   });
+  const isLastInStage=qIdx===QUIZ_Q_PER_STAGE-1;
+  const noteHtml=q.note?`<div class="quiz-note"><b>${q.note.label}</b>${q.note.text}</div>`:'';
+  let stageSummaryHtml='', btnLabel='つぎの問題 ›', btnAction='next';
+  if(isLastInStage){
+    const prog=getQuizProgress();
+    prog.completed[curStageIdx]=true;
+    prog.scores[curStageIdx]=stageScore;
+    saveQuizProgress(prog);
+    const finished=allStagesDone(prog);
+    stageSummaryHtml=`<div class="quiz-stage-summary"><span class="qss-label">ステージ${curStageIdx+1}クリア！　正解 ${stageScore} / ${QUIZ_Q_PER_STAGE}問</span><p>${stage.summary}</p></div>`;
+    btnLabel=finished?'🏆 最終まとめを見る':'🗺 ステージ一覧へ戻る';
+    btnAction=finished?'end':'map';
+  }
   document.getElementById('revealBox').innerHTML=`
-    <div class="reveal"><span class="tag">${correct?'⭕ 正解！':'❌ おしい！'} ${q.tag}</span><p>${q.msg}</p></div>
-    <button class="next-btn" id="qNext">${zi<QUIZ.length-1?'つぎの問題 ›':'結果をみる'}</button>`;
-  document.getElementById('qNext').addEventListener('click',()=>{zi++;renderQuiz();});
+    <div class="reveal">
+      <span class="result-badge ${correct?'is-correct':'is-wrong'}">${correct?'🎉 正解！':'❌ おしい！'}</span>
+      <span class="reveal-cat">${q.cat}</span>
+      <p>${q.explain}</p>
+    </div>
+    ${noteHtml}
+    ${stageSummaryHtml}
+    <button class="next-btn" id="qNext">${btnLabel}</button>`;
+  document.getElementById('quizPause')?.remove();
+  document.getElementById('qNext').addEventListener('click',()=>{
+    if(btnAction==='next'){ qIdx++; renderQuiz(); }
+    else if(btnAction==='map'){ renderQuizMap(); }
+    else { renderQuizEnd(); }
+  });
 }
 function renderQuizEnd(){
-  const emoji=zscore>=4?'🏆':zscore>=2?'👍':'🌱';
-  const word=zscore>=4?'リンの目、するどい！':zscore>=2?'いい調子です':'これから一緒に覚えましょう';
+  const prog=getQuizProgress();
+  const totalScore=prog.scores.reduce((a,b)=>a+b,0);
+  const totalQ=QUIZ_TOTAL_STAGES*QUIZ_Q_PER_STAGE;
+  const emoji=totalScore>=20?'🏆':totalScore>=12?'👍':'🌱';
+  const word=totalScore>=20?'リンの目、するどい！':totalScore>=12?'いい調子です':'これから一緒に覚えましょう';
   document.getElementById('quizBody').innerHTML=`
-    <div class="result-hero"><div class="big">${emoji}</div><h3>${zscore} / ${QUIZ.length} 点</h3><p>${word}</p></div>
-    <div class="rank"><div class="rh"><span class="rt">🥷 今日のまとめ</span></div>
-      <p>加工食品・練り物・コーラなどの<b>添加リン</b>は、自然のリンより吸収されやすい落とし穴。同じ食材なら、なるべく加工されていない自然なものを選ぶのがコツ。そして<b>肉・魚は減らしすぎない</b>こと。</p></div>
-    <button class="next-btn" onclick="startQuiz()">もう一度あそぶ</button>
+    <div class="result-hero"><div class="big">${emoji}</div><h3>5ステージ クリア！　${totalScore} / ${totalQ} 点</h3><p>${word}</p></div>
+    <div class="learn-card">
+      <p>リンは、全部が同じではありません。</p>
+      <p class="pt"><b>植物性食品のリン</b>は比較的吸収されにくく、<b>肉・魚・卵のリン</b>は栄養と一緒に含まれ、<b>加工食品の添加リン</b>は体に入りやすい特徴があります。</p>
+      <p class="pt" style="margin-top:8px;">リンを下げるために、体を作る食事まで減らしすぎないことが大切です。</p>
+    </div>
+    <div class="rank"><div class="rh"><span class="rt">🥷 覚えてほしい3つ</span></div>
+      <p><b>① まず「リン酸塩」を探す</b><br>原材料欄の「リン」「リン酸」「リン酸塩」に注目。</p>
+      <p style="margin-top:10px;"><b>② 肉・魚・卵を減らしすぎない</b><br>たんぱく質と筋肉を守りながらリンを管理する。</p>
+      <p style="margin-top:10px;"><b>③ 加工食品を「禁止」ではなく「選び直す」</b><br>同じハムやサラダチキンでも、原材料がシンプルな商品があります。</p>
+    </div>
+    <div class="learn-card" style="border:2px solid #BFE3D0;background:linear-gradient(180deg,#EEF8F2,#fff);text-align:center;">
+      <p style="font-family:'Zen Maru Gothic';font-weight:700;font-size:15.5px;margin:0;">リンを減らすだけでなく、栄養を守りながらリンを減らそう。</p>
+    </div>
+    <button class="next-btn" id="quizBackMap">🗺 ステージ一覧へ戻る</button>
     <button class="ghost-btn" data-go="why">💡 なんで下げるの？を読む</button>`;
   document.querySelectorAll('#quizBody [data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
+  const bm=document.getElementById('quizBackMap'); if(bm) bm.addEventListener('click', renderQuizMap);
 }
 
 /* boot */
-renderGoalBanner();
 </script>
 </body>
 </html>
